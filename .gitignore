@@ -1,0 +1,26 @@
+# Environment and credentials
+.env
+.env.*
+*.env
+*.pem
+*.key
+credentials.json
+
+# Database dumps and temporary files
+*.dump
+*.sql.gz
+*.sql.bak
+*.bak
+*.log
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
