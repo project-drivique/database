@@ -21,50 +21,48 @@ La arquitectura del proyecto sigue el estándar de separación por sub-lenguajes
 
 ```text
 database/
-├── db-drivique/
-│   ├── 01_ddl/                     # Definición de datos (Data Definition Language)
-│   │   ├── 00_extensions/          # Extensiones (ej. uuid-ossp, pgcrypto, etc.)
-│   │   ├── 01_schemas/             # Creación de esquemas lógicos
-│   │   ├── 02_types/               # Tipos de datos personalizados, ENUMs, dominios
-│   │   ├── 03_tables/              # Tablas de la base de datos
-│   │   ├── 04_constraints/         # Llaves primarias, foráneas, checks y uniques
-│   │   ├── 05_views/               # Vistas estándar
-│   │   ├── 06_materialized_views/  # Vistas materializadas
-│   │   ├── 07_functions/           # Funciones
-│   │   ├── 08_procedures/          # Procedimientos almacenados
-│   │   ├── 09_triggers/            # Disparadores (Triggers)
-│   │   ├── 10_indexes/             # Índices para optimización de consultas
-│   │   └── 11_schema_assignments/  # Asignaciones y configuraciones de esquemas
-│   │
-│   ├── 02_dml/                     # Manipulación de datos (Data Manipulation Language)
-│   │   ├── 00_inserts/             # Semillas iniciales (seeds) y catálogos
-│   │   ├── 01_updates/             # Modificaciones y actualizaciones de datos
-│   │   ├── 02_deletes/             # Eliminaciones controladas
-│   │   ├── 03_upserts/             # Inserciones con conflicto (ON CONFLICT / MERGE)
-│   │   └── 04_patches/             # Parches de corrección de datos
-│   │
-│   ├── 03_dcl/                     # Control de acceso y seguridad (Data Control Language)
-│   │   ├── 00_roles/               # Creación de roles y usuarios
-│   │   └── 01_grants/              # Asignación de permisos y privilegios
-│   │
-│   ├── 04_tcl/                     # Control de transacciones (Transaction Control Language)
-│   │   ├── 00_transaction_blocks/  # Bloques transaccionales (BEGIN, COMMIT, SAVEPOINT)
-│   │   ├── 01_manual_recoveries/   # Scripts de recuperación manual
-│   │   └── 02_release_tags/        # Tags y puntos de control de releases
-│   │
-│   ├── 05_rollbacks/               # Scripts de reversión (Espejo de 01 a 04)
-│   │   ├── 01_ddl/                 # Reversión de cambios DDL (DROP TABLE, etc.)
-│   │   ├── 02_dml/                 # Reversión de datos DML
-│   │   ├── 03_dcl/                 # Reversión de permisos DCL
-│   │   └── 04_tcl/                 # Reversión transaccional
-│   │
-│   ├── changelog/                  # Orquestación y versionamiento (Liquibase / Changelogs)
-│   │   └── db.changelog-master.yaml
-│   │
-│   └── scripts/                    # Scripts de utilidad, automatización o despliegue
+├── 01_ddl/                     # Definición de datos (Data Definition Language)
+│   ├── 00_extensions/          # Extensiones (ej. uuid-ossp, pgcrypto, etc.)
+│   ├── 01_schemas/             # Creación de esquemas lógicos
+│   ├── 02_types/               # Tipos de datos personalizados, ENUMs, dominios
+│   ├── 03_tables/              # Tablas de la base de datos
+│   ├── 04_constraints/         # Llaves primarias, foráneas, checks y uniques
+│   ├── 05_views/               # Vistas estándar
+│   ├── 06_materialized_views/  # Vistas materializadas
+│   ├── 07_functions/           # Funciones
+│   ├── 08_procedures/          # Procedimientos almacenados
+│   ├── 09_triggers/            # Disparadores (Triggers)
+│   ├── 10_indexes/             # Índices para optimización de consultas
+│   └── 11_schema_assignments/  # Asignaciones y configuraciones de esquemas
 │
-├── .gitignore                      # Exclusión de archivos sensibles y temporales
-└── README.md                       # Documentación general del repositorio
+├── 02_dml/                     # Manipulación de datos (Data Manipulation Language)
+│   ├── 00_inserts/             # Semillas iniciales (seeds) y catálogos
+│   ├── 01_updates/             # Modificaciones y actualizaciones de datos
+│   ├── 02_deletes/             # Eliminaciones controladas
+│   ├── 03_upserts/             # Inserciones con conflicto (ON CONFLICT / MERGE)
+│   └── 04_patches/             # Parches de corrección de datos
+│
+├── 03_dcl/                     # Control de acceso y seguridad (Data Control Language)
+│   ├── 00_roles/               # Creación de roles y usuarios
+│   └── 01_grants/              # Asignación de permisos y privilegios
+│
+├── 04_tcl/                     # Control de transacciones (Transaction Control Language)
+│   ├── 00_transaction_blocks/  # Bloques transaccionales (BEGIN, COMMIT, SAVEPOINT)
+│   ├── 01_manual_recoveries/   # Scripts de recuperación manual
+│   └── 02_release_tags/        # Tags y puntos de control de releases
+│
+├── 05_rollbacks/               # Scripts de reversión (Espejo de 01 a 04)
+│   ├── 01_ddl/                 # Reversión de cambios DDL (DROP TABLE, etc.)
+│   ├── 02_dml/                 # Reversión de datos DML
+│   ├── 03_dcl/                 # Reversión de permisos DCL
+│   └── 04_tcl/                 # Reversión transaccional
+│
+├── changelog/                  # Orquestación y versionamiento (Liquibase / Changelogs)
+│   └── db.changelog-master.yaml
+│
+├── scripts/                    # Scripts de utilidad, automatización o despliegue
+├── .gitignore                  # Exclusión de archivos sensibles y temporales
+└── README.md                   # Documentación general del repositorio
 ```
 
 ---
