@@ -48,7 +48,13 @@ try {
     }
 
     New-Item -ItemType Directory -Path $legacyMigrationsPath -Force | Out-Null
-    Get-ChildItem $migrationsPath -Filter 'V[1-6]__*.sql' | Copy-Item -Destination $legacyMigrationsPath
+    Get-ChildItem $migrationsPath -File |
+        Where-Object { $_.Name -match '^V[1-6]__.*\.sql$' } |
+        Copy-Item -Destination $legacyMigrationsPath
+
+    if ((Get-ChildItem $legacyMigrationsPath -File).Count -ne 6) {
+        throw 'No se pudieron preparar las migraciones V1 a V6 para el escenario de actualizacion.'
+    }
 
     Remove-TestContainer
     & docker run --rm -d --name $containerName `
