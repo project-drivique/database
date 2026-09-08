@@ -1,18 +1,10 @@
--- ==============================================================================
--- Flyway Migration: V1__init_drivique_schema.sql
--- Descripción: Inicialización del esquema completo de Drivique
--- ==============================================================================
+# Script de tablas - Drivique
 
--- ------------------------------------------------------------------------------
--- 0. EXTENSIONES
--- ------------------------------------------------------------------------------
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+Este archivo contiene exclusivamente las tablas de PostgreSQL para Drivique. Todas las claves principales usan UUID. Antes de ejecutarlo, PostgreSQL debe tener habilitada la extension `pgcrypto` para que `gen_random_uuid()` funcione.
 
--- ------------------------------------------------------------------------------
--- 1. SEGURIDAD Y USUARIOS
--- ------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS roles (
+```sql
+-- Seguridad y usuarios
+CREATE TABLE roles (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(40) NOT NULL UNIQUE,
     nombre VARCHAR(80) NOT NULL UNIQUE,
@@ -21,7 +13,7 @@ CREATE TABLE IF NOT EXISTS roles (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS permisos (
+CREATE TABLE permisos (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(80) NOT NULL UNIQUE,
     nombre VARCHAR(120) NOT NULL,
@@ -29,13 +21,13 @@ CREATE TABLE IF NOT EXISTS permisos (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS nacionalidades (
+CREATE TABLE nacionalidades (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(100) NOT NULL UNIQUE,
     codigo_iso CHAR(2) UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS usuarios (
+CREATE TABLE usuarios (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombres VARCHAR(100) NOT NULL,
     apellidos VARCHAR(100) NOT NULL,
@@ -46,7 +38,6 @@ CREATE TABLE IF NOT EXISTS usuarios (
     fecha_nacimiento DATE NOT NULL,
     nacionalidad_id UUID REFERENCES nacionalidades(id),
     password_hash VARCHAR(255) NOT NULL,
-    estado_cuenta VARCHAR(30) NOT NULL DEFAULT 'ACTIVA' CHECK (estado_cuenta IN ('ACTIVA', 'INACTIVA', 'SUSPENDIDA', 'BLOQUEADA', 'PENDIENTE_VERIFICACION')),
     activo BOOLEAN NOT NULL DEFAULT TRUE,
     perfil_completo BOOLEAN NOT NULL DEFAULT FALSE,
     intentos_fallidos SMALLINT NOT NULL DEFAULT 0,
@@ -57,7 +48,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS usuario_roles (
+CREATE TABLE usuario_roles (
     usuario_id UUID NOT NULL REFERENCES usuarios(id),
     rol_id UUID NOT NULL REFERENCES roles(id),
     assigned_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -65,14 +56,14 @@ CREATE TABLE IF NOT EXISTS usuario_roles (
     PRIMARY KEY (usuario_id, rol_id)
 );
 
-CREATE TABLE IF NOT EXISTS rol_permisos (
+CREATE TABLE rol_permisos (
     rol_id UUID NOT NULL REFERENCES roles(id),
     permiso_id UUID NOT NULL REFERENCES permisos(id),
     assigned_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (rol_id, permiso_id)
 );
 
-CREATE TABLE IF NOT EXISTS politicas_contrasena (
+CREATE TABLE politicas_contrasena (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(80) NOT NULL UNIQUE,
     longitud_minima SMALLINT NOT NULL DEFAULT 12 CHECK (longitud_minima >= 8),
@@ -85,7 +76,7 @@ CREATE TABLE IF NOT EXISTS politicas_contrasena (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS configuracion_seguridad (
+CREATE TABLE configuracion_seguridad (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     clave VARCHAR(100) NOT NULL UNIQUE,
     valor VARCHAR(500) NOT NULL,
@@ -94,14 +85,12 @@ CREATE TABLE IF NOT EXISTS configuracion_seguridad (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS sesiones_usuario (
+CREATE TABLE sesiones_usuario (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     usuario_id UUID NOT NULL REFERENCES usuarios(id),
     refresh_token_hash VARCHAR(255) NOT NULL UNIQUE,
-    dispositivo_info VARCHAR(255),
     ip_origen INET,
     user_agent VARCHAR(500),
-    revocado BOOLEAN NOT NULL DEFAULT FALSE,
     inicio_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     expira_at TIMESTAMPTZ NOT NULL,
     cerrada_at TIMESTAMPTZ,
@@ -109,7 +98,7 @@ CREATE TABLE IF NOT EXISTS sesiones_usuario (
     CHECK (expira_at > inicio_at)
 );
 
-CREATE TABLE IF NOT EXISTS codigos_verificacion (
+CREATE TABLE codigos_verificacion (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     usuario_id UUID NOT NULL REFERENCES usuarios(id),
     proposito VARCHAR(40) NOT NULL CHECK (proposito IN ('VERIFICAR_CUENTA', 'RECUPERAR_CONTRASENA', 'SEGUNDO_FACTOR')),
@@ -119,34 +108,19 @@ CREATE TABLE IF NOT EXISTS codigos_verificacion (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- Índices para Seguridad y Usuarios
-CREATE INDEX IF NOT EXISTS idx_usuarios_email ON usuarios(email);
-CREATE INDEX IF NOT EXISTS idx_usuarios_documento ON usuarios(documento_tipo, documento_numero);
-CREATE INDEX IF NOT EXISTS idx_usuarios_estado_cuenta ON usuarios(estado_cuenta);
-CREATE INDEX IF NOT EXISTS idx_roles_codigo ON roles(codigo);
-CREATE INDEX IF NOT EXISTS idx_permisos_codigo ON permisos(codigo);
-CREATE INDEX IF NOT EXISTS idx_usuario_roles_usuario ON usuario_roles(usuario_id);
-CREATE INDEX IF NOT EXISTS idx_usuario_roles_rol ON usuario_roles(rol_id);
-CREATE INDEX IF NOT EXISTS idx_rol_permisos_rol ON rol_permisos(rol_id);
-CREATE INDEX IF NOT EXISTS idx_rol_permisos_permiso ON rol_permisos(permiso_id);
-CREATE INDEX IF NOT EXISTS idx_sesiones_refresh_token_hash ON sesiones_usuario(refresh_token_hash);
-CREATE INDEX IF NOT EXISTS idx_sesiones_usuario_id ON sesiones_usuario(usuario_id);
-CREATE INDEX IF NOT EXISTS idx_sesiones_revocado ON sesiones_usuario(revocado);
-CREATE INDEX IF NOT EXISTS idx_codigos_verificacion_usuario ON codigos_verificacion(usuario_id);
-
-CREATE TABLE IF NOT EXISTS tipos_documento_usuario (
+CREATE TABLE tipos_documento_usuario (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(40) NOT NULL UNIQUE,
     nombre VARCHAR(80) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS estados_documento_usuario (
+CREATE TABLE estados_documento_usuario (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(30) NOT NULL UNIQUE,
     nombre VARCHAR(80) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS documentos_usuario (
+CREATE TABLE documentos_usuario (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     usuario_id UUID NOT NULL REFERENCES usuarios(id),
     tipo_documento_id UUID NOT NULL REFERENCES tipos_documento_usuario(id),
@@ -159,7 +133,7 @@ CREATE TABLE IF NOT EXISTS documentos_usuario (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS consentimientos_usuario (
+CREATE TABLE consentimientos_usuario (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     usuario_id UUID NOT NULL REFERENCES usuarios(id),
     tipo VARCHAR(60) NOT NULL,
@@ -169,17 +143,15 @@ CREATE TABLE IF NOT EXISTS consentimientos_usuario (
     UNIQUE (usuario_id, tipo, version_documento)
 );
 
--- ------------------------------------------------------------------------------
--- 2. CATÁLOGO Y FLOTA
--- ------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS marcas (
+-- Catalogo y flota
+CREATE TABLE marcas (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(100) NOT NULL UNIQUE,
     activo BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS categorias_vehiculo (
+CREATE TABLE categorias_vehiculo (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(80) NOT NULL UNIQUE,
     descripcion VARCHAR(255),
@@ -188,36 +160,36 @@ CREATE TABLE IF NOT EXISTS categorias_vehiculo (
     activo BOOLEAN NOT NULL DEFAULT TRUE
 );
 
-CREATE TABLE IF NOT EXISTS tipos_transmision (
+CREATE TABLE tipos_transmision (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(40) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS tipos_combustible (
+CREATE TABLE tipos_combustible (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(40) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS estados_vehiculo (
+CREATE TABLE estados_vehiculo (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(40) NOT NULL UNIQUE,
     nombre VARCHAR(80) NOT NULL UNIQUE,
     permite_reserva BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE IF NOT EXISTS departamentos (
+CREATE TABLE departamentos (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(100) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS ciudades (
+CREATE TABLE ciudades (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     departamento_id UUID NOT NULL REFERENCES departamentos(id),
     nombre VARCHAR(100) NOT NULL,
     UNIQUE (departamento_id, nombre)
 );
 
-CREATE TABLE IF NOT EXISTS sedes (
+CREATE TABLE sedes (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(120) NOT NULL UNIQUE,
     direccion VARCHAR(255) NOT NULL,
@@ -229,14 +201,14 @@ CREATE TABLE IF NOT EXISTS sedes (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS usuario_sucursales (
+CREATE TABLE usuario_sucursales (
     usuario_id UUID NOT NULL REFERENCES usuarios(id),
     sede_id UUID NOT NULL REFERENCES sedes(id),
     asignado_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (usuario_id, sede_id)
 );
 
-CREATE TABLE IF NOT EXISTS vehiculos (
+CREATE TABLE vehiculos (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     placa VARCHAR(10) NOT NULL UNIQUE,
     marca_id UUID NOT NULL REFERENCES marcas(id),
@@ -262,7 +234,7 @@ CREATE TABLE IF NOT EXISTS vehiculos (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS imagenes_vehiculo (
+CREATE TABLE imagenes_vehiculo (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     vehiculo_id UUID NOT NULL REFERENCES vehiculos(id),
     url VARCHAR(1000) NOT NULL,
@@ -272,7 +244,7 @@ CREATE TABLE IF NOT EXISTS imagenes_vehiculo (
     UNIQUE (vehiculo_id, orden)
 );
 
-CREATE TABLE IF NOT EXISTS documentos_vehiculo (
+CREATE TABLE documentos_vehiculo (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     vehiculo_id UUID NOT NULL REFERENCES vehiculos(id),
     tipo VARCHAR(60) NOT NULL,
@@ -282,27 +254,27 @@ CREATE TABLE IF NOT EXISTS documentos_vehiculo (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS caracteristicas (
+CREATE TABLE caracteristicas (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(100) NOT NULL UNIQUE,
     grupo VARCHAR(30) NOT NULL CHECK (grupo IN ('CARACTERISTICA', 'EQUIPAMIENTO_TECNOLOGICO')),
     descripcion VARCHAR(255)
 );
 
-CREATE TABLE IF NOT EXISTS vehiculo_caracteristicas (
+CREATE TABLE vehiculo_caracteristicas (
     vehiculo_id UUID NOT NULL REFERENCES vehiculos(id),
     caracteristica_id UUID NOT NULL REFERENCES caracteristicas(id),
     PRIMARY KEY (vehiculo_id, caracteristica_id)
 );
 
-CREATE TABLE IF NOT EXISTS favoritos_vehiculo (
+CREATE TABLE favoritos_vehiculo (
     usuario_id UUID NOT NULL REFERENCES usuarios(id),
     vehiculo_id UUID NOT NULL REFERENCES vehiculos(id),
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (usuario_id, vehiculo_id)
 );
 
-CREATE TABLE IF NOT EXISTS servicios_adicionales (
+CREATE TABLE servicios_adicionales (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(100) NOT NULL UNIQUE,
     descripcion VARCHAR(255),
@@ -310,7 +282,7 @@ CREATE TABLE IF NOT EXISTS servicios_adicionales (
     activo BOOLEAN NOT NULL DEFAULT TRUE
 );
 
-CREATE TABLE IF NOT EXISTS coberturas_seguro (
+CREATE TABLE coberturas_seguro (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(100) NOT NULL UNIQUE,
     descripcion VARCHAR(500),
@@ -318,7 +290,7 @@ CREATE TABLE IF NOT EXISTS coberturas_seguro (
     activo BOOLEAN NOT NULL DEFAULT TRUE
 );
 
-CREATE TABLE IF NOT EXISTS planes_kilometraje (
+CREATE TABLE planes_kilometraje (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(100) NOT NULL UNIQUE,
     kilometros_incluidos INTEGER,
@@ -327,7 +299,7 @@ CREATE TABLE IF NOT EXISTS planes_kilometraje (
     CHECK (kilometros_incluidos IS NULL OR kilometros_incluidos > 0)
 );
 
-CREATE TABLE IF NOT EXISTS vehiculo_servicios_adicionales (
+CREATE TABLE vehiculo_servicios_adicionales (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     vehiculo_id UUID NOT NULL REFERENCES vehiculos(id),
     servicio_adicional_id UUID NOT NULL REFERENCES servicios_adicionales(id),
@@ -335,7 +307,7 @@ CREATE TABLE IF NOT EXISTS vehiculo_servicios_adicionales (
     UNIQUE (vehiculo_id, servicio_adicional_id)
 );
 
-CREATE TABLE IF NOT EXISTS vehiculo_coberturas_seguro (
+CREATE TABLE vehiculo_coberturas_seguro (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     vehiculo_id UUID NOT NULL REFERENCES vehiculos(id),
     cobertura_id UUID NOT NULL REFERENCES coberturas_seguro(id),
@@ -343,7 +315,7 @@ CREATE TABLE IF NOT EXISTS vehiculo_coberturas_seguro (
     UNIQUE (vehiculo_id, cobertura_id)
 );
 
-CREATE TABLE IF NOT EXISTS vehiculo_planes_kilometraje (
+CREATE TABLE vehiculo_planes_kilometraje (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     vehiculo_id UUID NOT NULL REFERENCES vehiculos(id),
     plan_kilometraje_id UUID NOT NULL REFERENCES planes_kilometraje(id),
@@ -352,13 +324,13 @@ CREATE TABLE IF NOT EXISTS vehiculo_planes_kilometraje (
     UNIQUE (vehiculo_id, plan_kilometraje_id)
 );
 
-CREATE TABLE IF NOT EXISTS tipos_mantenimiento (
+CREATE TABLE tipos_mantenimiento (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(80) NOT NULL UNIQUE,
     descripcion VARCHAR(255)
 );
 
-CREATE TABLE IF NOT EXISTS mantenimientos_vehiculo (
+CREATE TABLE mantenimientos_vehiculo (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     vehiculo_id UUID NOT NULL REFERENCES vehiculos(id),
     tipo_mantenimiento_id UUID NOT NULL REFERENCES tipos_mantenimiento(id),
@@ -371,17 +343,15 @@ CREATE TABLE IF NOT EXISTS mantenimientos_vehiculo (
     CHECK (fecha_realizada IS NULL OR fecha_realizada >= fecha_programada)
 );
 
--- ------------------------------------------------------------------------------
--- 3. RESERVAS, CONTRATOS E INSPECCIONES
--- ------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS estados_reserva (
+-- Reservas, contratos e inspecciones
+CREATE TABLE estados_reserva (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(40) NOT NULL UNIQUE,
     nombre VARCHAR(80) NOT NULL UNIQUE,
     bloquea_disponibilidad BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE IF NOT EXISTS reservas (
+CREATE TABLE reservas (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(30) NOT NULL UNIQUE,
     cliente_id UUID NOT NULL REFERENCES usuarios(id),
@@ -404,7 +374,7 @@ CREATE TABLE IF NOT EXISTS reservas (
     CHECK (fecha_devolucion > fecha_recogida)
 );
 
-CREATE TABLE IF NOT EXISTS puntos_reserva (
+CREATE TABLE puntos_reserva (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     reserva_id UUID NOT NULL REFERENCES reservas(id),
     tipo VARCHAR(15) NOT NULL CHECK (tipo IN ('RECOGIDA', 'DEVOLUCION')),
@@ -421,7 +391,7 @@ CREATE TABLE IF NOT EXISTS puntos_reserva (
     )
 );
 
-CREATE TABLE IF NOT EXISTS reserva_servicios_adicionales (
+CREATE TABLE reserva_servicios_adicionales (
     reserva_id UUID NOT NULL REFERENCES reservas(id),
     vehiculo_servicio_adicional_id UUID NOT NULL REFERENCES vehiculo_servicios_adicionales(id),
     cantidad SMALLINT NOT NULL DEFAULT 1 CHECK (cantidad > 0),
@@ -429,13 +399,13 @@ CREATE TABLE IF NOT EXISTS reserva_servicios_adicionales (
     PRIMARY KEY (reserva_id, vehiculo_servicio_adicional_id)
 );
 
-CREATE TABLE IF NOT EXISTS estados_contrato (
+CREATE TABLE estados_contrato (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(40) NOT NULL UNIQUE,
     nombre VARCHAR(80) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS contratos_alquiler (
+CREATE TABLE contratos_alquiler (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     numero VARCHAR(30) NOT NULL UNIQUE,
     reserva_id UUID UNIQUE REFERENCES reservas(id),
@@ -464,7 +434,7 @@ CREATE TABLE IF NOT EXISTS contratos_alquiler (
     CHECK (fin_real_at IS NULL OR inicio_real_at IS NULL OR fin_real_at >= inicio_real_at)
 );
 
-CREATE TABLE IF NOT EXISTS clausulas_contrato (
+CREATE TABLE clausulas_contrato (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     version VARCHAR(40) NOT NULL,
     orden SMALLINT NOT NULL CHECK (orden > 0),
@@ -474,19 +444,19 @@ CREATE TABLE IF NOT EXISTS clausulas_contrato (
     UNIQUE (version, orden)
 );
 
-CREATE TABLE IF NOT EXISTS contrato_clausulas (
+CREATE TABLE contrato_clausulas (
     contrato_id UUID NOT NULL REFERENCES contratos_alquiler(id),
     clausula_id UUID NOT NULL REFERENCES clausulas_contrato(id),
     PRIMARY KEY (contrato_id, clausula_id)
 );
 
-CREATE TABLE IF NOT EXISTS tipos_inspeccion (
+CREATE TABLE tipos_inspeccion (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(30) NOT NULL UNIQUE,
     nombre VARCHAR(80) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS inspecciones_vehiculo (
+CREATE TABLE inspecciones_vehiculo (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     contrato_id UUID NOT NULL REFERENCES contratos_alquiler(id),
     tipo_inspeccion_id UUID NOT NULL REFERENCES tipos_inspeccion(id),
@@ -498,13 +468,13 @@ CREATE TABLE IF NOT EXISTS inspecciones_vehiculo (
     UNIQUE (contrato_id, tipo_inspeccion_id)
 );
 
-CREATE TABLE IF NOT EXISTS items_checklist_inspeccion (
+CREATE TABLE items_checklist_inspeccion (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(120) NOT NULL UNIQUE,
     descripcion VARCHAR(255)
 );
 
-CREATE TABLE IF NOT EXISTS respuestas_checklist_inspeccion (
+CREATE TABLE respuestas_checklist_inspeccion (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     inspeccion_id UUID NOT NULL REFERENCES inspecciones_vehiculo(id),
     item_checklist_id UUID NOT NULL REFERENCES items_checklist_inspeccion(id),
@@ -514,24 +484,22 @@ CREATE TABLE IF NOT EXISTS respuestas_checklist_inspeccion (
     UNIQUE (inspeccion_id, item_checklist_id)
 );
 
--- ------------------------------------------------------------------------------
--- 4. PAGOS, CALIFICACIONES Y NOTIFICACIONES
--- ------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS metodos_pago (
+-- Pagos, calificaciones y notificaciones
+CREATE TABLE metodos_pago (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(40) NOT NULL UNIQUE,
     nombre VARCHAR(80) NOT NULL UNIQUE,
     activo BOOLEAN NOT NULL DEFAULT TRUE
 );
 
-CREATE TABLE IF NOT EXISTS estados_pago (
+CREATE TABLE estados_pago (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(40) NOT NULL UNIQUE,
     nombre VARCHAR(80) NOT NULL UNIQUE,
     es_final BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE IF NOT EXISTS pagos (
+CREATE TABLE pagos (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     contrato_id UUID NOT NULL REFERENCES contratos_alquiler(id),
     metodo_pago_id UUID NOT NULL REFERENCES metodos_pago(id),
@@ -548,7 +516,7 @@ CREATE TABLE IF NOT EXISTS pagos (
     UNIQUE (proveedor, referencia_externa)
 );
 
-CREATE TABLE IF NOT EXISTS comprobantes_pago (
+CREATE TABLE comprobantes_pago (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     pago_id UUID NOT NULL UNIQUE REFERENCES pagos(id),
     numero VARCHAR(50) NOT NULL UNIQUE,
@@ -556,7 +524,7 @@ CREATE TABLE IF NOT EXISTS comprobantes_pago (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS solicitudes_extension_alquiler (
+CREATE TABLE solicitudes_extension_alquiler (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     reserva_id UUID NOT NULL REFERENCES reservas(id),
     nueva_fecha_devolucion TIMESTAMPTZ NOT NULL,
@@ -566,7 +534,7 @@ CREATE TABLE IF NOT EXISTS solicitudes_extension_alquiler (
     respondida_at TIMESTAMPTZ
 );
 
-CREATE TABLE IF NOT EXISTS metodos_pago_guardados (
+CREATE TABLE metodos_pago_guardados (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     usuario_id UUID NOT NULL REFERENCES usuarios(id),
     proveedor VARCHAR(80) NOT NULL,
@@ -579,7 +547,7 @@ CREATE TABLE IF NOT EXISTS metodos_pago_guardados (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS calificaciones_vehiculo (
+CREATE TABLE calificaciones_vehiculo (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     reserva_id UUID NOT NULL UNIQUE REFERENCES reservas(id),
     usuario_id UUID NOT NULL REFERENCES usuarios(id),
@@ -588,21 +556,21 @@ CREATE TABLE IF NOT EXISTS calificaciones_vehiculo (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS canales_notificacion (
+CREATE TABLE canales_notificacion (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(30) NOT NULL UNIQUE,
     nombre VARCHAR(80) NOT NULL UNIQUE,
     activo BOOLEAN NOT NULL DEFAULT TRUE
 );
 
-CREATE TABLE IF NOT EXISTS estados_notificacion (
+CREATE TABLE estados_notificacion (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(30) NOT NULL UNIQUE,
     nombre VARCHAR(80) NOT NULL UNIQUE,
     es_final BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE IF NOT EXISTS notificaciones (
+CREATE TABLE notificaciones (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     usuario_id UUID NOT NULL REFERENCES usuarios(id),
     canal_id UUID NOT NULL REFERENCES canales_notificacion(id),
@@ -618,13 +586,13 @@ CREATE TABLE IF NOT EXISTS notificaciones (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS estados_reporte_incidencia (
+CREATE TABLE estados_reporte_incidencia (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(30) NOT NULL UNIQUE,
     nombre VARCHAR(80) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS reportes_incidencia (
+CREATE TABLE reportes_incidencia (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(30) NOT NULL UNIQUE,
     usuario_id UUID REFERENCES usuarios(id),
@@ -639,7 +607,7 @@ CREATE TABLE IF NOT EXISTS reportes_incidencia (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS respuestas_reporte_incidencia (
+CREATE TABLE respuestas_reporte_incidencia (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     reporte_id UUID NOT NULL REFERENCES reportes_incidencia(id),
     autor_usuario_id UUID NOT NULL REFERENCES usuarios(id),
@@ -647,7 +615,7 @@ CREATE TABLE IF NOT EXISTS respuestas_reporte_incidencia (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS promociones (
+CREATE TABLE promociones (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(50) NOT NULL UNIQUE,
     nombre VARCHAR(120) NOT NULL,
@@ -661,20 +629,20 @@ CREATE TABLE IF NOT EXISTS promociones (
     CHECK (fecha_fin > fecha_inicio)
 );
 
-CREATE TABLE IF NOT EXISTS reserva_promociones (
+CREATE TABLE reserva_promociones (
     reserva_id UUID NOT NULL REFERENCES reservas(id),
     promocion_id UUID NOT NULL REFERENCES promociones(id),
     descuento_aplicado NUMERIC(12,2) NOT NULL CHECK (descuento_aplicado >= 0),
     PRIMARY KEY (reserva_id, promocion_id)
 );
 
-CREATE TABLE IF NOT EXISTS tipos_reporte_administrativo (
+CREATE TABLE tipos_reporte_administrativo (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(50) NOT NULL UNIQUE,
     nombre VARCHAR(100) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS reportes_generados (
+CREATE TABLE reportes_generados (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tipo_reporte_id UUID NOT NULL REFERENCES tipos_reporte_administrativo(id),
     generado_por UUID NOT NULL REFERENCES usuarios(id),
@@ -684,7 +652,7 @@ CREATE TABLE IF NOT EXISTS reportes_generados (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS configuraciones_marca (
+CREATE TABLE configuraciones_marca (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre_empresa VARCHAR(120) NOT NULL,
     logo_url VARCHAR(1000),
@@ -694,7 +662,7 @@ CREATE TABLE IF NOT EXISTS configuraciones_marca (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS colores_configuracion_marca (
+CREATE TABLE colores_configuracion_marca (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     configuracion_marca_id UUID NOT NULL REFERENCES configuraciones_marca(id),
     tipo VARCHAR(20) NOT NULL CHECK (tipo IN ('PRIMARIO', 'SECUNDARIO', 'ACENTO')),
@@ -702,10 +670,8 @@ CREATE TABLE IF NOT EXISTS colores_configuracion_marca (
     UNIQUE (configuracion_marca_id, tipo)
 );
 
--- ------------------------------------------------------------------------------
--- 5. AUDITORÍA
--- ------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS auditoria (
+-- Auditoria
+CREATE TABLE auditoria (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tabla_afectada VARCHAR(128),
     id_registro UUID,
@@ -721,3 +687,4 @@ CREATE TABLE IF NOT EXISTS auditoria (
     ip_origen INET,
     aplicacion VARCHAR(100)
 );
+```
