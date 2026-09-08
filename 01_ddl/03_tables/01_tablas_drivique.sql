@@ -127,40 +127,93 @@ CREATE INDEX IF NOT EXISTS idx_sesiones_usuario_id ON sesiones_usuario(usuario_i
 CREATE INDEX IF NOT EXISTS idx_sesiones_revocado ON sesiones_usuario(revocado);
 CREATE INDEX IF NOT EXISTS idx_codigos_verificacion_usuario ON codigos_verificacion(usuario_id);
 
+CREATE TABLE IF NOT EXISTS perfiles_usuario (
+    usuario_id UUID PRIMARY KEY REFERENCES usuarios(id) ON DELETE CASCADE,
+    direccion VARCHAR(255),
+    ciudad_residencia VARCHAR(100),
+    departamento_residencia VARCHAR(100),
+    codigo_postal VARCHAR(20),
+    genero VARCHAR(20) CHECK (genero IS NULL OR genero IN ('MASCULINO', 'FEMENINO', 'OTRO', 'PREFIERO_NO_DECIR')),
+    licencia_numero VARCHAR(50),
+    licencia_categoria VARCHAR(10),
+    licencia_expiracion DATE,
+    telefono_emergencia VARCHAR(30),
+    contacto_emergencia_nombre VARCHAR(150),
+    foto_perfil_referencia VARCHAR(1000),
+    preferencias_notificacion JSONB DEFAULT '{"email": true, "sms": true, "push": true}'::jsonb,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS tipos_documento_usuario (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(40) NOT NULL UNIQUE,
-    nombre VARCHAR(80) NOT NULL UNIQUE
+    nombre VARCHAR(80) NOT NULL UNIQUE,
+    descripcion VARCHAR(255),
+    requiere_reverso BOOLEAN NOT NULL DEFAULT TRUE,
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS estados_documento_usuario (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     codigo VARCHAR(30) NOT NULL UNIQUE,
-    nombre VARCHAR(80) NOT NULL UNIQUE
+    nombre VARCHAR(80) NOT NULL UNIQUE,
+    descripcion VARCHAR(255),
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS documentos_usuario (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    usuario_id UUID NOT NULL REFERENCES usuarios(id),
+    usuario_id UUID NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
     tipo_documento_id UUID NOT NULL REFERENCES tipos_documento_usuario(id),
     estado_id UUID NOT NULL REFERENCES estados_documento_usuario(id),
-    url_anverso VARCHAR(1000) NOT NULL,
-    url_reverso VARCHAR(1000),
+    referencia_segura VARCHAR(1000) NOT NULL,
+    referencia_segura_reverso VARCHAR(1000),
+    checksum_sha256 VARCHAR(64) NOT NULL,
+    content_type VARCHAR(100) NOT NULL DEFAULT 'application/pdf',
+    file_size_bytes BIGINT CHECK (file_size_bytes IS NULL OR file_size_bytes > 0),
+    fecha_emision DATE,
+    fecha_expiracion DATE,
     observacion_revision VARCHAR(500),
     revisado_por UUID REFERENCES usuarios(id),
     revisado_at TIMESTAMPTZ,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS historial_verificacion_documentos (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    documento_id UUID NOT NULL REFERENCES documentos_usuario(id) ON DELETE CASCADE,
+    estado_anterior_id UUID REFERENCES estados_documento_usuario(id),
+    estado_nuevo_id UUID NOT NULL REFERENCES estados_documento_usuario(id),
+    observaciones VARCHAR(500),
+    motivo_rechazo VARCHAR(255),
+    verificado_por UUID NOT NULL REFERENCES usuarios(id),
+    verificado_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS consentimientos_usuario (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    usuario_id UUID NOT NULL REFERENCES usuarios(id),
+    usuario_id UUID NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
     tipo VARCHAR(60) NOT NULL,
     version_documento VARCHAR(40) NOT NULL,
-    aceptado_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     ip_origen INET,
+    user_agent VARCHAR(500),
+    vigente BOOLEAN NOT NULL DEFAULT TRUE,
+    aceptado_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    revocado_at TIMESTAMPTZ,
     UNIQUE (usuario_id, tipo, version_documento)
 );
+
+-- Índices para Documentos, Perfiles y Privacidad
+CREATE INDEX IF NOT EXISTS idx_perfiles_usuario_usuario_id ON perfiles_usuario(usuario_id);
+CREATE INDEX IF NOT EXISTS idx_documentos_usuario_usuario_id ON documentos_usuario(usuario_id);
+CREATE INDEX IF NOT EXISTS idx_documentos_usuario_estado_id ON documentos_usuario(estado_id);
+CREATE INDEX IF NOT EXISTS idx_documentos_usuario_tipo_id ON documentos_usuario(tipo_documento_id);
+CREATE INDEX IF NOT EXISTS idx_historial_verificacion_doc_id ON historial_verificacion_documentos(documento_id);
+CREATE INDEX IF NOT EXISTS idx_consentimientos_usuario_id ON consentimientos_usuario(usuario_id);
 
 -- ------------------------------------------------------------------------------
 -- 2. CATÁLOGO Y FLOTA
