@@ -253,26 +253,42 @@ CREATE TABLE IF NOT EXISTS estados_vehiculo (
 
 CREATE TABLE IF NOT EXISTS departamentos (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    nombre VARCHAR(100) NOT NULL UNIQUE
+    nombre VARCHAR(100) NOT NULL UNIQUE,
+    codigo_iso CHAR(6),
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS ciudades (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    departamento_id UUID NOT NULL REFERENCES departamentos(id),
+    departamento_id UUID NOT NULL REFERENCES departamentos(id) ON DELETE RESTRICT,
     nombre VARCHAR(100) NOT NULL,
+    codigo_dane VARCHAR(10),
+    tiene_aeropuerto BOOLEAN NOT NULL DEFAULT FALSE,
+    tiene_terminal BOOLEAN NOT NULL DEFAULT FALSE,
+    pico_y_placa_info JSONB,
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (departamento_id, nombre)
 );
 
 CREATE TABLE IF NOT EXISTS sedes (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    nombre VARCHAR(120) NOT NULL UNIQUE,
+    nombre VARCHAR(150) NOT NULL UNIQUE,
     direccion VARCHAR(255) NOT NULL,
-    ciudad_id UUID NOT NULL REFERENCES ciudades(id),
+    ciudad_id UUID NOT NULL REFERENCES ciudades(id) ON DELETE RESTRICT,
     pais CHAR(2) NOT NULL DEFAULT 'CO',
     telefono VARCHAR(30),
-    permite_pago_efectivo BOOLEAN NOT NULL DEFAULT FALSE,
+    email_contacto VARCHAR(254),
+    horario_atencion VARCHAR(150) DEFAULT 'Lunes a Domingo 07:00 - 20:00',
+    encargado_id UUID REFERENCES usuarios(id) ON DELETE SET NULL,
+    es_aeropuerto BOOLEAN NOT NULL DEFAULT FALSE,
+    es_terminal BOOLEAN NOT NULL DEFAULT FALSE,
+    permite_pago_efectivo BOOLEAN NOT NULL DEFAULT TRUE,
     activo BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS usuario_sucursales (
