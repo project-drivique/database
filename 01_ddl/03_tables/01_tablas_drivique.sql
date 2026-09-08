@@ -388,53 +388,105 @@ CREATE TABLE IF NOT EXISTS favoritos_vehiculo (
     PRIMARY KEY (usuario_id, vehiculo_id)
 );
 
-CREATE TABLE IF NOT EXISTS servicios_adicionales (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    nombre VARCHAR(100) NOT NULL UNIQUE,
-    descripcion VARCHAR(255),
-    tarifa_diaria NUMERIC(12,2) NOT NULL CHECK (tarifa_diaria >= 0),
-    activo BOOLEAN NOT NULL DEFAULT TRUE
-);
-
 CREATE TABLE IF NOT EXISTS coberturas_seguro (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    codigo VARCHAR(50) NOT NULL UNIQUE,
     nombre VARCHAR(100) NOT NULL UNIQUE,
     descripcion VARCHAR(500),
     tarifa_diaria NUMERIC(12,2) NOT NULL CHECK (tarifa_diaria >= 0),
-    activo BOOLEAN NOT NULL DEFAULT TRUE
+    deducible_monto_fijo NUMERIC(12,2) NOT NULL DEFAULT 0 CHECK (deducible_monto_fijo >= 0),
+    deducible_porcentaje NUMERIC(5,2) DEFAULT 0 CHECK (deducible_porcentaje BETWEEN 0 AND 100),
+    monto_maximo_cobertura NUMERIC(14,2) CHECK (monto_maximo_cobertura IS NULL OR monto_maximo_cobertura >= 0),
+    es_obligatorio BOOLEAN NOT NULL DEFAULT FALSE,
+    beneficios JSONB,
+    moneda CHAR(3) NOT NULL DEFAULT 'COP',
+    version INTEGER NOT NULL DEFAULT 1 CHECK (version >= 1),
+    fecha_inicio TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_fin TIMESTAMPTZ,
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHECK (fecha_fin IS NULL OR fecha_fin >= fecha_inicio)
 );
 
 CREATE TABLE IF NOT EXISTS planes_kilometraje (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    codigo VARCHAR(50) NOT NULL UNIQUE,
     nombre VARCHAR(100) NOT NULL UNIQUE,
-    kilometros_incluidos INTEGER,
-    tarifa_diaria NUMERIC(12,2) NOT NULL CHECK (tarifa_diaria >= 0),
+    tipo VARCHAR(30) NOT NULL DEFAULT 'LIMITADO' CHECK (tipo IN ('LIMITADO', 'ILIMITADO')),
+    kilometros_incluidos INTEGER CHECK (kilometros_incluidos IS NULL OR kilometros_incluidos > 0),
+    tarifa_diaria NUMERIC(12,2) NOT NULL DEFAULT 0 CHECK (tarifa_diaria >= 0),
+    tarifa_km_excedente NUMERIC(12,2) NOT NULL DEFAULT 0 CHECK (tarifa_km_excedente >= 0),
+    moneda CHAR(3) NOT NULL DEFAULT 'COP',
+    version INTEGER NOT NULL DEFAULT 1 CHECK (version >= 1),
+    fecha_inicio TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_fin TIMESTAMPTZ,
     activo BOOLEAN NOT NULL DEFAULT TRUE,
-    CHECK (kilometros_incluidos IS NULL OR kilometros_incluidos > 0)
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHECK (fecha_fin IS NULL OR fecha_fin >= fecha_inicio)
+);
+
+CREATE TABLE IF NOT EXISTS servicios_adicionales (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    codigo VARCHAR(50) NOT NULL UNIQUE,
+    nombre VARCHAR(100) NOT NULL UNIQUE,
+    descripcion VARCHAR(255),
+    tarifa_diaria NUMERIC(12,2) NOT NULL CHECK (tarifa_diaria >= 0),
+    tipo_cobro VARCHAR(30) NOT NULL DEFAULT 'POR_DIA' CHECK (tipo_cobro IN ('POR_DIA', 'POR_EVENTO', 'POR_TRAYECTO')),
+    moneda CHAR(3) NOT NULL DEFAULT 'COP',
+    version INTEGER NOT NULL DEFAULT 1 CHECK (version >= 1),
+    fecha_inicio TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_fin TIMESTAMPTZ,
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHECK (fecha_fin IS NULL OR fecha_fin >= fecha_inicio)
+);
+
+CREATE TABLE IF NOT EXISTS tarifas_categoria (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    categoria_id UUID NOT NULL REFERENCES categorias_vehiculo(id) ON DELETE CASCADE,
+    temporada VARCHAR(30) NOT NULL DEFAULT 'ESTANDAR' CHECK (temporada IN ('ESTANDAR', 'TEMPORADA_BAJA', 'TEMPORADA_MEDIA', 'TEMPORADA_ALTA', 'PROMOCIONAL')),
+    tarifa_base_diaria NUMERIC(12,2) NOT NULL CHECK (tarifa_base_diaria >= 0),
+    deposito_garantia NUMERIC(12,2) NOT NULL DEFAULT 0 CHECK (deposito_garantia >= 0),
+    suplemento_km_ilimitado_diario NUMERIC(12,2) NOT NULL DEFAULT 0 CHECK (suplemento_km_ilimitado_diario >= 0),
+    km_incluidos_dia INTEGER NOT NULL DEFAULT 200 CHECK (km_incluidos_dia > 0),
+    tarifa_km_excedente NUMERIC(12,2) NOT NULL DEFAULT 0 CHECK (tarifa_km_excedente >= 0),
+    moneda CHAR(3) NOT NULL DEFAULT 'COP',
+    fecha_inicio TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_fin TIMESTAMPTZ,
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (categoria_id, temporada, fecha_inicio),
+    CHECK (fecha_fin IS NULL OR fecha_fin >= fecha_inicio)
 );
 
 CREATE TABLE IF NOT EXISTS vehiculo_servicios_adicionales (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    vehiculo_id UUID NOT NULL REFERENCES vehiculos(id),
-    servicio_adicional_id UUID NOT NULL REFERENCES servicios_adicionales(id),
+    vehiculo_id UUID NOT NULL REFERENCES vehiculos(id) ON DELETE CASCADE,
+    servicio_adicional_id UUID NOT NULL REFERENCES servicios_adicionales(id) ON DELETE CASCADE,
     tarifa_diaria NUMERIC(12,2) NOT NULL CHECK (tarifa_diaria >= 0),
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (vehiculo_id, servicio_adicional_id)
 );
 
 CREATE TABLE IF NOT EXISTS vehiculo_coberturas_seguro (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    vehiculo_id UUID NOT NULL REFERENCES vehiculos(id),
-    cobertura_id UUID NOT NULL REFERENCES coberturas_seguro(id),
+    vehiculo_id UUID NOT NULL REFERENCES vehiculos(id) ON DELETE CASCADE,
+    cobertura_id UUID NOT NULL REFERENCES coberturas_seguro(id) ON DELETE CASCADE,
     tarifa_diaria NUMERIC(12,2) NOT NULL CHECK (tarifa_diaria >= 0),
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (vehiculo_id, cobertura_id)
 );
 
 CREATE TABLE IF NOT EXISTS vehiculo_planes_kilometraje (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    vehiculo_id UUID NOT NULL REFERENCES vehiculos(id),
-    plan_kilometraje_id UUID NOT NULL REFERENCES planes_kilometraje(id),
-    tarifa_diaria NUMERIC(12,2) NOT NULL CHECK (tarifa_diaria >= 0),
-    tarifa_kilometro_excedente NUMERIC(12,2) CHECK (tarifa_kilometro_excedente >= 0),
+    vehiculo_id UUID NOT NULL REFERENCES vehiculos(id) ON DELETE CASCADE,
+    plan_kilometraje_id UUID NOT NULL REFERENCES planes_kilometraje(id) ON DELETE CASCADE,
+    tarifa_diaria NUMERIC(12,2) NOT NULL DEFAULT 0 CHECK (tarifa_diaria >= 0),
+    tarifa_kilometro_excedente NUMERIC(12,2) DEFAULT 0 CHECK (tarifa_kilometro_excedente >= 0),
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (vehiculo_id, plan_kilometraje_id)
 );
 
