@@ -16,12 +16,14 @@
 \echo '--- Creando Índices ---'
 \i 01_ddl/10_indexes/01_indices_ciudades_sucursales.sql
 \i 01_ddl/10_indexes/02_indices_vehiculos_catalogo.sql
+\i 01_ddl/10_indexes/03_indices_tarifas_servicios.sql
 
 \echo '--- Insertando Semillas DML ---'
 \i 02_dml/00_inserts/01_seed_roles_permisos.sql
 \i 02_dml/00_inserts/02_seed_documentos_catalogos.sql
 \i 02_dml/00_inserts/03_seed_ciudades_sucursales.sql
 \i 02_dml/00_inserts/04_seed_vehiculos_catalogo.sql
+\i 02_dml/00_inserts/05_seed_tarifas_servicios.sql
 
 \echo '--- Configurando Roles y Permisos DCL ---'
 \i 03_dcl/00_roles/01_create_roles.sql
