@@ -227,20 +227,25 @@ CREATE TABLE IF NOT EXISTS marcas (
 
 CREATE TABLE IF NOT EXISTS categorias_vehiculo (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    codigo VARCHAR(40) NOT NULL UNIQUE,
     nombre VARCHAR(80) NOT NULL UNIQUE,
     descripcion VARCHAR(255),
-    tarifa_base_diaria NUMERIC(12,2) NOT NULL CHECK (tarifa_base_diaria >= 0),
+    tarifa_base_diaria NUMERIC(12,2) NOT NULL DEFAULT 0 CHECK (tarifa_base_diaria >= 0),
     deposito_garantia NUMERIC(12,2) NOT NULL DEFAULT 0 CHECK (deposito_garantia >= 0),
-    activo BOOLEAN NOT NULL DEFAULT TRUE
+    icono VARCHAR(100),
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS tipos_transmision (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    codigo VARCHAR(20) NOT NULL UNIQUE,
     nombre VARCHAR(40) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS tipos_combustible (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    codigo VARCHAR(20) NOT NULL UNIQUE,
     nombre VARCHAR(40) NOT NULL UNIQUE
 );
 
@@ -301,12 +306,12 @@ CREATE TABLE IF NOT EXISTS usuario_sucursales (
 CREATE TABLE IF NOT EXISTS vehiculos (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     placa VARCHAR(10) NOT NULL UNIQUE,
-    marca_id UUID NOT NULL REFERENCES marcas(id),
-    categoria_id UUID NOT NULL REFERENCES categorias_vehiculo(id),
-    transmision_id UUID NOT NULL REFERENCES tipos_transmision(id),
-    combustible_id UUID NOT NULL REFERENCES tipos_combustible(id),
-    estado_id UUID NOT NULL REFERENCES estados_vehiculo(id),
-    sede_actual_id UUID NOT NULL REFERENCES sedes(id),
+    marca_id UUID NOT NULL REFERENCES marcas(id) ON DELETE RESTRICT,
+    categoria_id UUID NOT NULL REFERENCES categorias_vehiculo(id) ON DELETE RESTRICT,
+    transmision_id UUID NOT NULL REFERENCES tipos_transmision(id) ON DELETE RESTRICT,
+    combustible_id UUID NOT NULL REFERENCES tipos_combustible(id) ON DELETE RESTRICT,
+    estado_id UUID NOT NULL REFERENCES estados_vehiculo(id) ON DELETE RESTRICT,
+    sede_actual_id UUID NOT NULL REFERENCES sedes(id) ON DELETE RESTRICT,
     modelo VARCHAR(100) NOT NULL,
     anio SMALLINT NOT NULL CHECK (anio BETWEEN 1900 AND 2100),
     color VARCHAR(50),
@@ -317,8 +322,13 @@ CREATE TABLE IF NOT EXISTS vehiculos (
     cilindraje VARCHAR(40),
     descripcion TEXT,
     destacado BOOLEAN NOT NULL DEFAULT FALSE,
+    calificacion NUMERIC(3,2) DEFAULT 5.0 CHECK (calificacion BETWEEN 0 AND 5),
     kilometraje INTEGER NOT NULL DEFAULT 0 CHECK (kilometraje >= 0),
     tarifa_diaria NUMERIC(12,2) NOT NULL CHECK (tarifa_diaria >= 0),
+    tarifa_km_ilimitado NUMERIC(12,2) CHECK (tarifa_km_ilimitado IS NULL OR tarifa_km_ilimitado >= 0),
+    km_incluidos_dia INTEGER DEFAULT 200,
+    tarifa_km_excedente NUMERIC(12,2) DEFAULT 800,
+    disponible BOOLEAN NOT NULL DEFAULT TRUE,
     activo BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -326,7 +336,7 @@ CREATE TABLE IF NOT EXISTS vehiculos (
 
 CREATE TABLE IF NOT EXISTS imagenes_vehiculo (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    vehiculo_id UUID NOT NULL REFERENCES vehiculos(id),
+    vehiculo_id UUID NOT NULL REFERENCES vehiculos(id) ON DELETE CASCADE,
     url VARCHAR(1000) NOT NULL,
     es_principal BOOLEAN NOT NULL DEFAULT FALSE,
     orden SMALLINT NOT NULL DEFAULT 1 CHECK (orden > 0),
@@ -336,7 +346,7 @@ CREATE TABLE IF NOT EXISTS imagenes_vehiculo (
 
 CREATE TABLE IF NOT EXISTS documentos_vehiculo (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    vehiculo_id UUID NOT NULL REFERENCES vehiculos(id),
+    vehiculo_id UUID NOT NULL REFERENCES vehiculos(id) ON DELETE CASCADE,
     tipo VARCHAR(60) NOT NULL,
     nombre_archivo VARCHAR(255) NOT NULL,
     url VARCHAR(1000) NOT NULL,
@@ -346,15 +356,29 @@ CREATE TABLE IF NOT EXISTS documentos_vehiculo (
 
 CREATE TABLE IF NOT EXISTS caracteristicas (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    codigo VARCHAR(50) NOT NULL UNIQUE,
     nombre VARCHAR(100) NOT NULL UNIQUE,
-    grupo VARCHAR(30) NOT NULL CHECK (grupo IN ('CARACTERISTICA', 'EQUIPAMIENTO_TECNOLOGICO')),
-    descripcion VARCHAR(255)
+    icono VARCHAR(50),
+    grupo VARCHAR(30) NOT NULL CHECK (grupo IN ('CARACTERISTICA', 'EQUIPAMIENTO_TECNOLOGICO', 'SEGURIDAD')),
+    descripcion VARCHAR(255),
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS vehiculo_caracteristicas (
-    vehiculo_id UUID NOT NULL REFERENCES vehiculos(id),
-    caracteristica_id UUID NOT NULL REFERENCES caracteristicas(id),
+    vehiculo_id UUID NOT NULL REFERENCES vehiculos(id) ON DELETE CASCADE,
+    caracteristica_id UUID NOT NULL REFERENCES caracteristicas(id) ON DELETE CASCADE,
     PRIMARY KEY (vehiculo_id, caracteristica_id)
+);
+
+CREATE TABLE IF NOT EXISTS comentarios_vehiculo (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    vehiculo_id UUID NOT NULL REFERENCES vehiculos(id) ON DELETE CASCADE,
+    autor_nombre VARCHAR(150) NOT NULL,
+    calificacion SMALLINT NOT NULL CHECK (calificacion BETWEEN 1 AND 5),
+    comentario TEXT NOT NULL,
+    fecha_comentario DATE NOT NULL DEFAULT CURRENT_DATE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS favoritos_vehiculo (
@@ -464,6 +488,18 @@ CREATE TABLE IF NOT EXISTS reservas (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CHECK (fecha_devolucion > fecha_recogida)
+);
+
+CREATE TABLE IF NOT EXISTS disponibilidad_vehiculo (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    vehiculo_id UUID NOT NULL REFERENCES vehiculos(id) ON DELETE CASCADE,
+    fecha_inicio TIMESTAMPTZ NOT NULL,
+    fecha_fin TIMESTAMPTZ NOT NULL,
+    tipo_bloqueo VARCHAR(30) NOT NULL DEFAULT 'RESERVA' CHECK (tipo_bloqueo IN ('RESERVA', 'MANTENIMIENTO', 'INSPECCION', 'BLOQUEO_MANUAL', 'TRASLADO')),
+    reserva_id UUID REFERENCES reservas(id) ON DELETE SET NULL,
+    motivo VARCHAR(255),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHECK (fecha_fin > fecha_inicio)
 );
 
 CREATE TABLE IF NOT EXISTS puntos_reserva (
