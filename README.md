@@ -90,8 +90,87 @@ database/
 
 ---
 
+## 🐳 Entorno Local con Docker Compose (`dev`)
+
+El repositorio incluye soporte para levantar una instancia de PostgreSQL 17 localmente con volumen persistente y healthcheck:
+
+1. **Configurar variables:**
+   ```bash
+   cp .env.example .env
+   ```
+2. **Iniciar contenedor:**
+   ```bash
+   docker compose up -d
+   ```
+3. **Verificar estado:**
+   ```bash
+   docker compose ps
+   ```
+
+---
+
+## 🔐 Seguridad y Gestión de Secretos por Ambiente
+
+| Ambiente | Mecanismo de Configuración | Variables / Secretos Requeridos |
+|---|---|---|
+| **dev** | Variables locales / `.env` | `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USERNAME`, `DB_PASSWORD`, `DB_APP_USERNAME`, `DB_APP_PASSWORD` |
+| **qa** | Secretos de Ambiente / CI/CD | `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `DB_MIGRATOR_USERNAME`, `DB_MIGRATOR_PASSWORD` |
+| **main** | Secret Manager / Producción | `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `DB_MIGRATOR_USERNAME`, `DB_MIGRATOR_PASSWORD` |
+
+> [!IMPORTANT]
+> - Cada perfil (**dev**, **qa**, **main**) usa su propia base de datos aislada; **nunca se comparte una base entre ambientes**.
+> - Ningún archivo `.env` real o credencial debe versionarse en Git.
+> - La aplicación Spring Boot utiliza el rol `drivique_app` con permisos mínimos de lectura/escritura (`SELECT`, `INSERT`, `UPDATE`, `DELETE`), mientras que las migraciones de Flyway se ejecutan con el rol `drivique_migrator`.
+
+---
+
+## 🗃️ Migraciones Flyway
+
+Las migraciones versionadas se encuentran en el directorio `migrations/`:
+- `V1__init_drivique_schema.sql`: Inicialización de extensiones (`pgcrypto`, `uuid-ossp`) y las 69 tablas con restricciones de integridad y llaves foráneas.
+
+---
+
+## 🌿 Flujo Obligatorio de Ramas y Promoción
+
+Para garantizar la estabilidad y control de cambios:
+
+```mermaid
+graph LR
+    subgraph DEV [Ambiente DEV]
+        A[dev] -->|Crea rama| B[feature/...-dev]
+        B -->|PR solo a| A
+    end
+
+    subgraph QA [Ambiente QA]
+        C[qa] -->|Crea rama| D[feature/...-qa]
+        B -.->|Merge a| D
+        D -->|PR solo a| C
+    end
+
+    subgraph MAIN [Ambiente MAIN]
+        E[main] -->|Crea rama| F[feature/...-main]
+        D -.->|Merge a| F
+        F -->|PR solo a| E
+    end
+```
+
+1. **Desarrollo (`dev`):**
+   - Crear rama con sufijo `-dev` desde `dev`: `feature/HU-BD-01-conexion-postgresql-dev`.
+   - Realizar cambios y abrir PR **únicamente** hacia `dev`.
+2. **Pruebas (`qa`):**
+   - Crear rama con sufijo `-qa` desde `qa`: `feature/HU-BD-01-conexion-postgresql-qa`.
+   - Fusionar la rama `-dev` dentro de `-qa` y abrir PR **únicamente** hacia `qa`.
+3. **Producción (`main`):**
+   - Crear rama con sufijo `-main` desde `main`: `feature/HU-BD-01-conexion-postgresql-main`.
+   - Fusionar la rama `-qa` dentro de `-main` y abrir PR **únicamente** hacia `main`.
+4. ⚠️ **Prohibido hacer PR o merge directo entre las ramas padre `dev`, `qa` y `main`.**
+
+---
+
 ## 📌 Buenas Prácticas
 
 - **Scripts Idempotentes:** Procura usar sentencias seguras como `CREATE TABLE IF NOT EXISTS`, `ADD COLUMN IF NOT EXISTS`, `DROP TABLE IF EXISTS`, etc.
 - **Rollback obligatorio:** Todo script que aplique un cambio debe tener su script de reversión asociado en `05_rollbacks/`.
 - **Seguridad:** Nunca commitear credenciales, archivos `.env` o volcados con datos sensibles o de producción.
+
