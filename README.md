@@ -129,6 +129,7 @@ El repositorio incluye soporte para levantar una instancia de PostgreSQL 17 loca
 Las migraciones versionadas se encuentran en el directorio `migrations/`:
 - `V1__init_drivique_schema.sql`: Inicialización de extensiones (`pgcrypto`, `uuid-ossp`) y las 69 tablas con restricciones de integridad y llaves foráneas.
 - `V2__usuarios_roles_tokens.sql`: HU-BD-02 - Control de `estado_cuenta` en usuarios, `dispositivo_info` y revocación de sesiones, e índices B-Tree optimizados para autenticación.
+- `V3__datos_personales_y_documentos.sql`: HU-BD-03 - Separación de perfiles vs credenciales, referencias seguras a documentos con checksum SHA-256, historial de auditoría de verificación y consentimientos de privacidad.
 
 ---
 
