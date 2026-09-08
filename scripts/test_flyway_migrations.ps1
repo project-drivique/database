@@ -28,6 +28,20 @@ function Invoke-FlywayMigration {
     }
 }
 
+function Remove-TestContainer {
+    $existingContainer = & docker ps -aq --filter "name=^/$containerName$"
+    if ($LASTEXITCODE -ne 0) {
+        throw 'No fue posible consultar los contenedores de Docker.'
+    }
+
+    if ($existingContainer) {
+        & docker rm -f $containerName | Out-Null
+        if ($LASTEXITCODE -ne 0) {
+            throw 'No fue posible eliminar el contenedor temporal de pruebas.'
+        }
+    }
+}
+
 try {
     if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
         throw 'Docker Desktop es requerido para ejecutar esta prueba de migraciones.'
@@ -36,7 +50,7 @@ try {
     New-Item -ItemType Directory -Path $legacyMigrationsPath -Force | Out-Null
     Get-ChildItem $migrationsPath -Filter 'V[1-6]__*.sql' | Copy-Item -Destination $legacyMigrationsPath
 
-    & docker rm -f $containerName 2>$null
+    Remove-TestContainer
     & docker run --rm -d --name $containerName `
         -e POSTGRES_USER=drivique_admin `
         -e POSTGRES_PASSWORD=drivique_test_pass `
@@ -68,6 +82,9 @@ try {
     Write-Host 'Migracion limpia, actualizacion V6 -> V7 y pruebas HU-BD-07 aprobadas.'
 }
 finally {
-    & docker rm -f $containerName 2>$null
+    $existingContainer = & docker ps -aq --filter "name=^/$containerName$" 2>$null
+    if ($existingContainer) {
+        & docker rm -f $containerName 2>$null | Out-Null
+    }
     Remove-Item -LiteralPath $temporaryPath -Recurse -Force -ErrorAction SilentlyContinue
 }
