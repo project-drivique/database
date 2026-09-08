@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$RepositoryPath = (Resolve-Path "$PSScriptRoot\\.."),
+    [string]$RepositoryPath = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path,
     [string]$PostgresImage = 'postgres:17-alpine',
     [string]$FlywayImage = 'flyway/flyway:11.8.0'
 )
