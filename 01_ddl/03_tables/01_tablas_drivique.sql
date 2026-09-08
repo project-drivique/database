@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     fecha_nacimiento DATE NOT NULL,
     nacionalidad_id UUID REFERENCES nacionalidades(id),
     password_hash VARCHAR(255) NOT NULL,
+    estado_cuenta VARCHAR(30) NOT NULL DEFAULT 'ACTIVA' CHECK (estado_cuenta IN ('ACTIVA', 'INACTIVA', 'SUSPENDIDA', 'BLOQUEADA', 'PENDIENTE_VERIFICACION')),
     activo BOOLEAN NOT NULL DEFAULT TRUE,
     perfil_completo BOOLEAN NOT NULL DEFAULT FALSE,
     intentos_fallidos SMALLINT NOT NULL DEFAULT 0,
@@ -90,8 +91,10 @@ CREATE TABLE IF NOT EXISTS sesiones_usuario (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     usuario_id UUID NOT NULL REFERENCES usuarios(id),
     refresh_token_hash VARCHAR(255) NOT NULL UNIQUE,
+    dispositivo_info VARCHAR(255),
     ip_origen INET,
     user_agent VARCHAR(500),
+    revocado BOOLEAN NOT NULL DEFAULT FALSE,
     inicio_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     expira_at TIMESTAMPTZ NOT NULL,
     cerrada_at TIMESTAMPTZ,
@@ -108,6 +111,21 @@ CREATE TABLE IF NOT EXISTS codigos_verificacion (
     usado_at TIMESTAMPTZ,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Índices para Seguridad y Usuarios
+CREATE INDEX IF NOT EXISTS idx_usuarios_email ON usuarios(email);
+CREATE INDEX IF NOT EXISTS idx_usuarios_documento ON usuarios(documento_tipo, documento_numero);
+CREATE INDEX IF NOT EXISTS idx_usuarios_estado_cuenta ON usuarios(estado_cuenta);
+CREATE INDEX IF NOT EXISTS idx_roles_codigo ON roles(codigo);
+CREATE INDEX IF NOT EXISTS idx_permisos_codigo ON permisos(codigo);
+CREATE INDEX IF NOT EXISTS idx_usuario_roles_usuario ON usuario_roles(usuario_id);
+CREATE INDEX IF NOT EXISTS idx_usuario_roles_rol ON usuario_roles(rol_id);
+CREATE INDEX IF NOT EXISTS idx_rol_permisos_rol ON rol_permisos(rol_id);
+CREATE INDEX IF NOT EXISTS idx_rol_permisos_permiso ON rol_permisos(permiso_id);
+CREATE INDEX IF NOT EXISTS idx_sesiones_refresh_token_hash ON sesiones_usuario(refresh_token_hash);
+CREATE INDEX IF NOT EXISTS idx_sesiones_usuario_id ON sesiones_usuario(usuario_id);
+CREATE INDEX IF NOT EXISTS idx_sesiones_revocado ON sesiones_usuario(revocado);
+CREATE INDEX IF NOT EXISTS idx_codigos_verificacion_usuario ON codigos_verificacion(usuario_id);
 
 CREATE TABLE IF NOT EXISTS tipos_documento_usuario (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
