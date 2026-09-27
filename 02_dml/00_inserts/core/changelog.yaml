@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: dml-inserts-core-009-languages
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/core/009-seed-languages.sql
+      labels: "hu-bd-02,dml,core"
+      changes:
+        - sqlFile:
+            path: 009-seed-languages.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../../05_rollbacks/02_dml/00_inserts/core/009-seed-languages.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-core-010-currencies
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/core/010-seed-currencies.sql
+      labels: "hu-bd-02,dml,core"
+      changes:
+        - sqlFile:
+            path: 010-seed-currencies.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../../05_rollbacks/02_dml/00_inserts/core/010-seed-currencies.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true

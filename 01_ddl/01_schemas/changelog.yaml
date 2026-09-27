@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-schemas-core-002
+      author: danna
+      logicalFilePath: 01_ddl/01_schemas/002-create-core-schema.sql
+      labels: "hu-bd-02,ddl,core"
+      changes:
+        - sqlFile:
+            path: 002-create-core-schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/01_schemas/002-create-core-schema.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
