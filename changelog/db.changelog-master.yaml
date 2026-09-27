@@ -1,1 +1,3 @@
-databaseChangeLog: []
+databaseChangeLog:
+  - include:
+      file: changelog/changesets/001-enable-pgcrypto.sql
