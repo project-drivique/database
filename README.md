@@ -24,6 +24,11 @@ tipo técnico y, en `03_tables/`, por dominio. Cada dominio tiene su propio
 `changelog.yaml` e incluye un archivo SQL por tabla. Los datos semilla se
 organizan de la misma forma en `02_dml/00_inserts/<dominio>/`.
 
+Cada SQL de avance tiene su reversión equivalente en `05_rollbacks/`, con la
+misma ruta funcional y el sufijo `.rollback.sql`. El `changelog.yaml` enlaza
+ambos archivos mediante `sqlFile`, de modo que Liquibase puede ejecutar el
+rollback en orden inverso.
+
 Para validar localmente, copia `.env.example` a `.env` y ejecuta:
 
 ```powershell

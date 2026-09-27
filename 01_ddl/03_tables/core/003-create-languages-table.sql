@@ -1,6 +1,3 @@
---liquibase formatted sql
-
---changeset danna:003-create-languages-table labels:hu-bd-02
 CREATE TABLE core.languages (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     code VARCHAR(10) NOT NULL,
@@ -13,5 +10,3 @@ CREATE TABLE core.languages (
     CONSTRAINT uq_languages_name UNIQUE (name),
     CONSTRAINT chk_languages_code_format CHECK (code ~ '^[a-z]{2}(-[A-Z]{2})?$')
 );
-
---rollback DROP TABLE core.languages;

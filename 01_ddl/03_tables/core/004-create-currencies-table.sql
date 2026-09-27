@@ -1,6 +1,3 @@
---liquibase formatted sql
-
---changeset danna:004-create-currencies-table labels:hu-bd-02
 CREATE TABLE core.currencies (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     code CHAR(3) NOT NULL,
@@ -14,5 +11,3 @@ CREATE TABLE core.currencies (
     CONSTRAINT uq_currencies_name UNIQUE (name),
     CONSTRAINT chk_currencies_code_format CHECK (code ~ '^[A-Z]{3}$')
 );
-
---rollback DROP TABLE core.currencies;

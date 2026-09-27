@@ -1,5 +1,31 @@
 databaseChangeLog:
-  - include:
-      file: 01_ddl/03_tables/core/003-create-languages-table.sql
-  - include:
-      file: 01_ddl/03_tables/core/004-create-currencies-table.sql
+  - changeSet:
+      id: ddl-tables-core-003-languages
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/core/003-create-languages-table.sql
+      labels: "hu-bd-02,ddl,core"
+      changes:
+        - sqlFile:
+            path: 003-create-languages-table.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../../05_rollbacks/01_ddl/03_tables/core/003-create-languages-table.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-core-004-currencies
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/core/004-create-currencies-table.sql
+      labels: "hu-bd-02,ddl,core"
+      changes:
+        - sqlFile:
+            path: 004-create-currencies-table.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../../05_rollbacks/01_ddl/03_tables/core/004-create-currencies-table.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true

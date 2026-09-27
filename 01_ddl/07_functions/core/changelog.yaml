@@ -1,3 +1,16 @@
 databaseChangeLog:
-  - include:
-      file: 01_ddl/07_functions/core/005-create-set-updated-at-function.sql
+  - changeSet:
+      id: ddl-functions-core-005-set-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/07_functions/core/005-create-set-updated-at-function.sql
+      labels: "hu-bd-02,ddl,core"
+      changes:
+        - sqlFile:
+            path: 005-create-set-updated-at-function.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+      rollback:
+        - sqlFile:
+            path: ../../../05_rollbacks/01_ddl/07_functions/core/005-create-set-updated-at-function.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
