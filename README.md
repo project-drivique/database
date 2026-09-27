@@ -1,10 +1,10 @@
-# 🗄️ Drivique - Repositorio de Base de Datos
+#  Drivique - Repositorio de Base de Datos
 
 Repositorio central para la definición, versionamiento, migración y mantenimiento de los esquemas, datos y seguridad de la base de datos del proyecto **Drivique**.
 
 ---
 
-## 🌿 Estrategia de Ramas
+##  Estrategia de Ramas
 
 El proyecto utiliza un flujo de trabajo estructurado para garantizar la estabilidad y control en cada entorno:
 
@@ -15,12 +15,19 @@ El proyecto utiliza un flujo de trabajo estructurado para garantizar la estabili
 
 ---
 
-## 🛫 Migraciones Liquibase
+##  Migraciones Liquibase
 
 Liquibase es el único gestor de migraciones del proyecto. El archivo
 `changelog/db.changelog-master.yaml` incluye los changesets SQL versionados y
-los ejecuta en orden. Cada HU-BD agrega un changeset nuevo en
-`changelog/changesets/` y lo registra en el changelog maestro.
+los ejecuta en orden. Los archivos se organizan bajo `01_ddl/`: primero por
+tipo técnico y, en `03_tables/`, por dominio. Cada dominio tiene su propio
+`changelog.yaml` e incluye un archivo SQL por tabla. Los datos semilla se
+organizan de la misma forma en `02_dml/00_inserts/<dominio>/`.
+
+Cada SQL de avance tiene su reversión equivalente en `05_rollbacks/`, con la
+misma ruta funcional y el sufijo `.rollback.sql`. El `changelog.yaml` enlaza
+ambos archivos mediante `sqlFile`, de modo que Liquibase puede ejecutar el
+rollback en orden inverso.
 
 Para validar localmente, copia `.env.example` a `.env` y ejecuta:
 
@@ -31,9 +38,16 @@ Para validar localmente, copia `.env.example` a `.env` y ejecuta:
 La prueba crea un proyecto Docker temporal, valida el changelog, aplica los
 changesets y elimina sus recursos al finalizar.
 
+Las pruebas específicas de una historia siguen el formato
+`scripts/test-hu-bd-XX-<dominio>.ps1`. Por ejemplo, para HU-BD-02:
+
+```powershell
+.\scripts\test-hu-bd-02-core.ps1
+```
+
 ---
 
-## 📁 Estructura del Repositorio
+##  Estructura del Repositorio
 
 La arquitectura del proyecto sigue el estándar de separación por sub-lenguajes SQL y orden de dependencia secuencial:
 
@@ -85,7 +99,7 @@ database/
 
 ---
 
-## 🚀 Flujo de Desarrollo
+##  Flujo de Desarrollo
 
 1. **Crear rama desde `dev`:**
    ```bash
@@ -95,8 +109,9 @@ database/
    ```
 
 2. **Agregar un changeset de Liquibase:**
-   - Crea un SQL formateado de Liquibase en `changelog/changesets/`.
-   - Regístralo en `changelog/db.changelog-master.yaml`.
+   - Ubícalo en la sección técnica correspondiente de `01_ddl/`.
+   - Para tablas, usa `01_ddl/03_tables/<dominio>/` y crea un archivo por tabla.
+   - Regístralo en el `changelog.yaml` de esa carpeta.
    - Agrega rollback solo cuando sea técnicamente seguro y no afecte changesets posteriores.
 
 3. **Subir cambios y abrir Pull Request hacia `dev`:**
@@ -108,7 +123,7 @@ database/
 
 ---
 
-## 📌 Buenas Prácticas
+##  Buenas Prácticas
 
 - **Scripts Idempotentes:** Procura usar sentencias seguras como `CREATE TABLE IF NOT EXISTS`, `ADD COLUMN IF NOT EXISTS`, `DROP TABLE IF EXISTS`, etc.
 - **Rollback obligatorio:** Todo script que aplique un cambio debe tener su script de reversión asociado en `05_rollbacks/`.
