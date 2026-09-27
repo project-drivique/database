@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-indexes-core-008-default-catalogs
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/core/008-create-default-catalog-indexes.sql
+      labels: "hu-bd-02,ddl,core"
+      changes:
+        - sqlFile:
+            path: 008-create-default-catalog-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../../05_rollbacks/01_ddl/10_indexes/core/008-create-default-catalog-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true

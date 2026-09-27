@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: 02_dml/00_inserts/changelog.yaml

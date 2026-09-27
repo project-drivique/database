@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-triggers-core-006-languages-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/core/006-add-languages-updated-at-trigger.sql
+      labels: "hu-bd-02,ddl,core"
+      changes:
+        - sqlFile:
+            path: 006-add-languages-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../../05_rollbacks/01_ddl/09_triggers/core/006-add-languages-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-core-007-currencies-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/core/007-add-currencies-updated-at-trigger.sql
+      labels: "hu-bd-02,ddl,core"
+      changes:
+        - sqlFile:
+            path: 007-add-currencies-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../../05_rollbacks/01_ddl/09_triggers/core/007-add-currencies-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true

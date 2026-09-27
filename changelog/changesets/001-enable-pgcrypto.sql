@@ -4,4 +4,3 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 --rollback DROP EXTENSION IF EXISTS pgcrypto;
-

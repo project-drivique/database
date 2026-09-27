@@ -30,8 +30,8 @@ services:
       LIQUIBASE_COMMAND_CHANGELOG_FILE: changelog/db.changelog-master.yaml
     command: update
     volumes:
-      - ./changelog:/liquibase/changelog:ro
-      - ./liquibase.properties:/liquibase/liquibase.properties:ro
+      - ./:/workspace:ro
+    working_dir: /workspace
 
 volumes:
   postgres_data:
