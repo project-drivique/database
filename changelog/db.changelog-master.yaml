@@ -1,3 +1,7 @@
 databaseChangeLog:
   - include:
       file: changelog/changesets/001-enable-pgcrypto.sql
+  - include:
+      file: 01_ddl/changelog.yaml
+  - include:
+      file: 02_dml/changelog.yaml

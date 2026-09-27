@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - include:
+      file: 01_ddl/00_extensions/changelog.yaml
+  - include:
+      file: 01_ddl/01_schemas/changelog.yaml
+  - include:
+      file: 01_ddl/02_types/changelog.yaml
+  - include:
+      file: 01_ddl/03_tables/changelog.yaml
+  - include:
+      file: 01_ddl/07_functions/changelog.yaml
+  - include:
+      file: 01_ddl/09_triggers/changelog.yaml
+  - include:
+      file: 01_ddl/10_indexes/changelog.yaml
