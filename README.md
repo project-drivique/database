@@ -11,7 +11,25 @@ El proyecto utiliza un flujo de trabajo estructurado para garantizar la estabili
 - **`main`**: **Producción.** Contiene los scripts y migraciones estables ya desplegados en el entorno productivo.
 - **`qa`**: **Pruebas / Staging.** Ambiente para validación, testing integral y control de calidad.
 - **`dev`**: **Desarrollo.** Rama de integración continua donde convergen las nuevas características antes de pasar a QA.
-- **`feature/HU-BD-XX-...`**: Ramas de trabajo temporal creadas a partir de `dev` para implementar tareas, historias de usuario o nuevas migraciones.
+- **`HU-BD-XX-dev`**: Rama hija creada desde `dev` para implementar una historia de usuario. Las promociones usan `HU-BD-XX-qa` y `HU-BD-XX-main`.
+
+---
+
+## 🛫 Migraciones Liquibase
+
+Liquibase es el único gestor de migraciones del proyecto. El archivo
+`changelog/db.changelog-master.yaml` incluye los changesets SQL versionados y
+los ejecuta en orden. Cada HU-BD agrega un changeset nuevo en
+`changelog/changesets/` y lo registra en el changelog maestro.
+
+Para validar localmente, copia `.env.example` a `.env` y ejecuta:
+
+```powershell
+.\scripts\test-liquibase-migrations.ps1
+```
+
+La prueba crea un proyecto Docker temporal, valida el changelog, aplica los
+changesets y elimina sus recursos al finalizar.
 
 ---
 
@@ -73,19 +91,19 @@ database/
    ```bash
    git checkout dev
    git pull origin dev
-   git checkout -b feature/HU-BD-XX-nombre-tarea
+   git checkout -b HU-BD-XX-dev
    ```
 
-2. **Agregar los scripts SQL en la carpeta correspondiente:**
-   - Ubica el script en su carpeta correspondiente según su tipo (`01_ddl`, `02_dml`, etc.).
-   - Crea siempre su respectivo script de reversión en `05_rollbacks/`.
-   - Si se utiliza el gestor de changelog, registra el changeset en `db.changelog-master.yaml`.
+2. **Agregar un changeset de Liquibase:**
+   - Crea un SQL formateado de Liquibase en `changelog/changesets/`.
+   - Regístralo en `changelog/db.changelog-master.yaml`.
+   - Agrega rollback solo cuando sea técnicamente seguro y no afecte changesets posteriores.
 
 3. **Subir cambios y abrir Pull Request hacia `dev`:**
    ```bash
    git add .
-   git commit -m "feat(ddl): agregar tabla de usuarios y permisos"
-   git push -u origin feature/HU-BD-XX-nombre-tarea
+   git commit -m "feat(database): add user and permission tables"
+   git push -u origin HU-BD-XX-dev
    ```
 
 ---
