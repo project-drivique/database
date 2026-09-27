@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: 01_ddl/10_indexes/core/008-create-default-catalog-indexes.sql

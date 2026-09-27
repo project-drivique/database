@@ -1,1 +1,5 @@
-databaseChangeLog: []
+databaseChangeLog:
+  - include:
+      file: 01_ddl/03_tables/core/003-create-languages-table.sql
+  - include:
+      file: 01_ddl/03_tables/core/004-create-currencies-table.sql

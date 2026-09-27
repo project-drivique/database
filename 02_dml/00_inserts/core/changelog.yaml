@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: 02_dml/00_inserts/core/009-seed-languages.sql
+  - include:
+      file: 02_dml/00_inserts/core/010-seed-currencies.sql

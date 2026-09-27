@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: 01_ddl/09_triggers/core/006-add-languages-updated-at-trigger.sql
+  - include:
+      file: 01_ddl/09_triggers/core/007-add-currencies-updated-at-trigger.sql
