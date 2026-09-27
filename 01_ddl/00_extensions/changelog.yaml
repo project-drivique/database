@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: 01_ddl/00_extensions/001-enable-pgcrypto.sql

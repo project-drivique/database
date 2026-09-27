@@ -19,8 +19,9 @@ El proyecto utiliza un flujo de trabajo estructurado para garantizar la estabili
 
 Liquibase es el único gestor de migraciones del proyecto. El archivo
 `changelog/db.changelog-master.yaml` incluye los changesets SQL versionados y
-los ejecuta en orden. Cada HU-BD agrega un changeset nuevo en
-`changelog/changesets/` y lo registra en el changelog maestro.
+los ejecuta en orden. Los archivos se organizan bajo `01_ddl/`: primero por
+tipo técnico y, en `03_tables/`, por dominio. Cada dominio tiene su propio
+`changelog.yaml` e incluye un archivo SQL por tabla.
 
 Para validar localmente, copia `.env.example` a `.env` y ejecuta:
 
@@ -95,8 +96,9 @@ database/
    ```
 
 2. **Agregar un changeset de Liquibase:**
-   - Crea un SQL formateado de Liquibase en `changelog/changesets/`.
-   - Regístralo en `changelog/db.changelog-master.yaml`.
+   - Ubícalo en la sección técnica correspondiente de `01_ddl/`.
+   - Para tablas, usa `01_ddl/03_tables/<dominio>/` y crea un archivo por tabla.
+   - Regístralo en el `changelog.yaml` de esa carpeta.
    - Agrega rollback solo cuando sea técnicamente seguro y no afecte changesets posteriores.
 
 3. **Subir cambios y abrir Pull Request hacia `dev`:**
