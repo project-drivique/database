@@ -2,7 +2,6 @@
 .env
 .env.*
 *.env
-!.env.example
 *.pem
 *.key
 credentials.json
@@ -14,8 +13,6 @@ credentials.json
 *.bak
 *.log
 *.tmp
-Script-tablas-Drivique.md
-[sS]cript*tablas*.md
 
 # OS files
 .DS_Store
