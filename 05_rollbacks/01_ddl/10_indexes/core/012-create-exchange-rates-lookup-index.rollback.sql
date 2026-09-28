@@ -1,0 +1,1 @@
+DROP INDEX core.idx_exchange_rates_currency_pair_fetched_at;
