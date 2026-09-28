@@ -1,0 +1,121 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-schemas-iam-hu-bd-05
+      author: danna
+      logicalFilePath: 01_ddl/01_schemas/create-iam-schema.sql
+      labels: "hu-bd-05,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/01_schemas/create-iam-schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/01_schemas/create-iam-schema.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-iam-hu-bd-05-password-policies
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/iam/password-policies.sql
+      labels: "hu-bd-05,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/password-policies.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/password-policies.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-iam-hu-bd-05-security-configurations
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/iam/security-configurations.sql
+      labels: "hu-bd-05,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/security-configurations.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/security-configurations.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-iam-hu-bd-05-password-policies-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/iam/add-password-policies-updated-at-trigger.sql
+      labels: "hu-bd-05,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/iam/add-password-policies-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/iam/add-password-policies-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-iam-hu-bd-05-security-configurations-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/iam/add-security-configurations-updated-at-trigger.sql
+      labels: "hu-bd-05,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/iam/add-security-configurations-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/iam/add-security-configurations-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-iam-hu-bd-05-password-policies-active
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/iam/create-password-policies-active-index.sql
+      labels: "hu-bd-05,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/iam/create-password-policies-active-index.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/iam/create-password-policies-active-index.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-iam-hu-bd-05-password-policies
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/iam/seed-password-policies.sql
+      labels: "hu-bd-05,dml,iam"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/iam/seed-password-policies.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/iam/seed-password-policies.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-iam-hu-bd-05-security-configurations
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/iam/seed-security-configurations.sql
+      labels: "hu-bd-05,dml,iam"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/iam/seed-security-configurations.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/iam/seed-security-configurations.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
