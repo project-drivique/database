@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-core-011-exchange-rates
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/core/011-create-exchange-rates-table.sql
+      labels: "hu-bd-03,ddl,core"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/core/011-create-exchange-rates-table.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/core/011-create-exchange-rates-table.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-core-012-exchange-rates-lookup
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/core/012-create-exchange-rates-lookup-index.sql
+      labels: "hu-bd-03,ddl,core"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/core/012-create-exchange-rates-lookup-index.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/core/012-create-exchange-rates-lookup-index.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
