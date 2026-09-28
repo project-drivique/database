@@ -1,0 +1,61 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-core-hu-bd-04-brand-configurations
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/core/brand-configurations.sql
+      labels: "hu-bd-04,ddl,core"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/core/brand-configurations.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/core/brand-configurations.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-core-hu-bd-04-brand-configurations-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/core/add-brand-configurations-updated-at-trigger.sql
+      labels: "hu-bd-04,ddl,core"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/core/add-brand-configurations-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/core/add-brand-configurations-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-core-hu-bd-04-brand-configurations-active
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/core/create-brand-configurations-active-index.sql
+      labels: "hu-bd-04,ddl,core"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/core/create-brand-configurations-active-index.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/core/create-brand-configurations-active-index.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-core-hu-bd-04-brand-configurations
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/core/seed-brand-configurations.sql
+      labels: "hu-bd-04,dml,core"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/core/seed-brand-configurations.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/core/seed-brand-configurations.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true

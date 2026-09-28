@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS trg_brand_configurations_set_updated_at ON core.brand_configurations;
