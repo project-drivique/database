@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS trg_security_configurations_set_updated_at ON iam.security_configurations;
