@@ -7,3 +7,5 @@ databaseChangeLog:
       file: 02_dml/changelog.yaml
   - include:
       file: changelog/releases/hu-bd-03.yaml
+  - include:
+      file: changelog/releases/hu-bd-04.yaml
