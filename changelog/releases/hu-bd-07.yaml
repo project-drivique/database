@@ -1,0 +1,151 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-iam-hu-bd-07-users
+      author: sharith
+      logicalFilePath: 01_ddl/03_tables/iam/users.sql
+      labels: "hu-bd-07,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/users.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/users.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-iam-hu-bd-07-user-profiles
+      author: sharith
+      logicalFilePath: 01_ddl/03_tables/iam/user_profiles.sql
+      labels: "hu-bd-07,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/user_profiles.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/user_profiles.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-iam-hu-bd-07-user-roles
+      author: sharith
+      logicalFilePath: 01_ddl/03_tables/iam/user_roles.sql
+      labels: "hu-bd-07,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/user_roles.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/user_roles.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-iam-hu-bd-07-verification-codes
+      author: sharith
+      logicalFilePath: 01_ddl/03_tables/iam/verification_codes.sql
+      labels: "hu-bd-07,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/verification_codes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/verification_codes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-iam-hu-bd-07-users-updated-at
+      author: sharith
+      logicalFilePath: 01_ddl/09_triggers/iam/add-users-updated-at-trigger.sql
+      labels: "hu-bd-07,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/iam/add-users-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/iam/add-users-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-iam-hu-bd-07-user-profiles-updated-at
+      author: sharith
+      logicalFilePath: 01_ddl/09_triggers/iam/add-user-profiles-updated-at-trigger.sql
+      labels: "hu-bd-07,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/iam/add-user-profiles-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/iam/add-user-profiles-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-iam-hu-bd-07-users
+      author: sharith
+      logicalFilePath: 01_ddl/10_indexes/iam/create-users-indexes.sql
+      labels: "hu-bd-07,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/iam/create-users-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/iam/create-users-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-iam-hu-bd-07-user-roles
+      author: sharith
+      logicalFilePath: 01_ddl/10_indexes/iam/create-user-roles-indexes.sql
+      labels: "hu-bd-07,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/iam/create-user-roles-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/iam/create-user-roles-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-iam-hu-bd-07-verification-codes
+      author: sharith
+      logicalFilePath: 01_ddl/10_indexes/iam/create-verification-codes-indexes.sql
+      labels: "hu-bd-07,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/iam/create-verification-codes-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/iam/create-verification-codes-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-iam-hu-bd-07-seed-admin-user
+      author: sharith
+      logicalFilePath: 02_dml/00_inserts/iam/seed-admin-user.sql
+      labels: "hu-bd-07,dml,iam"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/iam/seed-admin-user.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/iam/seed-admin-user.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
