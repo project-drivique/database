@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-indexes-iam-hu-bd-10-verification-codes-user
+      author: sharith
+      logicalFilePath: 01_ddl/10_indexes/iam/create-verification-codes-user-index.sql
+      labels: "hu-bd-10,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/iam/create-verification-codes-user-index.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/iam/create-verification-codes-user-index.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
