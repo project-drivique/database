@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-iam-hu-bd-08-user-preferences
+      author: sharith
+      logicalFilePath: 01_ddl/03_tables/iam/user_preferences.sql
+      labels: "hu-bd-08,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/user_preferences.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/user_preferences.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-iam-hu-bd-08-user-preferences-updated-at
+      author: sharith
+      logicalFilePath: 01_ddl/09_triggers/iam/add-user-preferences-updated-at-trigger.sql
+      labels: "hu-bd-08,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/iam/add-user-preferences-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/iam/add-user-preferences-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-iam-hu-bd-08-user-preferences
+      author: sharith
+      logicalFilePath: 01_ddl/10_indexes/iam/create-user-preferences-indexes.sql
+      labels: "hu-bd-08,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/iam/create-user-preferences-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/iam/create-user-preferences-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
