@@ -1,0 +1,136 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-iam-hu-bd-06-roles
+      author: sharith
+      logicalFilePath: 01_ddl/03_tables/iam/roles.sql
+      labels: "hu-bd-06,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/roles.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/roles.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-iam-hu-bd-06-permissions
+      author: sharith
+      logicalFilePath: 01_ddl/03_tables/iam/permissions.sql
+      labels: "hu-bd-06,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/permissions.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/permissions.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-iam-hu-bd-06-role-permissions
+      author: sharith
+      logicalFilePath: 01_ddl/03_tables/iam/role_permissions.sql
+      labels: "hu-bd-06,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/role_permissions.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/role_permissions.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-iam-hu-bd-06-roles-updated-at
+      author: sharith
+      logicalFilePath: 01_ddl/09_triggers/iam/add-roles-updated-at-trigger.sql
+      labels: "hu-bd-06,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/iam/add-roles-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/iam/add-roles-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-iam-hu-bd-06-roles-active
+      author: sharith
+      logicalFilePath: 01_ddl/10_indexes/iam/create-roles-active-index.sql
+      labels: "hu-bd-06,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/iam/create-roles-active-index.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/iam/create-roles-active-index.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-iam-hu-bd-06-role-permissions-lookup
+      author: sharith
+      logicalFilePath: 01_ddl/10_indexes/iam/create-role-permissions-lookup-index.sql
+      labels: "hu-bd-06,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/iam/create-role-permissions-lookup-index.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/iam/create-role-permissions-lookup-index.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-iam-hu-bd-06-roles
+      author: sharith
+      logicalFilePath: 02_dml/00_inserts/iam/seed-roles.sql
+      labels: "hu-bd-06,dml,iam"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/iam/seed-roles.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/iam/seed-roles.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-iam-hu-bd-06-permissions
+      author: sharith
+      logicalFilePath: 02_dml/00_inserts/iam/seed-permissions.sql
+      labels: "hu-bd-06,dml,iam"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/iam/seed-permissions.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/iam/seed-permissions.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-iam-hu-bd-06-role-permissions
+      author: sharith
+      logicalFilePath: 02_dml/00_inserts/iam/seed-role-permissions.sql
+      labels: "hu-bd-06,dml,iam"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/iam/seed-role-permissions.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/iam/seed-role-permissions.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
