@@ -31,6 +31,8 @@ databaseChangeLog:
       file: changelog/releases/hu-bd-14.yaml
   - include:
       file: changelog/releases/hu-bd-15.yaml
+  - include:
+      file: changelog/releases/hu-bd-16.yaml
 
 
 
