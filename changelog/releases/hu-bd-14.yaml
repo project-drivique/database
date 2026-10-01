@@ -1,0 +1,106 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-schemas-location-hu-bd-14
+      author: danna
+      logicalFilePath: 01_ddl/01_schemas/create-location-schema.sql
+      labels: "hu-bd-14,ddl,location"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/01_schemas/create-location-schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/01_schemas/create-location-schema.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-location-hu-bd-14-departments
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/location/departments.sql
+      labels: "hu-bd-14,ddl,location"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/location/departments.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/location/departments.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-location-hu-bd-14-cities
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/location/cities.sql
+      labels: "hu-bd-14,ddl,location"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/location/cities.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/location/cities.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-location-hu-bd-14-departments-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/location/add-departments-updated-at-trigger.sql
+      labels: "hu-bd-14,ddl,location"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/location/add-departments-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/location/add-departments-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-location-hu-bd-14-cities-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/location/add-cities-updated-at-trigger.sql
+      labels: "hu-bd-14,ddl,location"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/location/add-cities-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/location/add-cities-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-location-hu-bd-14-cities-department
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/location/create-cities-department-index.sql
+      labels: "hu-bd-14,ddl,location"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/location/create-cities-department-index.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/location/create-cities-department-index.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-location-hu-bd-14-colombian-territorial-division
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/location/seed-colombian-territorial-division.sql
+      labels: "hu-bd-14,dml,location"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/location/seed-colombian-territorial-division.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/location/seed-colombian-territorial-division.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
