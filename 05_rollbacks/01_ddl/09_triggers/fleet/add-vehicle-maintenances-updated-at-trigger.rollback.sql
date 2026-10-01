@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS trg_vehicle_maintenances_updated_at ON fleet.vehicle_maintenances;

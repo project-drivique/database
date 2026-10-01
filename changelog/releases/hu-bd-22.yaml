@@ -1,0 +1,76 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-fleet-hu-bd-22-maintenance-types
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/fleet/maintenance-types.sql
+      labels: "hu-bd-22,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/fleet/maintenance-types.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/fleet/maintenance-types.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-fleet-hu-bd-22-vehicle-maintenances
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/fleet/vehicle-maintenances.sql
+      labels: "hu-bd-22,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/fleet/vehicle-maintenances.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/fleet/vehicle-maintenances.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-fleet-hu-bd-22-vehicle-maintenances-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/fleet/add-vehicle-maintenances-updated-at-trigger.sql
+      labels: "hu-bd-22,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/fleet/add-vehicle-maintenances-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/fleet/add-vehicle-maintenances-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-fleet-hu-bd-22-vehicle-maintenances
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/fleet/create-vehicle-maintenances-indexes.sql
+      labels: "hu-bd-22,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/fleet/create-vehicle-maintenances-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/fleet/create-vehicle-maintenances-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-fleet-hu-bd-22-maintenance-types
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/fleet/seed-maintenance-types.sql
+      labels: "hu-bd-22,dml,fleet"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/fleet/seed-maintenance-types.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/fleet/seed-maintenance-types.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
