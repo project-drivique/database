@@ -1,0 +1,76 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-iam-hu-bd-12-user-documents
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/iam/user-documents.sql
+      labels: "hu-bd-12,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/user-documents.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/user-documents.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-functions-iam-hu-bd-12-validate-user-document
+      author: danna
+      logicalFilePath: 01_ddl/07_functions/iam/validate-user-document.sql
+      labels: "hu-bd-12,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/07_functions/iam/validate-user-document.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/07_functions/iam/validate-user-document.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-iam-hu-bd-12-user-documents-validation
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/iam/add-user-documents-validation-trigger.sql
+      labels: "hu-bd-12,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/iam/add-user-documents-validation-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/iam/add-user-documents-validation-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-iam-hu-bd-12-user-documents-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/iam/add-user-documents-updated-at-trigger.sql
+      labels: "hu-bd-12,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/iam/add-user-documents-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/iam/add-user-documents-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-iam-hu-bd-12-user-documents
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/iam/create-user-documents-indexes.sql
+      labels: "hu-bd-12,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/iam/create-user-documents-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/iam/create-user-documents-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
