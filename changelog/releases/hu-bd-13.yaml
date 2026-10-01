@@ -1,0 +1,61 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-iam-hu-bd-13-user-consents
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/iam/user-consents.sql
+      labels: "hu-bd-13,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/user-consents.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/user-consents.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-functions-iam-hu-bd-13-prevent-user-consent-mutation
+      author: danna
+      logicalFilePath: 01_ddl/07_functions/iam/prevent-user-consent-mutation.sql
+      labels: "hu-bd-13,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/07_functions/iam/prevent-user-consent-mutation.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/07_functions/iam/prevent-user-consent-mutation.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-iam-hu-bd-13-user-consents-immutable
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/iam/add-user-consents-immutable-trigger.sql
+      labels: "hu-bd-13,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/iam/add-user-consents-immutable-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/iam/add-user-consents-immutable-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-iam-hu-bd-13-user-consents
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/iam/create-user-consents-index.sql
+      labels: "hu-bd-13,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/iam/create-user-consents-index.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/iam/create-user-consents-index.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
