@@ -1,0 +1,151 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-schemas-fleet-hu-bd-17
+      author: danna
+      logicalFilePath: 01_ddl/01_schemas/create-fleet-schema.sql
+      labels: "hu-bd-17,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/01_schemas/create-fleet-schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/01_schemas/create-fleet-schema.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-fleet-hu-bd-17-vehicle-brands
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/fleet/vehicle-brands.sql
+      labels: "hu-bd-17,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/fleet/vehicle-brands.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/fleet/vehicle-brands.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-fleet-hu-bd-17-transmission-types
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/fleet/transmission-types.sql
+      labels: "hu-bd-17,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/fleet/transmission-types.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/fleet/transmission-types.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-fleet-hu-bd-17-fuel-types
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/fleet/fuel-types.sql
+      labels: "hu-bd-17,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/fleet/fuel-types.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/fleet/fuel-types.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-fleet-hu-bd-17-vehicle-statuses
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/fleet/vehicle-statuses.sql
+      labels: "hu-bd-17,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/fleet/vehicle-statuses.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/fleet/vehicle-statuses.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-fleet-hu-bd-17-vehicle-brands-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/fleet/add-vehicle-brands-updated-at-trigger.sql
+      labels: "hu-bd-17,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/fleet/add-vehicle-brands-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/fleet/add-vehicle-brands-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-fleet-hu-bd-17-transmission-types-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/fleet/add-transmission-types-updated-at-trigger.sql
+      labels: "hu-bd-17,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/fleet/add-transmission-types-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/fleet/add-transmission-types-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-fleet-hu-bd-17-fuel-types-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/fleet/add-fuel-types-updated-at-trigger.sql
+      labels: "hu-bd-17,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/fleet/add-fuel-types-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/fleet/add-fuel-types-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-fleet-hu-bd-17-vehicle-statuses-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/fleet/add-vehicle-statuses-updated-at-trigger.sql
+      labels: "hu-bd-17,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/fleet/add-vehicle-statuses-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/fleet/add-vehicle-statuses-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-fleet-hu-bd-17-technical-catalogs
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/fleet/seed-technical-catalogs.sql
+      labels: "hu-bd-17,dml,fleet"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/fleet/seed-technical-catalogs.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/fleet/seed-technical-catalogs.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
