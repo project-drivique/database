@@ -1,0 +1,61 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-location-hu-bd-15-branches
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/location/branches.sql
+      labels: "hu-bd-15,ddl,location"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/location/branches.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/location/branches.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-location-hu-bd-15-branches-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/location/add-branches-updated-at-trigger.sql
+      labels: "hu-bd-15,ddl,location"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/location/add-branches-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/location/add-branches-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-location-hu-bd-15-branches-city
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/location/create-branches-city-index.sql
+      labels: "hu-bd-15,ddl,location"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/location/create-branches-city-index.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/location/create-branches-city-index.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-location-hu-bd-15-branches
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/location/seed-branches.sql
+      labels: "hu-bd-15,dml,location"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/location/seed-branches.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/location/seed-branches.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
