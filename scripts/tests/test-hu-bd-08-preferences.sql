@@ -14,20 +14,20 @@ BEGIN
         RAISE EXCEPTION 'Expected admin user seed';
     END IF;
 
-    SELECT id INTO lang_id FROM config.languages WHERE is_default = true LIMIT 1;
-    SELECT id INTO curr_id FROM config.currencies WHERE is_default = true LIMIT 1;
+    SELECT id INTO lang_id FROM core.languages WHERE is_default = true LIMIT 1;
+    SELECT id INTO curr_id FROM core.currencies WHERE is_default = true LIMIT 1;
 
     -- 1. Insert default preferences for admin
     INSERT INTO iam.user_preferences (user_id, language_id, currency_id, theme_preference)
     VALUES (admin_id, lang_id, curr_id, 'DARK')
     ON CONFLICT (user_id) DO UPDATE SET theme_preference = 'DARK';
 
+    INSERT INTO iam.users (first_name, last_name, email, password_hash)
+    VALUES ('Theme', 'Test', 'themetest@drivique.com', 'hash')
+    RETURNING id INTO temp_user_id;
+
     -- 2. Validate CHECK constraint on theme_preference
     BEGIN
-        INSERT INTO iam.users (first_name, last_name, email, password_hash)
-        VALUES ('Theme', 'Test', 'themetest@drivique.com', 'hash')
-        RETURNING id INTO temp_user_id;
-
         INSERT INTO iam.user_preferences (user_id, theme_preference)
         VALUES (temp_user_id, 'INVALID_THEME');
 
