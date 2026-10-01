@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS trg_transmission_types_set_updated_at ON fleet.transmission_types;
