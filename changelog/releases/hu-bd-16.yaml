@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-location-hu-bd-16-branch-users
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/location/branch-users.sql
+      labels: "hu-bd-16,ddl,location"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/location/branch-users.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/location/branch-users.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-location-hu-bd-16-branch-users-branch
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/location/create-branch-users-branch-index.sql
+      labels: "hu-bd-16,ddl,location"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/location/create-branch-users-branch-index.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/location/create-branch-users-branch-index.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
