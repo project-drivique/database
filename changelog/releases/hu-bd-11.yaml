@@ -1,0 +1,136 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-iam-hu-bd-11-document-types
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/iam/document-types.sql
+      labels: "hu-bd-11,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/document-types.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/document-types.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-iam-hu-bd-11-nationalities
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/iam/nationalities.sql
+      labels: "hu-bd-11,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/nationalities.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/nationalities.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-iam-hu-bd-11-document-statuses
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/iam/document-statuses.sql
+      labels: "hu-bd-11,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/document-statuses.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/document-statuses.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-iam-hu-bd-11-users-identity-catalog-foreign-keys
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/iam/add-users-identity-catalog-foreign-keys.sql
+      labels: "hu-bd-11,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/add-users-identity-catalog-foreign-keys.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/add-users-identity-catalog-foreign-keys.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-iam-hu-bd-11-document-types-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/iam/add-document-types-updated-at-trigger.sql
+      labels: "hu-bd-11,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/iam/add-document-types-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/iam/add-document-types-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-iam-hu-bd-11-nationalities-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/iam/add-nationalities-updated-at-trigger.sql
+      labels: "hu-bd-11,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/iam/add-nationalities-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/iam/add-nationalities-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-iam-hu-bd-11-document-statuses-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/iam/add-document-statuses-updated-at-trigger.sql
+      labels: "hu-bd-11,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/iam/add-document-statuses-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/iam/add-document-statuses-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-iam-hu-bd-11-identity-catalogs-active
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/iam/create-identity-catalogs-active-indexes.sql
+      labels: "hu-bd-11,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/iam/create-identity-catalogs-active-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/iam/create-identity-catalogs-active-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-iam-hu-bd-11-identity-catalogs
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/iam/seed-identity-catalogs.sql
+      labels: "hu-bd-11,dml,iam"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/iam/seed-identity-catalogs.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/iam/seed-identity-catalogs.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
