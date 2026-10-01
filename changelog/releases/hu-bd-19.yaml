@@ -1,0 +1,61 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-fleet-hu-bd-19-vehicles
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/fleet/vehicles.sql
+      labels: "hu-bd-19,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/fleet/vehicles.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/fleet/vehicles.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-fleet-hu-bd-19-vehicles-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/fleet/add-vehicles-updated-at-trigger.sql
+      labels: "hu-bd-19,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/fleet/add-vehicles-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/fleet/add-vehicles-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-fleet-hu-bd-19-vehicles
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/fleet/create-vehicles-indexes.sql
+      labels: "hu-bd-19,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/fleet/create-vehicles-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/fleet/create-vehicles-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-fleet-hu-bd-19-vehicles
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/fleet/seed-vehicles.sql
+      labels: "hu-bd-19,dml,fleet"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/fleet/seed-vehicles.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/fleet/seed-vehicles.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
