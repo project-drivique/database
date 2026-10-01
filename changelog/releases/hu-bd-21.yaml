@@ -1,0 +1,76 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-fleet-hu-bd-21-features
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/fleet/features.sql
+      labels: "hu-bd-21,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/fleet/features.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/fleet/features.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-fleet-hu-bd-21-vehicle-features
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/fleet/vehicle-features.sql
+      labels: "hu-bd-21,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/fleet/vehicle-features.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/fleet/vehicle-features.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-fleet-hu-bd-21-user-favorite-vehicles
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/fleet/user-favorite-vehicles.sql
+      labels: "hu-bd-21,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/fleet/user-favorite-vehicles.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/fleet/user-favorite-vehicles.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-fleet-hu-bd-21-features
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/fleet/create-features-indexes.sql
+      labels: "hu-bd-21,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/fleet/create-features-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/fleet/create-features-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-fleet-hu-bd-21-features
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/fleet/seed-features.sql
+      labels: "hu-bd-21,dml,fleet"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/fleet/seed-features.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/fleet/seed-features.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
