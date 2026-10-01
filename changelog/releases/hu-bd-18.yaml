@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-fleet-hu-bd-18-vehicle-categories
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/fleet/vehicle-categories.sql
+      labels: "hu-bd-18,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/fleet/vehicle-categories.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/fleet/vehicle-categories.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-fleet-hu-bd-18-vehicle-categories-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/fleet/add-vehicle-categories-updated-at-trigger.sql
+      labels: "hu-bd-18,ddl,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/fleet/add-vehicle-categories-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/fleet/add-vehicle-categories-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-fleet-hu-bd-18-vehicle-categories
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/fleet/seed-vehicle-categories.sql
+      labels: "hu-bd-18,dml,fleet"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/fleet/seed-vehicle-categories.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/fleet/seed-vehicle-categories.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
