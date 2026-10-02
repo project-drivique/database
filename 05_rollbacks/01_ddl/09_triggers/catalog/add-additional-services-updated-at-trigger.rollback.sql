@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS trg_additional_services_set_updated_at ON catalog.additional_services;

@@ -1,0 +1,91 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-schemas-catalog-hu-bd-23
+      author: danna
+      logicalFilePath: 01_ddl/01_schemas/create-catalog-schema.sql
+      labels: "hu-bd-23,ddl,catalog"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/01_schemas/create-catalog-schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/01_schemas/create-catalog-schema.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-catalog-hu-bd-23-additional-services
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/catalog/additional-services.sql
+      labels: "hu-bd-23,ddl,catalog"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/catalog/additional-services.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/catalog/additional-services.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-catalog-hu-bd-23-insurance-coverages
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/catalog/insurance-coverages.sql
+      labels: "hu-bd-23,ddl,catalog"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/catalog/insurance-coverages.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/catalog/insurance-coverages.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-catalog-hu-bd-23-additional-services-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/catalog/add-additional-services-updated-at-trigger.sql
+      labels: "hu-bd-23,ddl,catalog"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/catalog/add-additional-services-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/catalog/add-additional-services-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-catalog-hu-bd-23-insurance-coverages-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/catalog/add-insurance-coverages-updated-at-trigger.sql
+      labels: "hu-bd-23,ddl,catalog"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/catalog/add-insurance-coverages-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/catalog/add-insurance-coverages-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-catalog-hu-bd-23-services-and-coverages
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/catalog/seed-additional-services-and-insurance-coverages.sql
+      labels: "hu-bd-23,dml,catalog"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/catalog/seed-additional-services-and-insurance-coverages.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/catalog/seed-additional-services-and-insurance-coverages.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
