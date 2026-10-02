@@ -1,0 +1,61 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-catalog-hu-bd-25-promotions
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/catalog/promotions.sql
+      labels: "hu-bd-25,ddl,catalog"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/catalog/promotions.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/catalog/promotions.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-catalog-hu-bd-25-user-coupon-usages
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/catalog/user-coupon-usages.sql
+      labels: "hu-bd-25,ddl,catalog"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/catalog/user-coupon-usages.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/catalog/user-coupon-usages.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-catalog-hu-bd-25-promotions-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/catalog/add-promotions-updated-at-trigger.sql
+      labels: "hu-bd-25,ddl,catalog"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/catalog/add-promotions-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/catalog/add-promotions-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-catalog-hu-bd-25-promotions
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/catalog/create-promotions-indexes.sql
+      labels: "hu-bd-25,ddl,catalog"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/catalog/create-promotions-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/catalog/create-promotions-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
