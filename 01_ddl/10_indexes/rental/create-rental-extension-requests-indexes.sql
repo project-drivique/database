@@ -1,0 +1,3 @@
+CREATE INDEX idx_rental_extension_requests_reservation ON rental.rental_extension_requests (reservation_id);
+CREATE INDEX idx_rental_extension_requests_status ON rental.rental_extension_requests (status);
+CREATE INDEX idx_rental_extension_requests_reviewer ON rental.rental_extension_requests (reviewed_by);
