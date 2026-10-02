@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS trg_user_saved_payment_methods_set_updated_at ON billing.user_saved_payment_methods;

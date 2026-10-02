@@ -1,0 +1,3 @@
+CREATE INDEX idx_user_saved_payment_methods_active_user
+ON billing.user_saved_payment_methods (user_id)
+WHERE is_active;

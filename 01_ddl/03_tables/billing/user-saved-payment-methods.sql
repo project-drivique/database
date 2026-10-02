@@ -1,0 +1,22 @@
+CREATE TABLE billing.user_saved_payment_methods (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL,
+    gateway_provider VARCHAR(30) NOT NULL DEFAULT 'WOMPI',
+    payment_token VARCHAR(255) NOT NULL,
+    card_brand VARCHAR(50) NOT NULL,
+    last_four CHAR(4) NOT NULL,
+    exp_month SMALLINT NOT NULL,
+    exp_year SMALLINT NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uq_user_saved_payment_methods_token UNIQUE (payment_token),
+    CONSTRAINT fk_user_saved_payment_methods_user FOREIGN KEY (user_id) REFERENCES iam.users (id) ON DELETE RESTRICT,
+    CONSTRAINT chk_user_saved_payment_methods_provider CHECK (gateway_provider = 'WOMPI'),
+    CONSTRAINT chk_user_saved_payment_methods_token_not_blank CHECK (btrim(payment_token) <> ''),
+    CONSTRAINT chk_user_saved_payment_methods_token_not_pan CHECK (payment_token !~ '^[0-9]{13,19}$'),
+    CONSTRAINT chk_user_saved_payment_methods_brand_not_blank CHECK (btrim(card_brand) <> ''),
+    CONSTRAINT chk_user_saved_payment_methods_last_four CHECK (last_four ~ '^[0-9]{4}$'),
+    CONSTRAINT chk_user_saved_payment_methods_exp_month CHECK (exp_month BETWEEN 1 AND 12),
+    CONSTRAINT chk_user_saved_payment_methods_exp_year CHECK (exp_year >= 2024)
+);
