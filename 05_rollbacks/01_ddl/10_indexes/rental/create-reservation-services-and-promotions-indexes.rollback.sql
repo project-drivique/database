@@ -1,0 +1,2 @@
+DROP INDEX IF EXISTS rental.idx_reservation_promotions_promotion;
+DROP INDEX IF EXISTS rental.idx_reservation_additional_services_service;

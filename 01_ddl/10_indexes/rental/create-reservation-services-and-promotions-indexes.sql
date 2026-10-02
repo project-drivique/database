@@ -1,0 +1,2 @@
+CREATE INDEX idx_reservation_additional_services_service ON rental.reservation_additional_services (additional_service_id);
+CREATE INDEX idx_reservation_promotions_promotion ON rental.reservation_promotions (promotion_id);
