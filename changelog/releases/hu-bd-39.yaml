@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-support-hu-bd-39-notifications
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/support/notifications.sql
+      labels: "hu-bd-39,ddl,support"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/support/notifications.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/support/notifications.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-support-hu-bd-39-notifications-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/support/add-notifications-updated-at-trigger.sql
+      labels: "hu-bd-39,ddl,support"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/support/add-notifications-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/support/add-notifications-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-support-hu-bd-39-notifications
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/support/create-notifications-indexes.sql
+      labels: "hu-bd-39,ddl,support"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/support/create-notifications-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/support/create-notifications-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
