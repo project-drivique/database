@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS trg_inspection_checklist_items_set_updated_at ON contract.inspection_checklist_items;
