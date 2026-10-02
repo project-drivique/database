@@ -1,0 +1,76 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-extensions-hu-bd-27-btree-gist
+      author: danna
+      logicalFilePath: 01_ddl/00_extensions/enable-btree-gist.sql
+      labels: "hu-bd-27,ddl,rental"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/00_extensions/enable-btree-gist.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/00_extensions/enable-btree-gist.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-rental-hu-bd-27-reservations
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/rental/reservations.sql
+      labels: "hu-bd-27,ddl,rental"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/rental/reservations.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/rental/reservations.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-functions-rental-hu-bd-27-reservation-rules
+      author: danna
+      logicalFilePath: 01_ddl/07_functions/rental/apply-reservation-rules.sql
+      labels: "hu-bd-27,ddl,rental"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/07_functions/rental/apply-reservation-rules.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/07_functions/rental/apply-reservation-rules.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-rental-hu-bd-27-reservation-rules
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/rental/add-reservations-rules-trigger.sql
+      labels: "hu-bd-27,ddl,rental"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/rental/add-reservations-rules-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/rental/add-reservations-rules-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-rental-hu-bd-27-reservations
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/rental/create-reservations-indexes-and-exclusion.sql
+      labels: "hu-bd-27,ddl,rental"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/rental/create-reservations-indexes-and-exclusion.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/rental/create-reservations-indexes-and-exclusion.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
