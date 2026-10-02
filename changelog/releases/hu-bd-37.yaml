@@ -1,0 +1,61 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-rental-hu-bd-37-vehicle-ratings
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/rental/vehicle-ratings.sql
+      labels: "hu-bd-37,ddl,rental"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/rental/vehicle-ratings.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/rental/vehicle-ratings.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-rental-hu-bd-37-branch-reviews
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/rental/branch-reviews.sql
+      labels: "hu-bd-37,ddl,rental"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/rental/branch-reviews.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/rental/branch-reviews.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-rental-hu-bd-37-ratings-and-reviews-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/rental/add-ratings-and-reviews-updated-at-triggers.sql
+      labels: "hu-bd-37,ddl,rental"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/rental/add-ratings-and-reviews-updated-at-triggers.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/rental/add-ratings-and-reviews-updated-at-triggers.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-rental-hu-bd-37-ratings-and-reviews
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/rental/create-ratings-and-reviews-indexes.sql
+      labels: "hu-bd-37,ddl,rental"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/rental/create-ratings-and-reviews-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/rental/create-ratings-and-reviews-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
