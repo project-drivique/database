@@ -1,0 +1,166 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-schemas-contract-hu-bd-31
+      author: danna
+      logicalFilePath: 01_ddl/01_schemas/create-contract-schema.sql
+      labels: "hu-bd-31,ddl,contract"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/01_schemas/create-contract-schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/01_schemas/create-contract-schema.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-contract-hu-bd-31-contract-statuses
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/contract/contract-statuses.sql
+      labels: "hu-bd-31,ddl,contract"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/contract/contract-statuses.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/contract/contract-statuses.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-contract-hu-bd-31-contract-statuses-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/contract/add-contract-statuses-updated-at-trigger.sql
+      labels: "hu-bd-31,ddl,contract"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/contract/add-contract-statuses-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/contract/add-contract-statuses-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-contract-hu-bd-31-contract-statuses
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/contract/seed-contract-statuses.sql
+      labels: "hu-bd-31,dml,contract"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/contract/seed-contract-statuses.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/contract/seed-contract-statuses.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-contract-hu-bd-31-rental-contracts
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/contract/rental-contracts.sql
+      labels: "hu-bd-31,ddl,contract"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/contract/rental-contracts.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/contract/rental-contracts.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-contract-hu-bd-31-rental-contracts-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/contract/add-rental-contracts-updated-at-trigger.sql
+      labels: "hu-bd-31,ddl,contract"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/contract/add-rental-contracts-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/contract/add-rental-contracts-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-contract-hu-bd-31-rental-contracts
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/contract/create-rental-contracts-indexes.sql
+      labels: "hu-bd-31,ddl,contract"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/contract/create-rental-contracts-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/contract/create-rental-contracts-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-contract-hu-bd-31-contract-clauses
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/contract/contract-clauses.sql
+      labels: "hu-bd-31,ddl,contract"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/contract/contract-clauses.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/contract/contract-clauses.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-contract-hu-bd-31-contract-clauses-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/contract/add-contract-clauses-updated-at-trigger.sql
+      labels: "hu-bd-31,ddl,contract"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/contract/add-contract-clauses-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/contract/add-contract-clauses-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-contract-hu-bd-31-contract-clauses
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/contract/seed-contract-clauses.sql
+      labels: "hu-bd-31,dml,contract"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/contract/seed-contract-clauses.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/contract/seed-contract-clauses.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-contract-hu-bd-31-contract-clause-assignments
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/contract/contract-clause-assignments.sql
+      labels: "hu-bd-31,ddl,contract"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/contract/contract-clause-assignments.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/contract/contract-clause-assignments.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
