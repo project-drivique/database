@@ -1,0 +1,3 @@
+CREATE INDEX idx_reservation_delivery_points_reservation ON rental.reservation_delivery_points (reservation_id);
+CREATE INDEX idx_reservation_delivery_points_branch ON rental.reservation_delivery_points (branch_id);
+CREATE INDEX idx_reservation_delivery_points_city ON rental.reservation_delivery_points (city_id);
