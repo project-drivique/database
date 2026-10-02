@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-billing-hu-bd-35-payment-receipts
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/billing/payment-receipts.sql
+      labels: "hu-bd-35,ddl,billing"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/billing/payment-receipts.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/billing/payment-receipts.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-billing-hu-bd-35-payment-receipts-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/billing/add-payment-receipts-updated-at-trigger.sql
+      labels: "hu-bd-35,ddl,billing"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/billing/add-payment-receipts-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/billing/add-payment-receipts-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
