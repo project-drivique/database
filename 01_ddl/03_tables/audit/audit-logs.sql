@@ -1,0 +1,21 @@
+CREATE TABLE audit.audit_logs (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    domain_name VARCHAR(50) NOT NULL,
+    entity_name VARCHAR(128) NOT NULL,
+    entity_id UUID,
+    operation VARCHAR(20) NOT NULL,
+    result VARCHAR(20) NOT NULL DEFAULT 'SUCCESS',
+    actor_user_id UUID,
+    branch_id UUID,
+    ip_address INET,
+    description TEXT,
+    old_data JSONB,
+    new_data JSONB,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_audit_logs_actor FOREIGN KEY (actor_user_id) REFERENCES iam.users (id) ON DELETE RESTRICT,
+    CONSTRAINT fk_audit_logs_branch FOREIGN KEY (branch_id) REFERENCES location.branches (id) ON DELETE RESTRICT,
+    CONSTRAINT chk_audit_logs_operation CHECK (operation IN ('INSERT', 'UPDATE', 'DELETE')),
+    CONSTRAINT chk_audit_logs_result CHECK (result IN ('SUCCESS', 'FAILURE')),
+    CONSTRAINT chk_audit_logs_domain_not_blank CHECK (btrim(domain_name) <> ''),
+    CONSTRAINT chk_audit_logs_entity_not_blank CHECK (btrim(entity_name) <> '')
+);
