@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-audit-hu-bd-41-audit-logs
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/audit/audit-logs.sql
+      labels: "hu-bd-41,ddl,audit"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/audit/audit-logs.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/audit/audit-logs.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-audit-hu-bd-41-audit-logs
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/audit/create-audit-logs-indexes.sql
+      labels: "hu-bd-41,ddl,audit"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/audit/create-audit-logs-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/audit/create-audit-logs-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
