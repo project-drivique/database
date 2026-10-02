@@ -1,0 +1,23 @@
+CREATE TABLE billing.payments (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    contract_id UUID NOT NULL,
+    payment_method_id UUID NOT NULL,
+    status_id UUID NOT NULL,
+    gateway_provider VARCHAR(30) NOT NULL,
+    gateway_reference VARCHAR(100) NOT NULL,
+    amount NUMERIC(12, 2) NOT NULL,
+    currency_id UUID NOT NULL,
+    paid_at TIMESTAMPTZ,
+    confirmed_by_user_id UUID,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uq_payments_gateway_reference UNIQUE (gateway_provider, gateway_reference),
+    CONSTRAINT fk_payments_contract FOREIGN KEY (contract_id) REFERENCES contract.rental_contracts (id) ON DELETE RESTRICT,
+    CONSTRAINT fk_payments_method FOREIGN KEY (payment_method_id) REFERENCES billing.payment_methods (id) ON DELETE RESTRICT,
+    CONSTRAINT fk_payments_status FOREIGN KEY (status_id) REFERENCES billing.payment_statuses (id) ON DELETE RESTRICT,
+    CONSTRAINT fk_payments_currency FOREIGN KEY (currency_id) REFERENCES core.currencies (id) ON DELETE RESTRICT,
+    CONSTRAINT fk_payments_confirmed_by FOREIGN KEY (confirmed_by_user_id) REFERENCES iam.users (id) ON DELETE RESTRICT,
+    CONSTRAINT chk_payments_gateway_provider CHECK (gateway_provider IN ('WOMPI', 'EFECTIVO_CAJA')),
+    CONSTRAINT chk_payments_gateway_reference_not_blank CHECK (btrim(gateway_reference) <> ''),
+    CONSTRAINT chk_payments_amount_positive CHECK (amount > 0)
+);
