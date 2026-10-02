@@ -1,0 +1,76 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-schemas-support-hu-bd-38
+      author: danna
+      logicalFilePath: 01_ddl/01_schemas/create-support-schema.sql
+      labels: "hu-bd-38,ddl,support"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/01_schemas/create-support-schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/01_schemas/create-support-schema.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-support-hu-bd-38-incident-reports
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/support/incident-reports.sql
+      labels: "hu-bd-38,ddl,support"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/support/incident-reports.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/support/incident-reports.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-support-hu-bd-38-incident-responses
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/support/incident-responses.sql
+      labels: "hu-bd-38,ddl,support"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/support/incident-responses.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/support/incident-responses.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-support-hu-bd-38-incidents-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/support/add-incidents-updated-at-triggers.sql
+      labels: "hu-bd-38,ddl,support"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/support/add-incidents-updated-at-triggers.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/support/add-incidents-updated-at-triggers.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-support-hu-bd-38-incidents
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/support/create-incidents-indexes.sql
+      labels: "hu-bd-38,ddl,support"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/support/create-incidents-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/support/create-incidents-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
