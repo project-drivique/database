@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-rental-hu-bd-30-rental-extension-requests
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/rental/rental-extension-requests.sql
+      labels: "hu-bd-30,ddl,rental"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/rental/rental-extension-requests.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/rental/rental-extension-requests.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-rental-hu-bd-30-rental-extension-requests-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/rental/add-rental-extension-requests-updated-at-trigger.sql
+      labels: "hu-bd-30,ddl,rental"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/rental/add-rental-extension-requests-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/rental/add-rental-extension-requests-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-rental-hu-bd-30-rental-extension-requests
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/rental/create-rental-extension-requests-indexes.sql
+      labels: "hu-bd-30,ddl,rental"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/rental/create-rental-extension-requests-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/rental/create-rental-extension-requests-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
