@@ -1,0 +1,1 @@
+DROP INDEX IF EXISTS billing.idx_user_saved_payment_methods_active_user;
