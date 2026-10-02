@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS trg_contract_clauses_set_updated_at ON contract.contract_clauses;
