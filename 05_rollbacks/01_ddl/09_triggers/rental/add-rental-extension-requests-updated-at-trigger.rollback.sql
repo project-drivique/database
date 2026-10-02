@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS trg_rental_extension_requests_set_updated_at ON rental.rental_extension_requests;
