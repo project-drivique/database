@@ -1,0 +1,91 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-schemas-billing-hu-bd-33
+      author: danna
+      logicalFilePath: 01_ddl/01_schemas/create-billing-schema.sql
+      labels: "hu-bd-33,ddl,billing"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/01_schemas/create-billing-schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/01_schemas/create-billing-schema.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-billing-hu-bd-33-payment-methods
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/billing/payment-methods.sql
+      labels: "hu-bd-33,ddl,billing"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/billing/payment-methods.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/billing/payment-methods.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-billing-hu-bd-33-payment-statuses
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/billing/payment-statuses.sql
+      labels: "hu-bd-33,ddl,billing"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/billing/payment-statuses.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/billing/payment-statuses.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-billing-hu-bd-33-payment-methods-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/billing/add-payment-methods-updated-at-trigger.sql
+      labels: "hu-bd-33,ddl,billing"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/billing/add-payment-methods-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/billing/add-payment-methods-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-billing-hu-bd-33-payment-statuses-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/billing/add-payment-statuses-updated-at-trigger.sql
+      labels: "hu-bd-33,ddl,billing"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/billing/add-payment-statuses-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/billing/add-payment-statuses-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-billing-hu-bd-33-payment-catalogs
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/billing/seed-payment-catalogs.sql
+      labels: "hu-bd-33,dml,billing"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/billing/seed-payment-catalogs.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/billing/seed-payment-catalogs.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
