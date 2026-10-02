@@ -1,0 +1,2 @@
+DELETE FROM audit.administrative_report_types
+WHERE code IN ('FLEET_OCCUPANCY', 'REVENUE_SUMMARY', 'AUDIT_TRAIL', 'MAINTENANCE');
