@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-rental-hu-bd-29-reservation-additional-services
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/rental/reservation-additional-services.sql
+      labels: "hu-bd-29,ddl,rental"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/rental/reservation-additional-services.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/rental/reservation-additional-services.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-rental-hu-bd-29-reservation-promotions
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/rental/reservation-promotions.sql
+      labels: "hu-bd-29,ddl,rental"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/rental/reservation-promotions.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/rental/reservation-promotions.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-rental-hu-bd-29-reservation-services-and-promotions
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/rental/create-reservation-services-and-promotions-indexes.sql
+      labels: "hu-bd-29,ddl,rental"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/rental/create-reservation-services-and-promotions-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/rental/create-reservation-services-and-promotions-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
