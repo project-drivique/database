@@ -1,0 +1,2 @@
+DELETE FROM contract.contract_statuses
+WHERE code IN ('DRAFT', 'PENDING_SIGNATURE', 'ACTIVE', 'FINALIZED', 'CANCELLED');
