@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-catalog-hu-bd-24-mileage-plans
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/catalog/mileage-plans.sql
+      labels: "hu-bd-24,ddl,catalog"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/catalog/mileage-plans.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/catalog/mileage-plans.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-catalog-hu-bd-24-mileage-plans-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/catalog/add-mileage-plans-updated-at-trigger.sql
+      labels: "hu-bd-24,ddl,catalog"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/catalog/add-mileage-plans-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/catalog/add-mileage-plans-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-catalog-hu-bd-24-mileage-plans
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/catalog/seed-mileage-plans.sql
+      labels: "hu-bd-24,dml,catalog"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/catalog/seed-mileage-plans.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/catalog/seed-mileage-plans.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
