@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS trg_rental_contracts_set_updated_at ON contract.rental_contracts;
