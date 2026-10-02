@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-billing-hu-bd-34-payments
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/billing/payments.sql
+      labels: "hu-bd-34,ddl,billing"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/billing/payments.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/billing/payments.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-billing-hu-bd-34-payments-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/billing/add-payments-updated-at-trigger.sql
+      labels: "hu-bd-34,ddl,billing"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/billing/add-payments-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/billing/add-payments-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-billing-hu-bd-34-payments
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/billing/create-payments-indexes.sql
+      labels: "hu-bd-34,ddl,billing"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/billing/create-payments-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/billing/create-payments-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
