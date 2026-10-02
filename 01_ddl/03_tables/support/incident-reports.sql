@@ -1,0 +1,22 @@
+CREATE TABLE support.incident_reports (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    incident_code VARCHAR(30) NOT NULL,
+    vehicle_id UUID,
+    reservation_id UUID,
+    reported_by_user_id UUID NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'OPEN',
+    priority VARCHAR(20) NOT NULL DEFAULT 'MEDIUM',
+    subject VARCHAR(150) NOT NULL,
+    description TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uq_incident_reports_incident_code UNIQUE (incident_code),
+    CONSTRAINT fk_incident_reports_vehicle FOREIGN KEY (vehicle_id) REFERENCES fleet.vehicles (id) ON DELETE RESTRICT,
+    CONSTRAINT fk_incident_reports_reservation FOREIGN KEY (reservation_id) REFERENCES rental.reservations (id) ON DELETE RESTRICT,
+    CONSTRAINT fk_incident_reports_reported_by FOREIGN KEY (reported_by_user_id) REFERENCES iam.users (id) ON DELETE RESTRICT,
+    CONSTRAINT chk_incident_reports_status CHECK (status IN ('OPEN', 'IN_REVIEW', 'RESOLVED', 'CLOSED')),
+    CONSTRAINT chk_incident_reports_priority CHECK (priority IN ('LOW', 'MEDIUM', 'HIGH', 'CRITICAL')),
+    CONSTRAINT chk_incident_reports_incident_code_not_blank CHECK (btrim(incident_code) <> ''),
+    CONSTRAINT chk_incident_reports_subject_not_blank CHECK (btrim(subject) <> ''),
+    CONSTRAINT chk_incident_reports_description_not_blank CHECK (btrim(description) <> '')
+);
