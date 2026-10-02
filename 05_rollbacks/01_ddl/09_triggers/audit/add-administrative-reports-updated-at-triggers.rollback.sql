@@ -1,0 +1,2 @@
+DROP TRIGGER IF EXISTS trg_administrative_report_types_set_updated_at ON audit.administrative_report_types;
+DROP TRIGGER IF EXISTS trg_generated_reports_set_updated_at ON audit.generated_reports;
