@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS trg_reservation_statuses_set_updated_at ON rental.reservation_statuses;
