@@ -1,0 +1,3 @@
+CREATE INDEX idx_vehicle_inspections_contract ON contract.vehicle_inspections (contract_id);
+CREATE INDEX idx_vehicle_inspections_inspector ON contract.vehicle_inspections (inspector_user_id);
+CREATE INDEX idx_inspection_checklist_answers_item ON contract.inspection_checklist_answers (checklist_item_id);
