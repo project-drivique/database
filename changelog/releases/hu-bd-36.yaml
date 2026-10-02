@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-billing-hu-bd-36-user-saved-payment-methods
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/billing/user-saved-payment-methods.sql
+      labels: "hu-bd-36,ddl,billing"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/billing/user-saved-payment-methods.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/billing/user-saved-payment-methods.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-billing-hu-bd-36-user-saved-payment-methods-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/billing/add-user-saved-payment-methods-updated-at-trigger.sql
+      labels: "hu-bd-36,ddl,billing"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/billing/add-user-saved-payment-methods-updated-at-trigger.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/billing/add-user-saved-payment-methods-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-billing-hu-bd-36-user-saved-payment-methods-active-user
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/billing/create-user-saved-payment-methods-index.sql
+      labels: "hu-bd-36,ddl,billing"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/billing/create-user-saved-payment-methods-index.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/billing/create-user-saved-payment-methods-index.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
