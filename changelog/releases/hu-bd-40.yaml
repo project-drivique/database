@@ -1,0 +1,91 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-schemas-audit-hu-bd-40
+      author: danna
+      logicalFilePath: 01_ddl/01_schemas/create-audit-schema.sql
+      labels: "hu-bd-40,ddl,audit"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/01_schemas/create-audit-schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/01_schemas/create-audit-schema.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-audit-hu-bd-40-administrative-report-types
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/audit/administrative-report-types.sql
+      labels: "hu-bd-40,ddl,audit"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/audit/administrative-report-types.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/audit/administrative-report-types.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-tables-audit-hu-bd-40-generated-reports
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/audit/generated-reports.sql
+      labels: "hu-bd-40,ddl,audit"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/audit/generated-reports.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/audit/generated-reports.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-triggers-audit-hu-bd-40-administrative-reports-updated-at
+      author: danna
+      logicalFilePath: 01_ddl/09_triggers/audit/add-administrative-reports-updated-at-triggers.sql
+      labels: "hu-bd-40,ddl,audit"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/09_triggers/audit/add-administrative-reports-updated-at-triggers.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/09_triggers/audit/add-administrative-reports-updated-at-triggers.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-audit-hu-bd-40-administrative-reports
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/audit/create-administrative-reports-indexes.sql
+      labels: "hu-bd-40,ddl,audit"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/audit/create-administrative-reports-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/audit/create-administrative-reports-indexes.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-inserts-audit-hu-bd-40-seed-administrative-report-types
+      author: danna
+      logicalFilePath: 02_dml/00_inserts/audit/seed-administrative-report-types.sql
+      labels: "hu-bd-40,dml,audit"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/audit/seed-administrative-report-types.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/audit/seed-administrative-report-types.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
