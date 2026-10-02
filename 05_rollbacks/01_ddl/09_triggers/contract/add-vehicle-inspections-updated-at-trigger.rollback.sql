@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS trg_vehicle_inspections_set_updated_at ON contract.vehicle_inspections;
