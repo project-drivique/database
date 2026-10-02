@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS trg_insurance_coverages_set_updated_at ON catalog.insurance_coverages;
