@@ -1,0 +1,2 @@
+DROP TRIGGER IF EXISTS trg_incident_reports_set_updated_at ON support.incident_reports;
+DROP TRIGGER IF EXISTS trg_incident_responses_set_updated_at ON support.incident_responses;
