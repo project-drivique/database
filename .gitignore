@@ -25,3 +25,8 @@ desktop.ini
 .idea/
 *.swp
 *.swo
+
+# Local documentation files
+hu-base-de-datos (1).md
+hu-base-de-datos*.md
+
