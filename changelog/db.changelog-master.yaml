@@ -89,3 +89,6 @@ databaseChangeLog:
       file: changelog/releases/hu-int-05.yaml
   - include:
       file: changelog/releases/hu-int-06.yaml
+  - include:
+      file: changelog/releases/hu-int-07.yaml
+
