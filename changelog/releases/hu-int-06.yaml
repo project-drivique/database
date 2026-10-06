@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: dml-seed-iam-hu-int-06-roles-and-branch-users
+      author: drivique
+      logicalFilePath: 02_dml/00_inserts/iam/seed-roles.sql
+      labels: "hu-int-06,dml,iam,rbac"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/iam/seed-roles.sql
+            relativeToChangelogFile: true
+            splitStatements: true
