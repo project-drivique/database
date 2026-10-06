@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: dml-seed-fleet-hu-int-08-catalog-real-data
+      author: drivique
+      logicalFilePath: 02_dml/00_inserts/fleet/seed-vehicles.sql
+      labels: "hu-int-08,dml,fleet,catalog,branches,vehicles"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/fleet/seed-vehicles.sql
+            relativeToChangelogFile: true
+            splitStatements: true
