@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: dml-seed-catalog-hu-int-09-pricing-availability
+      author: drivique
+      logicalFilePath: 02_dml/00_inserts/catalog/seed-additional-services-and-insurance-coverages.sql
+      labels: "hu-int-09,dml,catalog,pricing,availability,promotions,currencies"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/catalog/seed-additional-services-and-insurance-coverages.sql
+            relativeToChangelogFile: true
+            splitStatements: true
