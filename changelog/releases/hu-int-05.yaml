@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-tables-iam-hu-int-05-user-social-accounts
+      author: drivique
+      logicalFilePath: 01_ddl/03_tables/iam/user_social_accounts.sql
+      labels: "hu-int-05,ddl,iam,oauth"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/user_social_accounts.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/user_social_accounts.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
