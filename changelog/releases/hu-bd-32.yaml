@@ -30,21 +30,6 @@ databaseChangeLog:
             relativeToChangelogFile: true
             splitStatements: true
   - changeSet:
-      id: ddl-indexes-contract-hu-bd-32-vehicle-inspections
-      author: danna
-      logicalFilePath: 01_ddl/10_indexes/contract/create-vehicle-inspections-indexes.sql
-      labels: "hu-bd-32,ddl,contract"
-      changes:
-        - sqlFile:
-            path: ../../01_ddl/10_indexes/contract/create-vehicle-inspections-indexes.sql
-            relativeToChangelogFile: true
-            splitStatements: true
-      rollback:
-        - sqlFile:
-            path: ../../05_rollbacks/01_ddl/10_indexes/contract/create-vehicle-inspections-indexes.rollback.sql
-            relativeToChangelogFile: true
-            splitStatements: true
-  - changeSet:
       id: ddl-tables-contract-hu-bd-32-inspection-checklist-items
       author: danna
       logicalFilePath: 01_ddl/03_tables/contract/inspection-checklist-items.sql
@@ -117,5 +102,20 @@ databaseChangeLog:
       rollback:
         - sqlFile:
             path: ../../05_rollbacks/01_ddl/09_triggers/contract/add-inspection-checklist-answers-updated-at-trigger.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-indexes-contract-hu-bd-32-vehicle-inspections
+      author: danna
+      logicalFilePath: 01_ddl/10_indexes/contract/create-vehicle-inspections-indexes.sql
+      labels: "hu-bd-32,ddl,contract"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/10_indexes/contract/create-vehicle-inspections-indexes.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/10_indexes/contract/create-vehicle-inspections-indexes.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true

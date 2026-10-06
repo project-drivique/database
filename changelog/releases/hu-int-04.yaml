@@ -1,0 +1,106 @@
+databaseChangeLog:
+  - changeSet:
+      id: dcl-grants-hu-int-04-authentication-role
+      author: danna
+      logicalFilePath: 03_dcl/01_grants/grant-authentication-role.sql
+      labels: "hu-int-04,dcl,authentication"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-authentication-role.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-authentication-role.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-hu-int-04-document-statuses-description
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/iam/add-document-statuses-description.sql
+      labels: "hu-int-04,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/add-document-statuses-description.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/add-document-statuses-description.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-hu-int-04-document-catalog-and-user-document-fields
+      author: danna
+      logicalFilePath: 01_ddl/03_tables/iam/add-document-catalog-and-user-document-fields.sql
+      labels: "hu-int-04,ddl,iam"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/add-document-catalog-and-user-document-fields.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/add-document-catalog-and-user-document-fields.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dcl-grants-hu-int-04-password-policy-read
+      author: danna
+      logicalFilePath: 03_dcl/01_grants/grant-password-policy-read.sql
+      labels: "hu-int-04,dcl,authentication"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-password-policy-read.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-password-policy-read.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dcl-grants-hu-int-04-auth-session-access
+      author: danna
+      logicalFilePath: 03_dcl/01_grants/grant-auth-session-access.sql
+      labels: "hu-int-04,dcl,authentication"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-auth-session-access.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-auth-session-access.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dcl-grants-hu-int-04-catalog-location-read
+      author: danna
+      logicalFilePath: 03_dcl/01_grants/grant-catalog-location-read.sql
+      labels: "hu-int-04,dcl,catalog,location"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-catalog-location-read.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-catalog-location-read.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-hu-int-04-seed-operational-users
+      author: danna
+      logicalFilePath: 02_dml/01_updates/iam/seed-operational-users.sql
+      labels: "hu-int-04,dml,iam,location"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/01_updates/iam/seed-operational-users.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/01_updates/iam/seed-operational-users.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
