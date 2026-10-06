@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: dml-seed-iam-hu-int-07-profile-and-kyc-integrity
+      author: drivique
+      logicalFilePath: 02_dml/00_inserts/iam/seed-identity-catalogs.sql
+      labels: "hu-int-07,dml,iam,kyc,preferences"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/iam/seed-identity-catalogs.sql
+            relativeToChangelogFile: true
+            splitStatements: true
