@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: test-hu-int-10-favorites-and-reviews
+      author: drivique
+      logicalFilePath: scripts/tests/test-hu-int-10-favorites-and-reviews.sql
+      labels: "hu-int-10,test,favorites,reviews"
+      changes:
+        - sqlFile:
+            path: "../../scripts/tests/test-hu-int-10-favorites-and-reviews.sql"
+            relativeToChangelogFile: true
+            splitStatements: false
