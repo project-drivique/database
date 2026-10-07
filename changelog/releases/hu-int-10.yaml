@@ -1,11 +1,16 @@
 databaseChangeLog:
   - changeSet:
-      id: test-hu-int-10-favorites-and-reviews
+      id: dcl-grants-hu-int-10-favorites-reviews-access
       author: drivique
-      logicalFilePath: scripts/tests/test-hu-int-10-favorites-and-reviews.sql
-      labels: "hu-int-10,test,favorites,reviews"
+      logicalFilePath: 03_dcl/01_grants/grant-favorites-reviews-access.sql
+      labels: "hu-int-10,dcl,fleet,rental,favorites,reviews"
       changes:
         - sqlFile:
-            path: "../../scripts/tests/test-hu-int-10-favorites-and-reviews.sql"
+            path: ../../03_dcl/01_grants/grant-favorites-reviews-access.sql
             relativeToChangelogFile: true
-            splitStatements: false
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-favorites-reviews-access.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
