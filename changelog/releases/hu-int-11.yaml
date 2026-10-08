@@ -1,4 +1,5 @@
 databaseChangeLog:
+  # HU-INT-11: Checkout, pago aprobado y creacion de la reserva
   - changeSet:
       id: dcl-grants-hu-int-11-reservation-creation
       author: drivique
