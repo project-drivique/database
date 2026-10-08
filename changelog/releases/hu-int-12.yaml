@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: dcl-grants-hu-int-12-reservation-lifecycle
+      author: drivique
+      logicalFilePath: 03_dcl/01_grants/grant-reservation-lifecycle-access.sql
+      labels: "hu-int-12,dcl,rental,audit"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-reservation-lifecycle-access.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-reservation-lifecycle-access.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
