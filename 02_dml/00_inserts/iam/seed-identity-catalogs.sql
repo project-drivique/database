@@ -3,7 +3,8 @@ INSERT INTO iam.document_types (code, name, requires_front_and_back) VALUES
     ('CE', 'Foreign Resident ID', TRUE),
     ('PASSPORT', 'Passport', FALSE),
     ('TI', 'Identity Card', TRUE),
-    ('NIT', 'Tax Identification Number', FALSE);
+    ('NIT', 'Tax Identification Number', FALSE)
+ON CONFLICT (code) DO NOTHING;
 
 INSERT INTO iam.nationalities (name, iso_code) VALUES
     ('Argentina', 'AR'),
@@ -24,9 +25,11 @@ INSERT INTO iam.nationalities (name, iso_code) VALUES
     ('Spain', 'ES'),
     ('United Kingdom', 'GB'),
     ('United States', 'US'),
-    ('Venezuela', 'VE');
+    ('Venezuela', 'VE')
+ON CONFLICT (iso_code) DO NOTHING;
 
 INSERT INTO iam.document_statuses (code, name) VALUES
     ('PENDING', 'Pending'),
     ('APPROVED', 'Approved'),
-    ('REJECTED', 'Rejected');
+    ('REJECTED', 'Rejected')
+ON CONFLICT (code) DO NOTHING;
