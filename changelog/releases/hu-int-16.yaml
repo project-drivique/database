@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-complete-contract-lifecycle-hu-int-16
+      author: danna-barrios
+      labels: "hu-int-16,contract,inspection"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/04_alters/contract/complete-contract-lifecycle.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/04_alters/contract/complete-contract-lifecycle.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dcl-contract-lifecycle-hu-int-16
+      author: danna-barrios
+      labels: "hu-int-16,dcl,contract"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-contract-lifecycle-access.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-contract-lifecycle-access.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
