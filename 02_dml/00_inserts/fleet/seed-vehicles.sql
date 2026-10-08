@@ -53,4 +53,7 @@ JOIN fleet.vehicle_categories c ON c.name = v.category_name
 JOIN fleet.transmission_types t ON t.code = v.trans_code
 JOIN fleet.fuel_types f ON f.code = v.fuel_code
 JOIN fleet.vehicle_statuses s ON s.code = v.status_code
-JOIN location.branches br ON br.name = v.branch_name;
+JOIN location.branches br ON br.name = v.branch_name
+WHERE NOT EXISTS (
+    SELECT 1 FROM fleet.vehicles existing WHERE existing.plate = v.plate
+);
