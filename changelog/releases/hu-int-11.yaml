@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: dcl-grants-hu-int-11-reservation-creation
+      author: drivique
+      logicalFilePath: 03_dcl/01_grants/grant-reservation-creation-access.sql
+      labels: "hu-int-11,dcl,rental,reservations"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-reservation-creation-access.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-reservation-creation-access.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
