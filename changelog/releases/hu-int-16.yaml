@@ -1,5 +1,30 @@
 databaseChangeLog:
   - changeSet:
+      id: dml-driver-license-document-type-hu-int-16
+      author: danna-barrios
+      labels: "hu-int-16,kyc"
+      changes:
+        - sql: |
+            INSERT INTO iam.document_types (code, name, requires_front_and_back)
+            VALUES ('DRIVER_LICENSE', 'Driver License', FALSE)
+            ON CONFLICT (code) DO NOTHING;
+      rollback:
+        - sql: "DELETE FROM iam.document_types WHERE code = 'DRIVER_LICENSE';"
+  - changeSet:
+      id: ddl-assign-kyc-documents-to-branch-hu-int-16
+      author: danna-barrios
+      labels: "hu-int-16,kyc,branch"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/04_alters/iam/assign-user-documents-to-branch.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/04_alters/iam/assign-user-documents-to-branch.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
       id: ddl-complete-contract-lifecycle-hu-int-16
       author: danna-barrios
       labels: "hu-int-16,contract,inspection"
