@@ -101,6 +101,11 @@ databaseChangeLog:
       file: changelog/releases/hu-int-11.yaml
   - include:
       file: changelog/releases/hu-int-12.yaml
+  - include:
+      file: changelog/releases/hu-int-16.yaml
+  - include:
+      file: changelog/releases/hu-int-17.yaml
+
 
 
 

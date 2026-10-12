@@ -3,7 +3,8 @@ INSERT INTO iam.document_types (code, name, requires_front_and_back) VALUES
     ('CE', 'Foreign Resident ID', TRUE),
     ('PASSPORT', 'Passport', FALSE),
     ('TI', 'Identity Card', TRUE),
-    ('NIT', 'Tax Identification Number', FALSE)
+    ('NIT', 'Tax Identification Number', FALSE),
+    ('DRIVER_LICENSE', 'Driver License', FALSE)
 ON CONFLICT (code) DO NOTHING;
 
 INSERT INTO iam.nationalities (name, iso_code) VALUES
