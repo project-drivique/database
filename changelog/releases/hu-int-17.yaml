@@ -1,0 +1,105 @@
+databaseChangeLog:
+  - changeSet:
+      id: ddl-extend-user-preferences-hu-int-17
+      author: drivique
+      labels: "hu-int-17,ddl,iam,preferences"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/04_alters/iam/extend-user-preferences-notifications.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/04_alters/iam/extend-user-preferences-notifications.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: ddl-extend-notifications-lifecycle-hu-int-17
+      author: drivique
+      labels: "hu-int-17,ddl,support,notifications"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/04_alters/support/extend-notifications-lifecycle.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/04_alters/support/extend-notifications-lifecycle.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: ddl-notification-templates-table-hu-int-17
+      author: drivique
+      labels: "hu-int-17,ddl,support,templates"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/support/notification-templates.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/support/notification-templates.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: ddl-notification-outbox-table-hu-int-17
+      author: drivique
+      labels: "hu-int-17,ddl,support,outbox"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/support/notification-outbox.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/support/notification-outbox.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: ddl-notification-delivery-attempts-table-hu-int-17
+      author: drivique
+      labels: "hu-int-17,ddl,support,attempts"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/support/notification-delivery-attempts.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/support/notification-delivery-attempts.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: dml-seed-notification-templates-hu-int-17
+      author: drivique
+      labels: "hu-int-17,dml,support,templates"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/support/seed-notification-templates.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/support/seed-notification-templates.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: dcl-grant-notification-lifecycle-access-hu-int-17
+      author: drivique
+      labels: "hu-int-17,dcl,support,iam"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-notification-lifecycle-access.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-notification-lifecycle-access.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
