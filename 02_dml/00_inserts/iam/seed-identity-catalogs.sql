@@ -1,10 +1,10 @@
-INSERT INTO iam.document_types (code, name, requires_front_and_back) VALUES
-    ('CC', 'Citizenship Card', TRUE),
-    ('CE', 'Foreign Resident ID', TRUE),
-    ('PASSPORT', 'Passport', FALSE),
-    ('TI', 'Identity Card', TRUE),
-    ('NIT', 'Tax Identification Number', FALSE),
-    ('DRIVER_LICENSE', 'Driver License', FALSE)
+INSERT INTO iam.document_types (code, name, requires_front_and_back, is_active) VALUES
+    ('CC', 'Citizenship Card', TRUE, TRUE),
+    ('CE', 'Foreign Resident ID', TRUE, TRUE),
+    ('PASSPORT', 'Passport', FALSE, TRUE),
+    ('TI', 'Identity Card', TRUE, FALSE),
+    ('NIT', 'Tax Identification Number', FALSE, TRUE),
+    ('DRIVER_LICENSE', 'Driver License', FALSE, TRUE)
 ON CONFLICT (code) DO NOTHING;
 
 INSERT INTO iam.nationalities (name, iso_code) VALUES

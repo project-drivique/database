@@ -13,6 +13,7 @@ DECLARE
     v_has_attempt_insert BOOLEAN;
     v_has_template_select BOOLEAN;
     v_has_pref_update BOOLEAN;
+    v_has_branch_users_select BOOLEAN;
 BEGIN
     SELECT id INTO v_user_id FROM iam.users LIMIT 1;
     IF v_user_id IS NULL THEN
@@ -141,8 +142,9 @@ BEGIN
     SELECT has_table_privilege('drivique_app', 'support.notification_delivery_attempts', 'INSERT') INTO v_has_attempt_insert;
     SELECT has_table_privilege('drivique_app', 'support.notification_templates', 'SELECT') INTO v_has_template_select;
     SELECT has_table_privilege('drivique_app', 'iam.user_preferences', 'UPDATE') INTO v_has_pref_update;
+    SELECT has_table_privilege('drivique_app', 'location.branch_users', 'SELECT') INTO v_has_branch_users_select;
 
-    IF NOT (v_has_notif_select AND v_has_outbox_insert AND v_has_attempt_insert AND v_has_template_select AND v_has_pref_update) THEN
+    IF NOT (v_has_notif_select AND v_has_outbox_insert AND v_has_attempt_insert AND v_has_template_select AND v_has_pref_update AND v_has_branch_users_select) THEN
         RAISE EXCEPTION 'Privilege check failed for drivique_app role on HU-INT-17 objects';
     END IF;
 
