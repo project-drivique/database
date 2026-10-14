@@ -194,4 +194,50 @@ databaseChangeLog:
             relativeToChangelogFile: true
             splitStatements: true
 
+  - changeSet:
+      id: ddl-update-notifications-type-constraint-hu-int-17
+      author: drivique
+      labels: "hu-int-17,ddl,support,notifications"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/04_alters/support/update-notifications-type-constraint.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/04_alters/support/update-notifications-type-constraint.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: dcl-grant-fleet-vehicles-update-hu-int-17
+      author: drivique
+      labels: "hu-int-17,dcl,fleet,security"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-fleet-vehicles-update.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-fleet-vehicles-update.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: dml-seed-promotions-hu-int-17
+      author: drivique
+      labels: "hu-int-17,dml,catalog,promotions"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/catalog/seed-promotions.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/catalog/seed-promotions.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+
 
