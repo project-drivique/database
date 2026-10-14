@@ -18,12 +18,28 @@ INSERT INTO support.notification_templates (
     'Hemos recibido tu pago de {{amount}} {{currency}} para la reserva {{bookingCode}}. Adjuntamos el recibo correspondiente.'
 ),
 (
+    'PAYMENT_SUCCESS_IN_APP',
+    'Comprobante in-app de pago exitoso',
+    'PAYMENT',
+    'IN_APP',
+    '¡Pago exitoso de tu reserva {{bookingCode}}!',
+    'Tu pago de {{amount}} {{currency}} fue aprobado exitosamente. Tu reserva está confirmada.'
+),
+(
     'PAYMENT_FAILED_EMAIL',
     'Notificación de fallo en pago',
     'PAYMENT',
     'EMAIL',
     'Problema con tu pago - Reserva {{bookingCode}}',
     'No pudimos procesar tu pago de {{amount}} {{currency}}. Por favor actualiza tu método de pago para mantener tu reserva.'
+),
+(
+    'PAYMENT_FAILED_IN_APP',
+    'Notificación in-app de pago rechazado',
+    'PAYMENT',
+    'IN_APP',
+    'Pago rechazado - Reserva {{bookingCode}}',
+    'La transacción de {{amount}} {{currency}} fue rechazada. Reintenta tu pago para mantener la reserva.'
 ),
 (
     'RESERVATION_CONFIRMATION_EMAIL',
@@ -40,6 +56,14 @@ INSERT INTO support.notification_templates (
     'PUSH',
     'Reserva confirmada',
     'Tu reserva {{bookingCode}} está lista. Consulta los detalles de recogida en la app.'
+),
+(
+    'RESERVATION_CONFIRMATION_IN_APP',
+    'Confirmación in-app de reserva',
+    'RESERVATION',
+    'IN_APP',
+    'Reserva {{bookingCode}} confirmada',
+    'Tu reserva ha sido confirmada con éxito. Ya puedes revisar los detalles y firmar el contrato.'
 ),
 (
     'RESERVATION_CANCELLED_EMAIL',
