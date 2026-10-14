@@ -128,3 +128,21 @@ database/
 - **Scripts Idempotentes:** Procura usar sentencias seguras como `CREATE TABLE IF NOT EXISTS`, `ADD COLUMN IF NOT EXISTS`, `DROP TABLE IF EXISTS`, etc.
 - **Rollback obligatorio:** Todo script que aplique un cambio debe tener su script de reversión asociado en `05_rollbacks/`.
 - **Seguridad:** Nunca commitear credenciales, archivos `.env` o volcados con datos sensibles o de producción.
+
+---
+
+## 👥 Usuarios y Credenciales de Prueba (Entornos Locales)
+
+> [!NOTE]
+> Estas credenciales aplican **únicamente** a bases de datos de desarrollo y testing local pobladas mediante los seeds de Liquibase.
+
+| Rol / Alcance | Correo Electrónico | Contraseña Local |
+|---|---|---|
+| **Super Admin** | `admin@drivique.com` | `DriviqueAdmin2026!` |
+| **Encargado Bogotá Centro** | `encargado.bogota@drivique.com` | `DriviqueAdmin2026!` |
+| **Encargado Medellín Centro** | `encargado.medellin.centro@drivique.com` | `DriviqueAdmin2026!` |
+| **Encargado Medellín Aeropuerto** | `encargado.medellin.aeropuerto@drivique.com` | `DriviqueAdmin2026!` |
+| **Encargado Cali Centro** | `encargado.cali@drivique.com` | `DriviqueAdmin2026!` |
+| **Encargado Barranquilla Centro** | `encargado.barranquilla@drivique.com` | `DriviqueAdmin2026!` |
+| **Encargado Cartagena Centro** | `encargado.cartagena@drivique.com` | `DriviqueAdmin2026!` |
+
