@@ -29,8 +29,8 @@ try {
     Invoke-Checked { docker cp $testSql "${postgresContainer}:/tmp/test-hu-int-17-notifications-delivery.sql" } "copy test"
     Invoke-Checked { docker exec $postgresContainer sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1 -f /tmp/test-hu-int-17-notifications-delivery.sql' } "run HU-INT-17 test"
 
-    # 4. Test rollback of the 7 changesets of HU-INT-17
-    Invoke-Checked { docker compose --env-file $EnvFile run --rm liquibase rollback-count 7 } "liquibase rollback hu-int-17"
+    # 4. Test rollback of the 12 changesets of HU-INT-17
+    Invoke-Checked { docker compose --env-file $EnvFile run --rm liquibase rollback-count 12 } "liquibase rollback hu-int-17"
 
     # Verify rollback successfully dropped new tables
     $outboxDropped = Invoke-Scalar "SELECT to_regclass('support.notification_outbox') IS NULL;"
