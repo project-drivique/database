@@ -10,7 +10,6 @@ GRANT SELECT ON TABLE
     fleet.vehicle_features,
     fleet.vehicle_images,
     location.branches,
-    location.branch_users,
     location.cities,
     location.departments
 TO drivique_app;

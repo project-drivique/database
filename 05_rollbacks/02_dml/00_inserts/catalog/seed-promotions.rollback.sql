@@ -1,0 +1,1 @@
+DELETE FROM catalog.promotions WHERE code IN ('BIENVENIDO10', 'DRIVIQUE50K', 'SUV20');
