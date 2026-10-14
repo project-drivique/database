@@ -74,6 +74,30 @@ INSERT INTO support.notification_templates (
     'Tu reserva {{bookingCode}} ha sido cancelada conforme a nuestras políticas de cancelación.'
 ),
 (
+    'RESERVATION_CANCELLED_IN_APP',
+    'Cancelación in-app de reserva',
+    'CANCELLATION',
+    'IN_APP',
+    'Reserva {{bookingCode}} cancelada',
+    'Tu reserva {{bookingCode}} ha sido cancelada ({{reason}}). El vehículo ha sido liberado.'
+),
+(
+    'PAYMENT_EXPIRATION_WARNING_EMAIL',
+    'Aviso de vencimiento de plazo de pago',
+    'PAYMENT_EXPIRATION_WARNING',
+    'EMAIL',
+    'Plazo de pago por vencer - Reserva {{bookingCode}}',
+    'Hola, te recordamos que el plazo para pagar tu reserva {{bookingCode}} está próximo a vencer. Completa tu pago para no perder tu vehículo.'
+),
+(
+    'PAYMENT_EXPIRATION_WARNING_IN_APP',
+    'Aviso in-app de vencimiento de pago',
+    'PAYMENT_EXPIRATION_WARNING',
+    'IN_APP',
+    'Plazo de pago por vencer - Reserva {{bookingCode}}',
+    'Atención: Tu plazo para pagar la reserva {{bookingCode}} vencerá pronto. Realiza el pago para no perder la reserva.'
+),
+(
     'CONTRACT_SIGNATURE_EMAIL',
     'Solicitud de firma de contrato',
     'CONTRACT',
