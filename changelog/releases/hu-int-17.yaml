@@ -179,3 +179,19 @@ databaseChangeLog:
             relativeToChangelogFile: true
             splitStatements: true
 
+  - changeSet:
+      id: dml-seed-pending-schedule-reservation-status-hu-int-17
+      author: drivique
+      labels: "hu-int-17,dml,rental,reservation-status"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/rental/seed-pending-schedule-reservation-status.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/rental/seed-pending-schedule-reservation-status.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+
