@@ -148,7 +148,42 @@ BEGIN
         RAISE EXCEPTION 'Privilege check failed for drivique_app role on HU-INT-17 objects';
     END IF;
 
-    RAISE NOTICE 'HU-INT-17 APPROVED: notifications lifecycle, outbox, delivery attempts, templates and preferences validated.';
+    -- 7. Test PENDING_DOCUMENT_REVIEW status exists and blocks availability
+    IF NOT EXISTS (
+        SELECT 1 FROM rental.reservation_statuses
+        WHERE code = 'PENDING_DOCUMENT_REVIEW' AND blocks_availability = TRUE
+    ) THEN
+        RAISE EXCEPTION 'Status PENDING_DOCUMENT_REVIEW was not found or does not block availability';
+    END IF;
+
+    -- 8. Test document types mandatory rules
+    IF NOT EXISTS (
+        SELECT 1 FROM iam.document_types
+        WHERE code = 'DRIVER_LICENSE' AND is_mandatory = TRUE
+    ) THEN
+        RAISE EXCEPTION 'DRIVER_LICENSE must be mandatory';
+    END IF;
+
+    IF EXISTS (
+        SELECT 1 FROM iam.document_types
+        WHERE code != 'DRIVER_LICENSE' AND is_mandatory = TRUE
+    ) THEN
+        RAISE EXCEPTION 'Non-driver-license document types must not be mandatory simultaneously';
+    END IF;
+
+    -- 9. Test full DCL grants for drivique_app
+    IF NOT (
+        has_table_privilege('drivique_app', 'iam.user_documents', 'SELECT') AND
+        has_table_privilege('drivique_app', 'iam.user_documents', 'INSERT') AND
+        has_table_privilege('drivique_app', 'billing.payments', 'SELECT') AND
+        has_table_privilege('drivique_app', 'catalog.promotions', 'SELECT') AND
+        has_table_privilege('drivique_app', 'core.currencies', 'SELECT')
+    ) THEN
+        RAISE EXCEPTION 'Full lifecycle grant check failed for drivique_app';
+    END IF;
+
+    RAISE NOTICE 'HU-INT-17 APPROVED: notifications lifecycle, outbox, delivery attempts, templates, preferences, document review status and grants validated.';
 END $$;
 
 ROLLBACK;
+
