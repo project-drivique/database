@@ -279,3 +279,17 @@ databaseChangeLog:
             path: ../../05_rollbacks/01_ddl/04_alters/rental/add-branch-review-reply.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+  - changeSet:
+      id: dcl-grant-role-management-access-hu-int-18
+      author: drivique
+      labels: "hu-int-18,dcl,iam,roles,security"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-role-management-access.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-role-management-access.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
