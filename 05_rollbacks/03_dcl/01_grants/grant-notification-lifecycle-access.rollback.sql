@@ -10,3 +10,7 @@ FROM drivique_app;
 REVOKE SELECT ON TABLE
     support.notification_templates
 FROM drivique_app;
+
+REVOKE SELECT, INSERT, UPDATE, DELETE ON TABLE
+    iam.user_social_accounts
+FROM drivique_app;
