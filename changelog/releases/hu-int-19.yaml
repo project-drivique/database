@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: dml-translate-catalog-names-hu-int-19
+      author: drivique
+      labels: "hu-int-19,dml,catalogs,i18n"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/01_updates/core/translate-catalog-names-hu-int-19.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/01_updates/core/translate-catalog-names-hu-int-19.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
