@@ -223,3 +223,17 @@ databaseChangeLog:
             path: ../../05_rollbacks/03_dcl/01_grants/grant-report-history-access.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+  - changeSet:
+      id: ddl-add-branch-profile-fields-hu-int-18
+      author: drivique
+      labels: "hu-int-18,ddl,location,branches"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/04_alters/location/add-branch-profile-fields.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/04_alters/location/add-branch-profile-fields.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
