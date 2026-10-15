@@ -109,3 +109,5 @@ databaseChangeLog:
 
 
 
+  - include:
+      file: changelog/releases/hu-int-18.yaml

@@ -16,3 +16,7 @@ TO drivique_app;
 GRANT SELECT, INSERT, UPDATE ON TABLE
     iam.user_preferences
 TO drivique_app;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE
+    iam.user_social_accounts
+TO drivique_app;
