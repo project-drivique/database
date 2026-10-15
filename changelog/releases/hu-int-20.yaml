@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: dml-seed-contract-clauses-hu-int-20
+      author: drivique
+      labels: "hu-int-20,dml,contract,seed"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/contract/seed-contract-clauses-hu-int-20.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/contract/seed-contract-clauses-hu-int-20.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
