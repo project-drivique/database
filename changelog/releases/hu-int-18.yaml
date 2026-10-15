@@ -181,3 +181,45 @@ databaseChangeLog:
             path: ../../05_rollbacks/02_dml/01_updates/catalog/fix-seed-promotions-timezone-hu-int-18.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+  - changeSet:
+      id: ddl-extend-generated-reports-hu-int-18
+      author: drivique
+      labels: "hu-int-18,ddl,audit,reports"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/04_alters/audit/extend-generated-reports-hu-int-18.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/04_alters/audit/extend-generated-reports-hu-int-18.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-seed-administrative-report-types-hu-int-18
+      author: drivique
+      labels: "hu-int-18,dml,audit,reports"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/audit/seed-administrative-report-types-hu-int-18.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/audit/seed-administrative-report-types-hu-int-18.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dcl-grant-report-history-access-hu-int-18
+      author: drivique
+      labels: "hu-int-18,dcl,audit,reports,security"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-report-history-access.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-report-history-access.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
