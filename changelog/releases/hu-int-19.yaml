@@ -28,3 +28,18 @@ databaseChangeLog:
             path: ../../05_rollbacks/03_dcl/01_grants/grant-brand-configuration-write-hu-int-19.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
+  - changeSet:
+      id: dml-seed-branches-report-type-hu-int-19
+      author: drivique
+      labels: "hu-int-19,dml,reports"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/audit/seed-branches-report-type-hu-int-19.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/audit/seed-branches-report-type-hu-int-19.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
