@@ -13,3 +13,18 @@ databaseChangeLog:
             path: ../../05_rollbacks/02_dml/01_updates/core/translate-catalog-names-hu-int-19.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
+  - changeSet:
+      id: dcl-grant-brand-configuration-write-hu-int-19
+      author: drivique
+      labels: "hu-int-19,dcl,grants,brand"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-brand-configuration-write-hu-int-19.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-brand-configuration-write-hu-int-19.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
