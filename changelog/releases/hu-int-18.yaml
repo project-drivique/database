@@ -13,6 +13,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/01_ddl/04_alters/iam/add-user-address.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: dml-update-branches-city-and-cash-payment-hu-int-18
       author: drivique
@@ -27,6 +28,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/02_dml/01_updates/location/update-branches-city-and-cash-payment.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: ddl-add-branch-vehicle-capacity-hu-int-18
       author: drivique
@@ -41,6 +43,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/01_ddl/04_alters/location/add-branch-vehicle-capacity.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: dcl-grant-location-management-access-hu-int-18
       author: drivique
@@ -55,6 +58,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/03_dcl/01_grants/grant-location-management-access.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: ddl-create-branch-categories-hu-int-18
       author: drivique
@@ -69,6 +73,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/01_ddl/04_alters/location/create-branch-categories.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: dcl-grant-fleet-management-access-hu-int-18
       author: drivique
@@ -83,6 +88,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/03_dcl/01_grants/grant-fleet-management-access.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: dml-update-insurance-coverages-two-plans-hu-int-18
       author: drivique
@@ -97,6 +103,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/02_dml/01_updates/catalog/update-insurance-coverages-to-two-plans.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: dml-delete-standard-insurance-coverage-hu-int-18
       author: drivique
@@ -111,6 +118,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/02_dml/01_updates/catalog/delete-standard-insurance-coverage.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: ddl-extend-incidents-hu-int-18
       author: drivique
@@ -125,6 +133,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/01_ddl/04_alters/support/extend-incidents-hu-int-18.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: dcl-grant-incident-followup-access-hu-int-18
       author: drivique
@@ -139,6 +148,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/03_dcl/01_grants/grant-incident-followup-access.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: ddl-extend-promotions-hu-int-18
       author: drivique
@@ -153,6 +163,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/01_ddl/04_alters/catalog/extend-promotions-hu-int-18.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: dml-update-seed-promotions-hu-int-18
       author: drivique
@@ -167,20 +178,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/02_dml/01_updates/catalog/update-seed-promotions-hu-int-18.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
-  - changeSet:
-      id: dml-fix-seed-promotions-timezone-hu-int-18
-      author: drivique
-      labels: "hu-int-18,dml,catalog,promotions"
-      changes:
-        - sqlFile:
-            path: ../../02_dml/01_updates/catalog/fix-seed-promotions-timezone-hu-int-18.sql
-            relativeToChangelogFile: true
-            splitStatements: true
-      rollback:
-        - sqlFile:
-            path: ../../05_rollbacks/02_dml/01_updates/catalog/fix-seed-promotions-timezone-hu-int-18.rollback.sql
-            relativeToChangelogFile: true
-            splitStatements: true
+
   - changeSet:
       id: ddl-extend-generated-reports-hu-int-18
       author: drivique
@@ -195,6 +193,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/01_ddl/04_alters/audit/extend-generated-reports-hu-int-18.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: dml-seed-administrative-report-types-hu-int-18
       author: drivique
@@ -209,6 +208,22 @@ databaseChangeLog:
             path: ../../05_rollbacks/02_dml/00_inserts/audit/seed-administrative-report-types-hu-int-18.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
+  - changeSet:
+      id: dml-fix-seed-promotions-timezone-hu-int-18
+      author: drivique
+      labels: "hu-int-18,dml,catalog,promotions"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/01_updates/catalog/fix-seed-promotions-timezone-hu-int-18.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/01_updates/catalog/fix-seed-promotions-timezone-hu-int-18.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
   - changeSet:
       id: dcl-grant-report-history-access-hu-int-18
       author: drivique
@@ -223,6 +238,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/03_dcl/01_grants/grant-report-history-access.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: ddl-add-branch-profile-fields-hu-int-18
       author: drivique
@@ -237,6 +253,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/01_ddl/04_alters/location/add-branch-profile-fields.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: ddl-create-delivery-drivers-hu-int-18
       author: drivique
@@ -251,6 +268,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/01_ddl/03_tables/location/delivery-drivers.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: ddl-extend-brand-configurations-hu-int-18
       author: drivique
@@ -265,6 +283,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/01_ddl/04_alters/core/extend-brand-configurations-hu-int-18.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: ddl-add-branch-review-reply-hu-int-18
       author: drivique
@@ -279,6 +298,7 @@ databaseChangeLog:
             path: ../../05_rollbacks/01_ddl/04_alters/rental/add-branch-review-reply.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
   - changeSet:
       id: dcl-grant-role-management-access-hu-int-18
       author: drivique
