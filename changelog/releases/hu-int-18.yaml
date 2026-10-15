@@ -139,3 +139,45 @@ databaseChangeLog:
             path: ../../05_rollbacks/03_dcl/01_grants/grant-incident-followup-access.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+  - changeSet:
+      id: ddl-extend-promotions-hu-int-18
+      author: drivique
+      labels: "hu-int-18,ddl,catalog,promotions"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/04_alters/catalog/extend-promotions-hu-int-18.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/04_alters/catalog/extend-promotions-hu-int-18.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-update-seed-promotions-hu-int-18
+      author: drivique
+      labels: "hu-int-18,dml,catalog,promotions"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/01_updates/catalog/update-seed-promotions-hu-int-18.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/01_updates/catalog/update-seed-promotions-hu-int-18.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dml-fix-seed-promotions-timezone-hu-int-18
+      author: drivique
+      labels: "hu-int-18,dml,catalog,promotions"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/01_updates/catalog/fix-seed-promotions-timezone-hu-int-18.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/01_updates/catalog/fix-seed-promotions-timezone-hu-int-18.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
