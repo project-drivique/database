@@ -1,0 +1,105 @@
+databaseChangeLog:
+  - changeSet:
+      id: dml-translate-catalog-names-hu-int-19
+      author: drivique
+      labels: "hu-int-19,dml,catalogs,i18n"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/01_updates/core/translate-catalog-names-hu-int-19.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/01_updates/core/translate-catalog-names-hu-int-19.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: dcl-grant-brand-configuration-write-hu-int-19
+      author: drivique
+      labels: "hu-int-19,dcl,grants,brand"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-brand-configuration-write-hu-int-19.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-brand-configuration-write-hu-int-19.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: dml-seed-branches-report-type-hu-int-19
+      author: drivique
+      labels: "hu-int-19,dml,reports"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/00_inserts/audit/seed-branches-report-type-hu-int-19.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/00_inserts/audit/seed-branches-report-type-hu-int-19.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: dcl-grant-incident-delete-hu-int-19
+      author: drivique
+      labels: "hu-int-19,dcl,grants,support"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-incident-delete-hu-int-19.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-incident-delete-hu-int-19.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: dcl-grant-incident-children-delete-hu-int-19
+      author: drivique
+      labels: "hu-int-19,dcl,grants,support"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-incident-children-delete-hu-int-19.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-incident-children-delete-hu-int-19.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: ddl-security-configuration-changes-hu-int-19
+      author: drivique
+      labels: "hu-int-19,ddl,iam,configuration"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/iam/security-configuration-changes-hu-int-19.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/iam/security-configuration-changes-hu-int-19.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: dcl-grant-security-settings-admin-hu-int-19
+      author: drivique
+      labels: "hu-int-19,dcl,grants,configuration"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-security-settings-admin-hu-int-19.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-security-settings-admin-hu-int-19.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
