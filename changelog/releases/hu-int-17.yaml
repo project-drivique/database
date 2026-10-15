@@ -75,6 +75,21 @@ databaseChangeLog:
             splitStatements: true
 
   - changeSet:
+      id: ddl-allow-payment-expiration-warning-template-event-hu-int-18
+      author: drivique
+      labels: "hu-int-18,ddl,support,templates"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/04_alters/support/allow-payment-expiration-warning-template-event.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/04_alters/support/allow-payment-expiration-warning-template-event.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
       id: dml-seed-notification-templates-hu-int-17
       author: drivique
       labels: "hu-int-17,dml,support,templates"
