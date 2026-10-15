@@ -13,3 +13,73 @@ databaseChangeLog:
             path: ../../05_rollbacks/01_ddl/04_alters/iam/add-user-address.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+  - changeSet:
+      id: dml-update-branches-city-and-cash-payment-hu-int-18
+      author: drivique
+      labels: "hu-int-18,dml,location,branches"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/01_updates/location/update-branches-city-and-cash-payment.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/01_updates/location/update-branches-city-and-cash-payment.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-add-branch-vehicle-capacity-hu-int-18
+      author: drivique
+      labels: "hu-int-18,ddl,location,branches"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/04_alters/location/add-branch-vehicle-capacity.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/04_alters/location/add-branch-vehicle-capacity.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dcl-grant-location-management-access-hu-int-18
+      author: drivique
+      labels: "hu-int-18,dcl,location,security"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-location-management-access.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-location-management-access.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: ddl-create-branch-categories-hu-int-18
+      author: drivique
+      labels: "hu-int-18,ddl,location,fleet"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/04_alters/location/create-branch-categories.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/04_alters/location/create-branch-categories.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+  - changeSet:
+      id: dcl-grant-fleet-management-access-hu-int-18
+      author: drivique
+      labels: "hu-int-18,dcl,fleet,security"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-fleet-management-access.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-fleet-management-access.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
