@@ -1,0 +1,5 @@
+UPDATE catalog.promotions SET
+    starts_at = TIMESTAMPTZ '2026-01-01 00:00:00+00',
+    ends_at = TIMESTAMPTZ '2027-12-31 23:59:59+00'
+WHERE code IN ('BIENVENIDO10', 'DRIVIQUE50K', 'SUV20')
+  AND starts_at = TIMESTAMPTZ '2026-01-01 00:00:00-05';
