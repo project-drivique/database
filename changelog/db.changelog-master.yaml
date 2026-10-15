@@ -111,3 +111,6 @@ databaseChangeLog:
 
   - include:
       file: changelog/releases/hu-int-18.yaml
+
+  - include:
+      file: changelog/releases/hu-int-19.yaml
