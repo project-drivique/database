@@ -28,3 +28,49 @@ databaseChangeLog:
             path: ../../05_rollbacks/01_ddl/04_alters/iam/add-composite-pk-email-hu-int-21.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
+  - changeSet:
+      id: ddl-promotion-branch-id-hu-int-21
+      author: drivique
+      labels: "hu-int-21,ddl,catalog,promotions"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/04_alters/catalog/add-promotion-branch-id-hu-int-21.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/04_alters/catalog/add-promotion-branch-id-hu-int-21.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: ddl-pending-signature-reservation-status-hu-int-21
+      author: drivique
+      labels: "hu-int-21,ddl,rental,reservations"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/04_alters/rental/add-pending-signature-reservation-status-hu-int-21.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/04_alters/rental/add-pending-signature-reservation-status-hu-int-21.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+
+  - changeSet:
+      id: ddl-reservation-pending-window-hu-int-21
+      author: drivique
+      labels: "hu-int-21,ddl,rental,reservations"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/07_functions/rental/apply-reservation-rules-pending-window-hu-int-21.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/07_functions/rental/apply-reservation-rules-pending-window-hu-int-21.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: false
