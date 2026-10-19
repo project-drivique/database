@@ -13,3 +13,94 @@ databaseChangeLog:
             path: ../../05_rollbacks/01_ddl/04_alters/catalog/add-promotion-notification-sent-hu-int-21.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
+  - changeSet:
+      id: ddl-composite-pk-email-hu-int-21
+      author: drivique
+      labels: "hu-int-21,ddl,iam,users"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/04_alters/iam/add-composite-pk-email-hu-int-21.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/04_alters/iam/add-composite-pk-email-hu-int-21.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: ddl-promotion-branch-id-hu-int-21
+      author: drivique
+      labels: "hu-int-21,ddl,catalog,promotions"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/04_alters/catalog/add-promotion-branch-id-hu-int-21.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/04_alters/catalog/add-promotion-branch-id-hu-int-21.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: ddl-pending-signature-reservation-status-hu-int-21
+      author: drivique
+      labels: "hu-int-21,ddl,rental,reservations"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/04_alters/rental/add-pending-signature-reservation-status-hu-int-21.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/04_alters/rental/add-pending-signature-reservation-status-hu-int-21.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+
+  - changeSet:
+      id: ddl-reservation-pending-window-hu-int-21
+      author: drivique
+      labels: "hu-int-21,ddl,rental,reservations"
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/07_functions/rental/apply-reservation-rules-pending-window-hu-int-21.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/07_functions/rental/apply-reservation-rules-pending-window-hu-int-21.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+
+  - changeSet:
+      id: dml-delete-standard-200km-mileage-plan-hu-int-21
+      author: drivique
+      labels: "hu-int-21,dml,catalog,mileage"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/01_updates/catalog/delete-standard-200km-mileage-plan-hu-int-21.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/01_updates/catalog/delete-standard-200km-mileage-plan-hu-int-21.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: dml-update-vehicle-photos-hu-int-21
+      author: drivique
+      labels: "hu-int-21,dml,fleet,images"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/01_updates/fleet/update-vehicle-photos-hu-int-21.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/01_updates/fleet/update-vehicle-photos-hu-int-21.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
