@@ -3,6 +3,8 @@ databaseChangeLog:
       id: dml-seed-iam-hu-int-06-roles-and-branch-users
       author: drivique
       logicalFilePath: 02_dml/00_inserts/iam/seed-roles.sql
+      # seed-roles.sql se editó después de ejecutarse; se acepta también el checksum anterior
+      validCheckSum: 9:d7269ad450be7c40a787a9e3ed6709b7
       labels: "hu-int-06,dml,iam,rbac"
       changes:
         - sqlFile:
