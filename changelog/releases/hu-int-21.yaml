@@ -89,3 +89,18 @@ databaseChangeLog:
             path: ../../05_rollbacks/02_dml/01_updates/catalog/delete-standard-200km-mileage-plan-hu-int-21.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
+  - changeSet:
+      id: dml-update-vehicle-photos-hu-int-21
+      author: drivique
+      labels: "hu-int-21,dml,fleet,images"
+      changes:
+        - sqlFile:
+            path: ../../02_dml/01_updates/fleet/update-vehicle-photos-hu-int-21.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/01_updates/fleet/update-vehicle-photos-hu-int-21.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
