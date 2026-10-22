@@ -163,21 +163,21 @@ BEGIN
         user_id, document_type_id, status_id, document_number, front_url, back_url,
         review_notes, reviewed_by, branch_id, reviewed_at, created_at
     ) VALUES
-        ('c0000000-0000-0000-0000-000000000001', v_cc_id, v_status_approved_kyc_id, '1017234589', '/uploads/kyc/cc_alejandro_front.pdf', NULL, 'Cédula de ciudadanía legible, bordes completos y vigente.', v_encargado_bogota_id, v_branch_bogota, CURRENT_TIMESTAMP - INTERVAL '29 days', CURRENT_TIMESTAMP - INTERVAL '30 days'),
-        ('c0000000-0000-0000-0000-000000000001', v_lic_id, v_status_approved_kyc_id, '1017234589', '/uploads/kyc/lic_alejandro_front.pdf', NULL, 'Licencia categoría B1 verificada en RUNT activo sin comparendos.', v_encargado_bogota_id, v_branch_bogota, CURRENT_TIMESTAMP - INTERVAL '29 days', CURRENT_TIMESTAMP - INTERVAL '30 days'),
+        ('c0000000-0000-0000-0000-000000000001', v_cc_id, v_status_approved_kyc_id, '1017234589', '/uploads/kyc/cc_alejandro_front.pdf', '/uploads/kyc/cc_alejandro_back.pdf', 'Cédula de ciudadanía legible, bordes completos y vigente.', v_encargado_bogota_id, v_branch_bogota, CURRENT_TIMESTAMP - INTERVAL '29 days', CURRENT_TIMESTAMP - INTERVAL '30 days'),
+        ('c0000000-0000-0000-0000-000000000001', v_lic_id, v_status_approved_kyc_id, '1017234589', '/uploads/kyc/lic_alejandro_front.pdf', '/uploads/kyc/lic_alejandro_back.pdf', 'Licencia categoría B1 verificada en RUNT activo sin comparendos.', v_encargado_bogota_id, v_branch_bogota, CURRENT_TIMESTAMP - INTERVAL '29 days', CURRENT_TIMESTAMP - INTERVAL '30 days'),
 
-        ('c0000000-0000-0000-0000-000000000002', v_cc_id, v_status_approved_kyc_id, '1020456781', '/uploads/kyc/cc_valentina_front.pdf', NULL, 'Documento de identidad verificado correctamente.', v_encargado_med_id, v_branch_med_centro, CURRENT_TIMESTAMP - INTERVAL '24 days', CURRENT_TIMESTAMP - INTERVAL '25 days'),
-        ('c0000000-0000-0000-0000-000000000002', v_lic_id, v_status_approved_kyc_id, '1020456781', '/uploads/kyc/lic_valentina_front.pdf', NULL, 'Licencia de conducción categoría C1 aprobada.', v_encargado_med_id, v_branch_med_centro, CURRENT_TIMESTAMP - INTERVAL '24 days', CURRENT_TIMESTAMP - INTERVAL '25 days'),
+        ('c0000000-0000-0000-0000-000000000002', v_cc_id, v_status_approved_kyc_id, '1020456781', '/uploads/kyc/cc_valentina_front.pdf', '/uploads/kyc/cc_valentina_back.pdf', 'Documento de identidad verificado correctamente.', v_encargado_med_id, v_branch_med_centro, CURRENT_TIMESTAMP - INTERVAL '24 days', CURRENT_TIMESTAMP - INTERVAL '25 days'),
+        ('c0000000-0000-0000-0000-000000000002', v_lic_id, v_status_approved_kyc_id, '1020456781', '/uploads/kyc/lic_valentina_front.pdf', '/uploads/kyc/lic_valentina_back.pdf', 'Licencia de conducción categoría C1 aprobada.', v_encargado_med_id, v_branch_med_centro, CURRENT_TIMESTAMP - INTERVAL '24 days', CURRENT_TIMESTAMP - INTERVAL '25 days'),
 
-        ('c0000000-0000-0000-0000-000000000003', v_cc_id, v_status_approved_kyc_id, '1032890123', '/uploads/kyc/cc_mateo_front.pdf', NULL, 'Documento verificado por la sucursal.', v_encargado_bogota_id, v_branch_bogota, CURRENT_TIMESTAMP - INTERVAL '19 days', CURRENT_TIMESTAMP - INTERVAL '20 days'),
-        ('c0000000-0000-0000-0000-000000000003', v_lic_id, v_status_approved_kyc_id, '1032890123', '/uploads/kyc/lic_mateo_front.pdf', NULL, 'Licencia B1 vigente validada.', v_encargado_bogota_id, v_branch_bogota, CURRENT_TIMESTAMP - INTERVAL '19 days', CURRENT_TIMESTAMP - INTERVAL '20 days'),
+        ('c0000000-0000-0000-0000-000000000003', v_cc_id, v_status_approved_kyc_id, '1032890123', '/uploads/kyc/cc_mateo_front.pdf', '/uploads/kyc/cc_mateo_back.pdf', 'Documento verificado por la sucursal.', v_encargado_bogota_id, v_branch_bogota, CURRENT_TIMESTAMP - INTERVAL '19 days', CURRENT_TIMESTAMP - INTERVAL '20 days'),
+        ('c0000000-0000-0000-0000-000000000003', v_lic_id, v_status_approved_kyc_id, '1032890123', '/uploads/kyc/lic_mateo_front.pdf', '/uploads/kyc/lic_mateo_back.pdf', 'Licencia B1 vigente validada.', v_encargado_bogota_id, v_branch_bogota, CURRENT_TIMESTAMP - INTERVAL '19 days', CURRENT_TIMESTAMP - INTERVAL '20 days'),
 
         -- Clientes PENDIENTES (Daniela en Bogotá y Andrés en Medellín) -> Aparecen en Validación de Documentos
-        ('c0000000-0000-0000-0000-000000000006', v_cc_id, v_status_pending_kyc_id, '1037894120', '/uploads/kyc/cc_daniela_front.pdf', NULL, NULL, NULL, v_branch_bogota, NULL, CURRENT_TIMESTAMP - INTERVAL '2 hours'),
-        ('c0000000-0000-0000-0000-000000000006', v_lic_id, v_status_pending_kyc_id, '1037894120', '/uploads/kyc/lic_daniela_front.pdf', NULL, NULL, NULL, v_branch_bogota, NULL, CURRENT_TIMESTAMP - INTERVAL '2 hours'),
+        ('c0000000-0000-0000-0000-000000000006', v_cc_id, v_status_pending_kyc_id, '1037894120', '/uploads/kyc/cc_daniela_front.pdf', '/uploads/kyc/cc_daniela_back.pdf', NULL, NULL, v_branch_bogota, NULL, CURRENT_TIMESTAMP - INTERVAL '2 hours'),
+        ('c0000000-0000-0000-0000-000000000006', v_lic_id, v_status_pending_kyc_id, '1037894120', '/uploads/kyc/lic_daniela_front.pdf', '/uploads/kyc/lic_daniela_back.pdf', NULL, NULL, v_branch_bogota, NULL, CURRENT_TIMESTAMP - INTERVAL '2 hours'),
 
-        ('c0000000-0000-0000-0000-000000000007', v_cc_id, v_status_pending_kyc_id, '1019567843', '/uploads/kyc/cc_andres_front.pdf', NULL, NULL, NULL, v_branch_med_centro, NULL, CURRENT_TIMESTAMP - INTERVAL '1 hour'),
-        ('c0000000-0000-0000-0000-000000000007', v_lic_id, v_status_pending_kyc_id, '1019567843', '/uploads/kyc/lic_andres_front.pdf', NULL, NULL, NULL, v_branch_med_centro, NULL, CURRENT_TIMESTAMP - INTERVAL '1 hour')
+        ('c0000000-0000-0000-0000-000000000007', v_cc_id, v_status_pending_kyc_id, '1019567843', '/uploads/kyc/cc_andres_front.pdf', '/uploads/kyc/cc_andres_back.pdf', NULL, NULL, v_branch_med_centro, NULL, CURRENT_TIMESTAMP - INTERVAL '1 hour'),
+        ('c0000000-0000-0000-0000-000000000007', v_lic_id, v_status_pending_kyc_id, '1019567843', '/uploads/kyc/lic_andres_front.pdf', '/uploads/kyc/lic_andres_back.pdf', NULL, NULL, v_branch_med_centro, NULL, CURRENT_TIMESTAMP - INTERVAL '1 hour')
     ON CONFLICT DO NOTHING;
 
     -- =========================================================================
@@ -187,72 +187,72 @@ BEGIN
     -- Reserva 1: Alejandro - Toyota RAV4 - CONFIRMADA (Bogotá)
     INSERT INTO rental.reservations (
         id, code, customer_id, vehicle_id, status_id, insurance_coverage_id, mileage_plan_id,
-        cash_payment_branch_id, pickup_date, return_date, daily_rate, total_estimated,
+        cash_payment_branch_id, cash_payment_code, pickup_date, return_date, daily_rate, total_estimated,
         blocks_availability, created_at
     ) VALUES (
         v_res_id_1, 'RES-2026-BOG-0101', 'c0000000-0000-0000-0000-000000000001', v_veh_rav4,
         v_res_confirmed, v_cov_premium, v_mileage_unlimited,
-        v_branch_bogota, CURRENT_TIMESTAMP + INTERVAL '1 day', CURRENT_TIMESTAMP + INTERVAL '4 days',
+        NULL, NULL, CURRENT_TIMESTAMP + INTERVAL '1 day', CURRENT_TIMESTAMP + INTERVAL '4 days',
         220000.00, 825000.00, TRUE, CURRENT_TIMESTAMP - INTERVAL '2 days'
     ) ON CONFLICT (code) DO NOTHING;
 
     -- Reserva 2: Valentina - Mazda CX-5 - EN CURSO (Medellín Centro)
     INSERT INTO rental.reservations (
         id, code, customer_id, vehicle_id, status_id, insurance_coverage_id, mileage_plan_id,
-        cash_payment_branch_id, pickup_date, return_date, daily_rate, total_estimated,
+        cash_payment_branch_id, cash_payment_code, pickup_date, return_date, daily_rate, total_estimated,
         blocks_availability, created_at
     ) VALUES (
         v_res_id_2, 'RES-2026-MDE-0204', 'c0000000-0000-0000-0000-000000000002', v_veh_cx5,
         v_res_in_progress, v_cov_standard, v_mileage_standard,
-        v_branch_med_centro, CURRENT_TIMESTAMP - INTERVAL '1 day', CURRENT_TIMESTAMP + INTERVAL '2 days',
+        NULL, NULL, CURRENT_TIMESTAMP - INTERVAL '1 day', CURRENT_TIMESTAMP + INTERVAL '2 days',
         240000.00, 795000.00, TRUE, CURRENT_TIMESTAMP - INTERVAL '3 days'
     ) ON CONFLICT (code) DO NOTHING;
 
     -- Reserva 3: Mateo - Renault Logan - COMPLETADA (Bogotá)
     INSERT INTO rental.reservations (
         id, code, customer_id, vehicle_id, status_id, insurance_coverage_id, mileage_plan_id,
-        cash_payment_branch_id, pickup_date, return_date, daily_rate, total_estimated,
+        cash_payment_branch_id, cash_payment_code, pickup_date, return_date, daily_rate, total_estimated,
         blocks_availability, created_at
     ) VALUES (
         v_res_id_3, 'RES-2026-BOG-0098', 'c0000000-0000-0000-0000-000000000003', v_veh_logan,
         v_res_completed, v_cov_standard, v_mileage_standard,
-        v_branch_bogota, CURRENT_TIMESTAMP - INTERVAL '10 days', CURRENT_TIMESTAMP - INTERVAL '7 days',
+        NULL, NULL, CURRENT_TIMESTAMP - INTERVAL '10 days', CURRENT_TIMESTAMP - INTERVAL '7 days',
         120000.00, 420000.00, FALSE, CURRENT_TIMESTAMP - INTERVAL '12 days'
     ) ON CONFLICT (code) DO NOTHING;
 
     -- Reserva 4: Camila - Chevrolet Onix - CONFIRMADA (Medellín Aeropuerto)
     INSERT INTO rental.reservations (
         id, code, customer_id, vehicle_id, status_id, insurance_coverage_id, mileage_plan_id,
-        cash_payment_branch_id, pickup_date, return_date, daily_rate, total_estimated,
+        cash_payment_branch_id, cash_payment_code, pickup_date, return_date, daily_rate, total_estimated,
         blocks_availability, created_at
     ) VALUES (
         v_res_id_4, 'RES-2026-MDE-0312', 'c0000000-0000-0000-0000-000000000004', v_veh_onix,
         v_res_confirmed, v_cov_standard, v_mileage_unlimited,
-        v_branch_med_aero, CURRENT_TIMESTAMP + INTERVAL '2 days', CURRENT_TIMESTAMP + INTERVAL '6 days',
+        NULL, NULL, CURRENT_TIMESTAMP + INTERVAL '2 days', CURRENT_TIMESTAMP + INTERVAL '6 days',
         110000.00, 580000.00, TRUE, CURRENT_TIMESTAMP - INTERVAL '1 day'
     ) ON CONFLICT (code) DO NOTHING;
 
     -- Reserva 5: Sebastián - Toyota Hilux - COMPLETADA (Cali)
     INSERT INTO rental.reservations (
         id, code, customer_id, vehicle_id, status_id, insurance_coverage_id, mileage_plan_id,
-        cash_payment_branch_id, pickup_date, return_date, daily_rate, total_estimated,
+        cash_payment_branch_id, cash_payment_code, pickup_date, return_date, daily_rate, total_estimated,
         blocks_availability, created_at
     ) VALUES (
         v_res_id_5, 'RES-2026-CAL-0055', 'c0000000-0000-0000-0000-000000000005', v_veh_hilux,
         v_res_completed, v_cov_premium, v_mileage_unlimited,
-        v_branch_cali, CURRENT_TIMESTAMP - INTERVAL '8 days', CURRENT_TIMESTAMP - INTERVAL '4 days',
+        NULL, NULL, CURRENT_TIMESTAMP - INTERVAL '8 days', CURRENT_TIMESTAMP - INTERVAL '4 days',
         320000.00, 1540000.00, FALSE, CURRENT_TIMESTAMP - INTERVAL '9 days'
     ) ON CONFLICT (code) DO NOTHING;
 
     -- Reserva 6: Daniela - BMW Serie 3 - PENDIENTE DE REVISIÓN DOCUMENTAL (Bogotá)
     INSERT INTO rental.reservations (
         id, code, customer_id, vehicle_id, status_id, insurance_coverage_id, mileage_plan_id,
-        cash_payment_branch_id, pickup_date, return_date, daily_rate, total_estimated,
+        cash_payment_branch_id, cash_payment_code, pickup_date, return_date, daily_rate, total_estimated,
         blocks_availability, created_at
     ) VALUES (
         v_res_id_6, 'RES-2026-BOG-0155', 'c0000000-0000-0000-0000-000000000006', v_veh_bmw,
         v_res_pending_doc, v_cov_premium, v_mileage_unlimited,
-        v_branch_bogota, CURRENT_TIMESTAMP + INTERVAL '3 days', CURRENT_TIMESTAMP + INTERVAL '5 days',
+        v_branch_bogota, 'CASH-2026-BOG-0155', CURRENT_TIMESTAMP + INTERVAL '3 days', CURRENT_TIMESTAMP + INTERVAL '5 days',
         450000.00, 1060000.00, TRUE, CURRENT_TIMESTAMP - INTERVAL '2 hours'
     ) ON CONFLICT (code) DO NOTHING;
 
