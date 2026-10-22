@@ -48,6 +48,15 @@ DECLARE
     v_res_id_5 UUID := 'd0000000-0000-0000-0000-000000000005';
     v_res_id_6 UUID := 'd0000000-0000-0000-0000-000000000006';
 
+    v_res1_pickup TIMESTAMPTZ := CURRENT_TIMESTAMP + INTERVAL '1 day';
+    v_res1_return TIMESTAMPTZ := CURRENT_TIMESTAMP + INTERVAL '4 days';
+    v_res2_pickup TIMESTAMPTZ := CURRENT_TIMESTAMP - INTERVAL '1 day';
+    v_res2_return TIMESTAMPTZ := CURRENT_TIMESTAMP + INTERVAL '2 days';
+    v_res4_pickup TIMESTAMPTZ := CURRENT_TIMESTAMP + INTERVAL '8 days';
+    v_res4_return TIMESTAMPTZ := CURRENT_TIMESTAMP + INTERVAL '12 days';
+    v_res6_pickup TIMESTAMPTZ := CURRENT_TIMESTAMP + INTERVAL '14 days';
+    v_res6_return TIMESTAMPTZ := CURRENT_TIMESTAMP + INTERVAL '17 days';
+
 BEGIN
     -- 1. Obtener catálogos base
     SELECT id INTO v_cc_id FROM iam.document_types WHERE code = 'CC' LIMIT 1;
@@ -184,6 +193,43 @@ BEGIN
     -- 4. RESERVAS EN DIFERENTES ESTADOS (CONFIRMED, IN_PROGRESS, COMPLETED, PENDING_DOC)
     -- =========================================================================
     
+    -- Ajustar fechas dinámicamente si el vehículo ya tiene reservas previas en ese rango
+    WHILE EXISTS (
+        SELECT 1 FROM rental.reservations
+        WHERE vehicle_id = v_veh_rav4 AND code <> 'RES-2026-BOG-0101' AND blocks_availability
+          AND tstzrange(pickup_date, return_date, '[)') && tstzrange(v_res1_pickup, v_res1_return, '[)')
+    ) LOOP
+        v_res1_pickup := v_res1_pickup + INTERVAL '4 days';
+        v_res1_return := v_res1_return + INTERVAL '4 days';
+    END LOOP;
+
+    WHILE EXISTS (
+        SELECT 1 FROM rental.reservations
+        WHERE vehicle_id = v_veh_cx5 AND code <> 'RES-2026-MDE-0204' AND blocks_availability
+          AND tstzrange(pickup_date, return_date, '[)') && tstzrange(v_res2_pickup, v_res2_return, '[)')
+    ) LOOP
+        v_res2_pickup := v_res2_pickup + INTERVAL '4 days';
+        v_res2_return := v_res2_return + INTERVAL '4 days';
+    END LOOP;
+
+    WHILE EXISTS (
+        SELECT 1 FROM rental.reservations
+        WHERE vehicle_id = v_veh_onix AND code <> 'RES-2026-MDE-0312' AND blocks_availability
+          AND tstzrange(pickup_date, return_date, '[)') && tstzrange(v_res4_pickup, v_res4_return, '[)')
+    ) LOOP
+        v_res4_pickup := v_res4_pickup + INTERVAL '5 days';
+        v_res4_return := v_res4_return + INTERVAL '5 days';
+    END LOOP;
+
+    WHILE EXISTS (
+        SELECT 1 FROM rental.reservations
+        WHERE vehicle_id = v_veh_bmw AND code <> 'RES-2026-BOG-0155' AND blocks_availability
+          AND tstzrange(pickup_date, return_date, '[)') && tstzrange(v_res6_pickup, v_res6_return, '[)')
+    ) LOOP
+        v_res6_pickup := v_res6_pickup + INTERVAL '4 days';
+        v_res6_return := v_res6_return + INTERVAL '4 days';
+    END LOOP;
+
     -- Reserva 1: Alejandro - Toyota RAV4 - CONFIRMADA (Bogotá)
     INSERT INTO rental.reservations (
         id, code, customer_id, vehicle_id, status_id, insurance_coverage_id, mileage_plan_id,
@@ -192,7 +238,7 @@ BEGIN
     ) VALUES (
         v_res_id_1, 'RES-2026-BOG-0101', 'c0000000-0000-0000-0000-000000000001', v_veh_rav4,
         v_res_confirmed, v_cov_premium, v_mileage_unlimited,
-        NULL, NULL, CURRENT_TIMESTAMP + INTERVAL '1 day', CURRENT_TIMESTAMP + INTERVAL '4 days',
+        NULL, NULL, v_res1_pickup, v_res1_return,
         220000.00, 825000.00, TRUE, CURRENT_TIMESTAMP - INTERVAL '2 days'
     ) ON CONFLICT (code) DO NOTHING;
 
@@ -204,7 +250,7 @@ BEGIN
     ) VALUES (
         v_res_id_2, 'RES-2026-MDE-0204', 'c0000000-0000-0000-0000-000000000002', v_veh_cx5,
         v_res_in_progress, v_cov_standard, v_mileage_standard,
-        NULL, NULL, CURRENT_TIMESTAMP - INTERVAL '1 day', CURRENT_TIMESTAMP + INTERVAL '2 days',
+        NULL, NULL, v_res2_pickup, v_res2_return,
         240000.00, 795000.00, TRUE, CURRENT_TIMESTAMP - INTERVAL '3 days'
     ) ON CONFLICT (code) DO NOTHING;
 
@@ -228,7 +274,7 @@ BEGIN
     ) VALUES (
         v_res_id_4, 'RES-2026-MDE-0312', 'c0000000-0000-0000-0000-000000000004', v_veh_onix,
         v_res_confirmed, v_cov_standard, v_mileage_unlimited,
-        NULL, NULL, CURRENT_TIMESTAMP + INTERVAL '2 days', CURRENT_TIMESTAMP + INTERVAL '6 days',
+        NULL, NULL, v_res4_pickup, v_res4_return,
         110000.00, 580000.00, TRUE, CURRENT_TIMESTAMP - INTERVAL '1 day'
     ) ON CONFLICT (code) DO NOTHING;
 
@@ -252,7 +298,7 @@ BEGIN
     ) VALUES (
         v_res_id_6, 'RES-2026-BOG-0155', 'c0000000-0000-0000-0000-000000000006', v_veh_bmw,
         v_res_pending_doc, v_cov_premium, v_mileage_unlimited,
-        v_branch_bogota, 'CASH-2026-BOG-0155', CURRENT_TIMESTAMP + INTERVAL '3 days', CURRENT_TIMESTAMP + INTERVAL '5 days',
+        v_branch_bogota, 'CASH-2026-BOG-0155', v_res6_pickup, v_res6_return,
         450000.00, 1060000.00, TRUE, CURRENT_TIMESTAMP - INTERVAL '2 hours'
     ) ON CONFLICT (code) DO NOTHING;
 
