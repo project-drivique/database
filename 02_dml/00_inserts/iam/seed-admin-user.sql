@@ -1,3 +1,11 @@
+-- ============================================================================
+-- SEED: Super Administrator User
+-- NOTA DE SEGURIDAD:
+-- En ambientes de producción o staging, defina la configuración de sesión:
+--   SET app.admin_password_hash = '<hash_bcrypt_seguro>';
+-- Si no está definida, para desarrollo local se utiliza el hash de fallback.
+-- ============================================================================
+
 INSERT INTO iam.users (
     id, first_name, last_name, email, document_number, password_hash, account_status, is_profile_complete, email_verified_at
 ) VALUES (
@@ -6,7 +14,7 @@ INSERT INTO iam.users (
     'Administrator',
     'admin@drivique.com',
     '1000000000',
-    '$2a$12$e8wF3QvY3bJ1mD1P2Q4c3eB7vH9aX0zW8yV7uT6sR5qP4oN3mL2kK',
+    COALESCE(NULLIF(current_setting('app.admin_password_hash', true), ''), '$2a$12$e8wF3QvY3bJ1mD1P2Q4c3eB7vH9aX0zW8yV7uT6sR5qP4oN3mL2kK'),
     'ACTIVE',
     TRUE,
     CURRENT_TIMESTAMP
