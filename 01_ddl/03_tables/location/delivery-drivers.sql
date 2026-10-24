@@ -24,12 +24,12 @@ CREATE INDEX idx_delivery_drivers_branch ON location.delivery_drivers (branch_id
 
 ALTER TABLE rental.reservation_delivery_points
     ADD COLUMN driver_id UUID,
-    ADD COLUMN delivery_pin VARCHAR(4),
+    ADD COLUMN delivery_pin VARCHAR(10),
     ADD COLUMN delivery_status VARCHAR(12) NOT NULL DEFAULT 'PENDING',
     ADD COLUMN delivered_at TIMESTAMPTZ;
 
 ALTER TABLE rental.reservation_delivery_points
     ADD CONSTRAINT fk_reservation_delivery_points_driver FOREIGN KEY (driver_id) REFERENCES location.delivery_drivers (id),
-    ADD CONSTRAINT chk_reservation_delivery_points_delivery_status CHECK (delivery_status IN ('PENDING', 'ASSIGNED', 'COMPLETED'));
+    ADD CONSTRAINT chk_reservation_delivery_points_delivery_status CHECK (delivery_status IN ('PENDING', 'ASSIGNED', 'COMPLETED', 'CANCELLED'));
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON location.delivery_drivers TO drivique_app;
