@@ -22,5 +22,5 @@ CREATE TABLE iam.users (
     CONSTRAINT uq_users_document_number UNIQUE (document_number),
     CONSTRAINT chk_users_email_not_blank CHECK (btrim(email) <> ''),
     CONSTRAINT chk_users_failed_attempts CHECK (failed_login_attempts >= 0),
-    CONSTRAINT chk_users_account_status CHECK (account_status IN ('ACTIVE', 'INACTIVE', 'SUSPENDED', 'LOCKED', 'PENDING_VERIFICATION'))
+    CONSTRAINT chk_users_account_status CHECK (account_status IN ('ACTIVE', 'INACTIVE', 'SUSPENDED', 'LOCKED', 'PENDING_VERIFICATION', 'DELETED'))
 );

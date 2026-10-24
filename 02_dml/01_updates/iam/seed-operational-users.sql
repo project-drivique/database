@@ -1,5 +1,14 @@
+-- ============================================================================
+-- SEED: Operational Users (Super Admin and 6 Branch Managers)
+-- NOTA DE SEGURIDAD:
+-- En ambientes de producción o despliegue automatizado, configure:
+--   SET app.admin_password_hash = '<hash_bcrypt_superadmin>';
+--   SET app.branch_admin_password_hash = '<hash_bcrypt_encargados>';
+-- Si no están configuradas, se utilizan los valores de contingencia de desarrollo local.
+-- ============================================================================
+
 UPDATE iam.users
-SET password_hash = '$2a$12$iIrC/bchcMQVAN7jkJSuTOGvGKtorg5NKnP3qRcXpsdEHM5jP02BS',
+SET password_hash = COALESCE(NULLIF(current_setting('app.admin_password_hash', true), ''), '$2a$12$iIrC/bchcMQVAN7jkJSuTOGvGKtorg5NKnP3qRcXpsdEHM5jP02BS'),
     account_status = 'ACTIVE',
     email_verified_at = COALESCE(email_verified_at, CURRENT_TIMESTAMP),
     failed_login_attempts = 0,
@@ -13,12 +22,12 @@ INSERT INTO iam.users (
     account_status, is_profile_complete, email_verified_at
 )
 VALUES
-    ('b0000000-0000-0000-0000-000000000001', 'Encargado', 'Bogotá Centro', 'encargado.bogota@drivique.com', '2000000001', '$2a$12$ohhMKXdkbVYLg6y9/X.7gOXIkbXqnxNl2LO6KOM2m/2vKnttSGfzS', 'ACTIVE', TRUE, CURRENT_TIMESTAMP),
-    ('b0000000-0000-0000-0000-000000000002', 'Encargado', 'Medellín Centro', 'encargado.medellin.centro@drivique.com', '2000000002', '$2a$12$ohhMKXdkbVYLg6y9/X.7gOXIkbXqnxNl2LO6KOM2m/2vKnttSGfzS', 'ACTIVE', TRUE, CURRENT_TIMESTAMP),
-    ('b0000000-0000-0000-0000-000000000003', 'Encargado', 'Medellín Aeropuerto', 'encargado.medellin.aeropuerto@drivique.com', '2000000003', '$2a$12$ohhMKXdkbVYLg6y9/X.7gOXIkbXqnxNl2LO6KOM2m/2vKnttSGfzS', 'ACTIVE', TRUE, CURRENT_TIMESTAMP),
-    ('b0000000-0000-0000-0000-000000000004', 'Encargado', 'Cali Centro', 'encargado.cali@drivique.com', '2000000004', '$2a$12$ohhMKXdkbVYLg6y9/X.7gOXIkbXqnxNl2LO6KOM2m/2vKnttSGfzS', 'ACTIVE', TRUE, CURRENT_TIMESTAMP),
-    ('b0000000-0000-0000-0000-000000000005', 'Encargado', 'Barranquilla Centro', 'encargado.barranquilla@drivique.com', '2000000005', '$2a$12$ohhMKXdkbVYLg6y9/X.7gOXIkbXqnxNl2LO6KOM2m/2vKnttSGfzS', 'ACTIVE', TRUE, CURRENT_TIMESTAMP),
-    ('b0000000-0000-0000-0000-000000000006', 'Encargado', 'Cartagena Centro', 'encargado.cartagena@drivique.com', '2000000006', '$2a$12$ohhMKXdkbVYLg6y9/X.7gOXIkbXqnxNl2LO6KOM2m/2vKnttSGfzS', 'ACTIVE', TRUE, CURRENT_TIMESTAMP)
+    ('b0000000-0000-0000-0000-000000000001', 'Encargado', 'Bogotá Centro', 'encargado.bogota@drivique.com', '2000000001', COALESCE(NULLIF(current_setting('app.branch_admin_password_hash', true), ''), '$2a$12$ohhMKXdkbVYLg6y9/X.7gOXIkbXqnxNl2LO6KOM2m/2vKnttSGfzS'), 'ACTIVE', TRUE, CURRENT_TIMESTAMP),
+    ('b0000000-0000-0000-0000-000000000002', 'Encargado', 'Medellín Centro', 'encargado.medellin.centro@drivique.com', '2000000002', COALESCE(NULLIF(current_setting('app.branch_admin_password_hash', true), ''), '$2a$12$ohhMKXdkbVYLg6y9/X.7gOXIkbXqnxNl2LO6KOM2m/2vKnttSGfzS'), 'ACTIVE', TRUE, CURRENT_TIMESTAMP),
+    ('b0000000-0000-0000-0000-000000000003', 'Encargado', 'Medellín Aeropuerto', 'encargado.medellin.aeropuerto@drivique.com', '2000000003', COALESCE(NULLIF(current_setting('app.branch_admin_password_hash', true), ''), '$2a$12$ohhMKXdkbVYLg6y9/X.7gOXIkbXqnxNl2LO6KOM2m/2vKnttSGfzS'), 'ACTIVE', TRUE, CURRENT_TIMESTAMP),
+    ('b0000000-0000-0000-0000-000000000004', 'Encargado', 'Cali Centro', 'encargado.cali@drivique.com', '2000000004', COALESCE(NULLIF(current_setting('app.branch_admin_password_hash', true), ''), '$2a$12$ohhMKXdkbVYLg6y9/X.7gOXIkbXqnxNl2LO6KOM2m/2vKnttSGfzS'), 'ACTIVE', TRUE, CURRENT_TIMESTAMP),
+    ('b0000000-0000-0000-0000-000000000005', 'Encargado', 'Barranquilla Centro', 'encargado.barranquilla@drivique.com', '2000000005', COALESCE(NULLIF(current_setting('app.branch_admin_password_hash', true), ''), '$2a$12$ohhMKXdkbVYLg6y9/X.7gOXIkbXqnxNl2LO6KOM2m/2vKnttSGfzS'), 'ACTIVE', TRUE, CURRENT_TIMESTAMP),
+    ('b0000000-0000-0000-0000-000000000006', 'Encargado', 'Cartagena Centro', 'encargado.cartagena@drivique.com', '2000000006', COALESCE(NULLIF(current_setting('app.branch_admin_password_hash', true), ''), '$2a$12$ohhMKXdkbVYLg6y9/X.7gOXIkbXqnxNl2LO6KOM2m/2vKnttSGfzS'), 'ACTIVE', TRUE, CURRENT_TIMESTAMP)
 ON CONFLICT (email) DO UPDATE
 SET password_hash = EXCLUDED.password_hash,
     account_status = 'ACTIVE',
