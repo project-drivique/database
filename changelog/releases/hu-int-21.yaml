@@ -150,3 +150,34 @@ databaseChangeLog:
             path: ../../05_rollbacks/02_dml/01_updates/iam/allow-deleted-account-status-hu-int-21.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
+  - changeSet:
+      id: ddl-tables-support-idempotency-keys-hu-int-21
+      author: drivique
+      labels: "hu-int-21,ddl,support,idempotency"
+      comment: Tabla del protocolo Idempotency-Key (respuesta guardada con vencimiento)
+      changes:
+        - sqlFile:
+            path: ../../01_ddl/03_tables/support/idempotency-keys.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/01_ddl/03_tables/support/idempotency-keys.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: dcl-grant-idempotency-keys-hu-int-21
+      author: drivique
+      labels: "hu-int-21,dcl,grants,support"
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-idempotency-keys-hu-int-21.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-idempotency-keys-hu-int-21.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
