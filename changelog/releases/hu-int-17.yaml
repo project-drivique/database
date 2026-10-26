@@ -168,6 +168,7 @@ databaseChangeLog:
       id: dml-update-operational-users-passwords-hu-int-17
       author: drivique
       labels: "hu-int-17,dml,iam,operational-users"
+      validCheckSum: ANY
       changes:
         - sqlFile:
             path: ../../02_dml/01_updates/iam/update-operational-users-passwords.sql
