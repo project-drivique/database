@@ -131,18 +131,17 @@ database/
 
 ---
 
-## 👥 Usuarios y Credenciales de Prueba (Entornos Locales)
+## 👥 Cuentas operativas (Super Admin y 6 encargados)
 
-> [!NOTE]
-> Estas credenciales aplican **únicamente** a bases de datos de desarrollo y testing local pobladas mediante los seeds de Liquibase.
+> [!IMPORTANT]
+> Ninguna contraseña vive en este repositorio. Las semillas crean estas cuentas **bloqueadas** y la API les asigna la contraseña real al arrancar, a partir de variables de entorno.
 
-| Rol / Alcance | Correo Electrónico | Contraseña Local |
+| Rol | Correo | Contraseña |
 |---|---|---|
-| **Super Admin** | `admin@drivique.com` | `DriviqueAdmin2026!` |
-| **Encargado Bogotá Centro** | `encargado.bogota@drivique.com` | `DriviqueAdmin2026!` |
-| **Encargado Medellín Centro** | `encargado.medellin.centro@drivique.com` | `DriviqueAdmin2026!` |
-| **Encargado Medellín Aeropuerto** | `encargado.medellin.aeropuerto@drivique.com` | `DriviqueAdmin2026!` |
-| **Encargado Cali Centro** | `encargado.cali@drivique.com` | `DriviqueAdmin2026!` |
-| **Encargado Barranquilla Centro** | `encargado.barranquilla@drivique.com` | `DriviqueAdmin2026!` |
-| **Encargado Cartagena Centro** | `encargado.cartagena@drivique.com` | `DriviqueAdmin2026!` |
+| Super Admin | `admin@drivique.com` | variable `BOOTSTRAP_ADMIN_PASSWORD` |
+| Encargados (Bogotá, Medellín Centro, Medellín Aeropuerto, Cali, Barranquilla, Cartagena) | `encargado.<sucursal>@drivique.com` | variable `BOOTSTRAP_BRANCH_ADMIN_PASSWORD` |
+
+- Mínimo 12 caracteres. La API solo asigna la contraseña a cuentas que sigan bloqueadas o con una clave que estuvo publicada: nunca pisa una que la persona ya cambió.
+- En desarrollo, si no defines las variables, la API genera una contraseña temporal aleatoria y la muestra una sola vez en el log.
+- En qa/main, sin las variables las cuentas quedan bloqueadas hasta definirlas.
 
