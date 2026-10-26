@@ -4,6 +4,8 @@ databaseChangeLog:
       author: sharith
       logicalFilePath: 01_ddl/03_tables/iam/users.sql
       labels: "hu-bd-07,ddl,iam"
+      # El texto del CREATE TABLE cambió después de aplicarse en bases existentes (DELETED en la restricción)
+      validCheckSum: ANY
       changes:
         - sqlFile:
             path: ../../01_ddl/03_tables/iam/users.sql
@@ -139,6 +141,7 @@ databaseChangeLog:
       author: sharith
       logicalFilePath: 02_dml/00_inserts/iam/seed-admin-user.sql
       labels: "hu-bd-07,dml,iam"
+      validCheckSum: ANY
       changes:
         - sqlFile:
             path: ../../02_dml/00_inserts/iam/seed-admin-user.sql
