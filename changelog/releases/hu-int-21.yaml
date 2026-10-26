@@ -118,3 +118,35 @@ databaseChangeLog:
       rollback:
         - sql:
             sql: SELECT 1
+
+  - changeSet:
+      id: dcl-grant-user-preferences-delete-hu-int-21
+      author: drivique
+      labels: "hu-int-21,dcl,grants,iam"
+      comment: Permite que la API elimine las preferencias al borrar una cuenta
+      changes:
+        - sqlFile:
+            path: ../../03_dcl/01_grants/grant-user-preferences-delete-hu-int-21.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/03_dcl/01_grants/grant-user-preferences-delete-hu-int-21.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+
+  - changeSet:
+      id: dml-allow-deleted-account-status-hu-int-21
+      author: drivique
+      labels: "hu-int-21,ddl,iam,account"
+      comment: Habilita el estado DELETED en bases existentes para poder eliminar cuentas
+      changes:
+        - sqlFile:
+            path: ../../02_dml/01_updates/iam/allow-deleted-account-status-hu-int-21.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sqlFile:
+            path: ../../05_rollbacks/02_dml/01_updates/iam/allow-deleted-account-status-hu-int-21.rollback.sql
+            relativeToChangelogFile: true
+            splitStatements: true
