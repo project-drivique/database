@@ -3,7 +3,8 @@
 -- NOTA DE SEGURIDAD:
 -- En ambientes de producción o staging, defina la configuración de sesión:
 --   SET app.admin_password_hash = '<hash_bcrypt_seguro>';
--- Si no está definida, para desarrollo local se utiliza el hash de fallback.
+-- Si no está definida, la cuenta queda BLOQUEADA (sin contraseña conocida) y la API le asigna
+-- la contraseña real al arrancar a partir de BOOTSTRAP_ADMIN_PASSWORD.
 -- ============================================================================
 
 INSERT INTO iam.users (
@@ -14,7 +15,7 @@ INSERT INTO iam.users (
     'Administrator',
     'admin@drivique.com',
     '1000000000',
-    COALESCE(NULLIF(current_setting('app.admin_password_hash', true), ''), '$2a$12$e8wF3QvY3bJ1mD1P2Q4c3eB7vH9aX0zW8yV7uT6sR5qP4oN3mL2kK'),
+    COALESCE(NULLIF(current_setting('app.admin_password_hash', true), ''), '!LOCKED-DEFINE-BOOTSTRAP-PASSWORD'),
     'ACTIVE',
     TRUE,
     CURRENT_TIMESTAMP

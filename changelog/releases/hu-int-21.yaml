@@ -104,3 +104,17 @@ databaseChangeLog:
             path: ../../05_rollbacks/02_dml/01_updates/fleet/update-vehicle-photos-hu-int-21.rollback.sql
             relativeToChangelogFile: true
             splitStatements: true
+
+  - changeSet:
+      id: dml-lock-published-seed-passwords-hu-int-21
+      author: drivique
+      labels: "hu-int-21,dml,iam,security"
+      comment: Bloquea las cuentas operativas que aun conserven la clave publicada en el repositorio
+      changes:
+        - sqlFile:
+            path: ../../02_dml/01_updates/iam/lock-published-seed-passwords-hu-int-21.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+      rollback:
+        - sql:
+            sql: SELECT 1
