@@ -49,6 +49,11 @@ Las pruebas específicas de una historia siguen el formato
 .\scripts\test-hu-bd-02-core.ps1
 ```
 
+### Remediación HU-INT-22-dev (Gobernanza y Calidad E2E)
+- **H-26:** Automatización de las 50 suites SQL en CI bajo GitHub Actions (`.github/workflows/ci.yml`).
+- **H-28:** Retiro definitivo de seeds huérfanos con credenciales expuestas (`seed-demo-realistic-data.sql`).
+- **H-21:** Documentación rigurosa de las 78 tablas físicas alineadas con las entidades del backend.
+
 ---
 
 ## Decisiones de Diseño de Auditoría e Integridad Referencial
