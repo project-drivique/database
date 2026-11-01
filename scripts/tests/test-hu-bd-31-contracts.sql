@@ -13,7 +13,7 @@ DECLARE
     draft_contract_status_id UUID;
     reservation_id UUID;
     reservation_id_2 UUID;
-    contract_id UUID;
+    v_contract_id UUID;
     contract_id_2 UUID;
     clause_id UUID;
     clause_id_2 UUID;
@@ -57,12 +57,12 @@ BEGIN
         1250000.00, 500000.00, 'https://s3.amazonaws.com/drivique/signatures/sig-001.png',
         '{"points": [{"x": 10.5, "y": 20.3, "time": 100}, {"x": 15.2, "y": 25.8, "time": 150}], "pressure": [0.8, 0.9]}'::JSONB,
         city_id, CURRENT_TIMESTAMP, 'https://s3.amazonaws.com/drivique/contracts/ctr-001.pdf'
-    ) RETURNING id INTO contract_id;
+    ) RETURNING id INTO v_contract_id;
 
     -- 3. Validate JSONB query
     SELECT signature_stroke_data INTO fetched_stroke_data
     FROM contract.rental_contracts
-    WHERE id = contract_id;
+    WHERE id = v_contract_id;
 
     IF fetched_stroke_data->'points' IS NULL OR (fetched_stroke_data->'points'->0->>'x')::NUMERIC <> 10.5 THEN
         RAISE EXCEPTION 'Failed to persist and query biometric JSONB stroke data';
@@ -77,10 +77,10 @@ BEGIN
     END IF;
 
     INSERT INTO contract.contract_clause_assignments (contract_id, clause_id)
-    VALUES (contract_id, clause_id);
+    VALUES (v_contract_id, clause_id);
 
     INSERT INTO contract.contract_clause_assignments (contract_id, clause_id)
-    VALUES (contract_id, clause_id_2);
+    VALUES (v_contract_id, clause_id_2);
 
     -- 5. Test UNIQUE constraint on reservation_id (1 to 1)
     BEGIN
@@ -123,7 +123,7 @@ BEGIN
     -- 8. Test Composite PK on contract_clause_assignments
     BEGIN
         INSERT INTO contract.contract_clause_assignments (contract_id, clause_id)
-        VALUES (contract_id, clause_id);
+        VALUES (v_contract_id, clause_id);
         RAISE EXCEPTION 'Expected primary key violation for duplicate (contract_id, clause_id)';
     EXCEPTION WHEN unique_violation THEN NULL;
     END;

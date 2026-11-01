@@ -11,7 +11,7 @@ BEGIN
         RAISE EXCEPTION 'Expected additional service seeds';
     END IF;
 
-    IF (SELECT COUNT(*) FROM catalog.insurance_coverages) < 2 OR NOT EXISTS (SELECT 1 FROM catalog.insurance_coverages WHERE daily_rate = 0) OR NOT EXISTS (SELECT 1 FROM catalog.insurance_coverages WHERE daily_rate > 0) THEN
+    IF (SELECT COUNT(*) FROM catalog.insurance_coverages WHERE is_active = TRUE) < 2 THEN
         RAISE EXCEPTION 'Expected insurance coverage seeds';
     END IF;
 

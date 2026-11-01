@@ -26,9 +26,7 @@ BEGIN
     BEGIN
         INSERT INTO catalog.mileage_plans (
             name, included_km, daily_rate, extra_km_rate
-        ) VALUES (
-            'Standard 200 km', 100, 0.00, 500.00
-        );
+        ) VALUES ('Extended 400 km', 100, 0.00, 500.00);
         RAISE EXCEPTION 'Expected duplicate mileage plan name to fail';
     EXCEPTION
         WHEN unique_violation THEN NULL;

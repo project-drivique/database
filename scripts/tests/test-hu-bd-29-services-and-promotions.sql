@@ -10,8 +10,8 @@ DECLARE
     service_id UUID;
     service_id_2 UUID;
     promotion_id UUID;
-    reservation_id UUID;
-    reservation_id_2 UUID;
+    v_res_id UUID;
+    v_res_id_2 UUID;
     fetched_daily_rate NUMERIC(12, 2);
     fetched_discount NUMERIC(12, 2);
 BEGIN
@@ -45,18 +45,17 @@ BEGIN
         'RES-HU29-001', admin_user_id, vehicle_id, confirmed_status_id, coverage_id, mileage_plan_id,
         CURRENT_TIMESTAMP + INTERVAL '30 days', CURRENT_TIMESTAMP + INTERVAL '33 days',
         250000.00, 750000.00
-    ) RETURNING id INTO reservation_id;
+    ) RETURNING id INTO v_res_id;
 
     -- 3. Insert additional service with frozen rate
     INSERT INTO rental.reservation_additional_services (
         reservation_id, additional_service_id, quantity, daily_rate
-    ) VALUES (
-        reservation_id, service_id, 2, 25000.00
+    ) VALUES (v_res_id, service_id, 2, 25000.00
     );
 
     SELECT daily_rate INTO fetched_daily_rate
     FROM rental.reservation_additional_services
-    WHERE reservation_id = reservation_id AND additional_service_id = service_id;
+    WHERE reservation_id = v_res_id AND additional_service_id = service_id;
 
     IF fetched_daily_rate <> 25000.00 THEN
         RAISE EXCEPTION 'Expected frozen daily rate to be 25000.00';
@@ -65,13 +64,12 @@ BEGIN
     -- 4. Insert reservation promotion with frozen discount
     INSERT INTO rental.reservation_promotions (
         reservation_id, promotion_id, discount_applied
-    ) VALUES (
-        reservation_id, promotion_id, 30000.00
+    ) VALUES (v_res_id, promotion_id, 30000.00
     );
 
     SELECT discount_applied INTO fetched_discount
     FROM rental.reservation_promotions
-    WHERE reservation_id = reservation_id AND promotion_id = promotion_id;
+    WHERE reservation_id = v_res_id AND promotion_id = promotion_id;
 
     IF fetched_discount <> 30000.00 THEN
         RAISE EXCEPTION 'Expected frozen discount to be 30000.00';
@@ -81,8 +79,7 @@ BEGIN
     BEGIN
         INSERT INTO rental.reservation_additional_services (
             reservation_id, additional_service_id, quantity, daily_rate
-        ) VALUES (
-            reservation_id, service_id, 1, 25000.00
+        ) VALUES (v_res_id, service_id, 1, 25000.00
         );
         RAISE EXCEPTION 'Expected unique violation for duplicate (reservation_id, additional_service_id)';
     EXCEPTION WHEN unique_violation THEN NULL;
@@ -92,8 +89,7 @@ BEGIN
     BEGIN
         INSERT INTO rental.reservation_promotions (
             reservation_id, promotion_id, discount_applied
-        ) VALUES (
-            reservation_id, promotion_id, 15000.00
+        ) VALUES (v_res_id, promotion_id, 15000.00
         );
         RAISE EXCEPTION 'Expected unique violation for duplicate (reservation_id, promotion_id)';
     EXCEPTION WHEN unique_violation THEN NULL;
@@ -103,8 +99,7 @@ BEGIN
     BEGIN
         INSERT INTO rental.reservation_additional_services (
             reservation_id, additional_service_id, quantity, daily_rate
-        ) VALUES (
-            reservation_id, service_id_2, 0, 18000.00
+        ) VALUES (v_res_id, service_id_2, 0, 18000.00
         );
         RAISE EXCEPTION 'Expected check violation for quantity <= 0';
     EXCEPTION WHEN check_violation THEN NULL;
@@ -114,8 +109,7 @@ BEGIN
     BEGIN
         INSERT INTO rental.reservation_additional_services (
             reservation_id, additional_service_id, quantity, daily_rate
-        ) VALUES (
-            reservation_id, service_id_2, 1, -500.00
+        ) VALUES (v_res_id, service_id_2, 1, -500.00
         );
         RAISE EXCEPTION 'Expected check violation for negative daily_rate';
     EXCEPTION WHEN check_violation THEN NULL;
@@ -125,8 +119,7 @@ BEGIN
     BEGIN
         INSERT INTO rental.reservation_promotions (
             reservation_id, promotion_id, discount_applied
-        ) VALUES (
-            reservation_id, promotion_id, -1000.00
+        ) VALUES (v_res_id, promotion_id, -1000.00
         );
         RAISE EXCEPTION 'Expected check violation for negative discount_applied';
     EXCEPTION WHEN check_violation OR unique_violation THEN NULL;
@@ -153,28 +146,26 @@ BEGIN
         'RES-HU29-002', admin_user_id, vehicle_id, confirmed_status_id, coverage_id, mileage_plan_id,
         CURRENT_TIMESTAMP + INTERVAL '35 days', CURRENT_TIMESTAMP + INTERVAL '38 days',
         250000.00, 750000.00
-    ) RETURNING id INTO reservation_id_2;
+    ) RETURNING id INTO v_res_id_2;
 
     INSERT INTO rental.reservation_additional_services (
         reservation_id, additional_service_id, quantity, daily_rate
-    ) VALUES (
-        reservation_id_2, service_id, 1, 25000.00
+    ) VALUES (v_res_id_2, service_id, 1, 25000.00
     );
 
     INSERT INTO rental.reservation_promotions (
         reservation_id, promotion_id, discount_applied
-    ) VALUES (
-        reservation_id_2, promotion_id, 20000.00
+    ) VALUES (v_res_id_2, promotion_id, 20000.00
     );
 
-    DELETE FROM rental.reservations WHERE id = reservation_id_2;
+    DELETE FROM rental.reservations WHERE id = v_res_id_2;
 
     IF EXISTS (
         SELECT 1 FROM rental.reservation_additional_services
-        WHERE reservation_id = reservation_id_2
+        WHERE reservation_id = v_res_id_2
     ) OR EXISTS (
         SELECT 1 FROM rental.reservation_promotions
-        WHERE reservation_id = reservation_id_2
+        WHERE reservation_id = v_res_id_2
     ) THEN
         RAISE EXCEPTION 'Expected reservation services and promotions to be deleted when reservation is deleted';
     END IF;

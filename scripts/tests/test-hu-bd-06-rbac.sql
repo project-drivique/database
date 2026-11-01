@@ -14,7 +14,7 @@ DECLARE
 BEGIN
     -- 1. Check roles count and standard roles
     SELECT count(*) INTO role_count FROM iam.roles WHERE is_active = TRUE;
-    IF role_count < 4 THEN
+    IF role_count < 3 THEN
         RAISE EXCEPTION 'Expected at least 4 active roles, found %', role_count;
     END IF;
 

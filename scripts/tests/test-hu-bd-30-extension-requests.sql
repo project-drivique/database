@@ -7,8 +7,8 @@ DECLARE
     confirmed_status_id UUID;
     coverage_id UUID;
     mileage_plan_id UUID;
-    reservation_id UUID;
-    reservation_id_2 UUID;
+    v_res_id UUID;
+    v_res_id_2 UUID;
     request_id UUID;
     ext_status VARCHAR(20);
     ext_amount NUMERIC(12, 2);
@@ -32,13 +32,12 @@ BEGIN
         'RES-EXT-001', admin_user_id, vehicle_id, confirmed_status_id, coverage_id, mileage_plan_id,
         CURRENT_TIMESTAMP + INTERVAL '40 days', CURRENT_TIMESTAMP + INTERVAL '43 days',
         220000.00, 660000.00
-    ) RETURNING id INTO reservation_id;
+    ) RETURNING id INTO v_res_id;
 
     -- 2. Insert PENDING extension request
     INSERT INTO rental.rental_extension_requests (
         reservation_id, requested_return_date, status, additional_amount
-    ) VALUES (
-        reservation_id, CURRENT_TIMESTAMP + INTERVAL '45 days', 'PENDING', 440000.00
+    ) VALUES (v_res_id, CURRENT_TIMESTAMP + INTERVAL '45 days', 'PENDING', 440000.00
     ) RETURNING id INTO request_id;
 
     SELECT status, additional_amount INTO ext_status, ext_amount
@@ -67,22 +66,19 @@ BEGIN
     -- 4. Test REJECTED and CANCELLED statuses
     INSERT INTO rental.rental_extension_requests (
         reservation_id, requested_return_date, status, additional_amount, reviewed_by, reviewed_at
-    ) VALUES (
-        reservation_id, CURRENT_TIMESTAMP + INTERVAL '46 days', 'REJECTED', 660000.00, admin_user_id, CURRENT_TIMESTAMP
+    ) VALUES (v_res_id, CURRENT_TIMESTAMP + INTERVAL '46 days', 'REJECTED', 660000.00, admin_user_id, CURRENT_TIMESTAMP
     );
 
     INSERT INTO rental.rental_extension_requests (
         reservation_id, requested_return_date, status, additional_amount
-    ) VALUES (
-        reservation_id, CURRENT_TIMESTAMP + INTERVAL '47 days', 'CANCELLED', 880000.00
+    ) VALUES (v_res_id, CURRENT_TIMESTAMP + INTERVAL '47 days', 'CANCELLED', 880000.00
     );
 
     -- 5. Test CHECK constraint: invalid status
     BEGIN
         INSERT INTO rental.rental_extension_requests (
             reservation_id, requested_return_date, status, additional_amount
-        ) VALUES (
-            reservation_id, CURRENT_TIMESTAMP + INTERVAL '48 days', 'UNKNOWN', 100000.00
+        ) VALUES (v_res_id, CURRENT_TIMESTAMP + INTERVAL '48 days', 'UNKNOWN', 100000.00
         );
         RAISE EXCEPTION 'Expected check violation for invalid status';
     EXCEPTION WHEN check_violation THEN NULL;
@@ -92,8 +88,7 @@ BEGIN
     BEGIN
         INSERT INTO rental.rental_extension_requests (
             reservation_id, requested_return_date, status, additional_amount
-        ) VALUES (
-            reservation_id, CURRENT_TIMESTAMP + INTERVAL '48 days', 'PENDING', -50000.00
+        ) VALUES (v_res_id, CURRENT_TIMESTAMP + INTERVAL '48 days', 'PENDING', -50000.00
         );
         RAISE EXCEPTION 'Expected check violation for negative additional_amount';
     EXCEPTION WHEN check_violation THEN NULL;
@@ -118,19 +113,18 @@ BEGIN
         'RES-EXT-002', admin_user_id, vehicle_id, confirmed_status_id, coverage_id, mileage_plan_id,
         CURRENT_TIMESTAMP + INTERVAL '50 days', CURRENT_TIMESTAMP + INTERVAL '52 days',
         220000.00, 440000.00
-    ) RETURNING id INTO reservation_id_2;
+    ) RETURNING id INTO v_res_id_2;
 
     INSERT INTO rental.rental_extension_requests (
         reservation_id, requested_return_date, status, additional_amount
-    ) VALUES (
-        reservation_id_2, CURRENT_TIMESTAMP + INTERVAL '54 days', 'PENDING', 440000.00
+    ) VALUES (v_res_id_2, CURRENT_TIMESTAMP + INTERVAL '54 days', 'PENDING', 440000.00
     );
 
-    DELETE FROM rental.reservations WHERE id = reservation_id_2;
+    DELETE FROM rental.reservations WHERE id = v_res_id_2;
 
     IF EXISTS (
         SELECT 1 FROM rental.rental_extension_requests
-        WHERE reservation_id = reservation_id_2
+        WHERE reservation_id = v_res_id_2
     ) THEN
         RAISE EXCEPTION 'Expected extension requests to be deleted when reservation is deleted';
     END IF;
