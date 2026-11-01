@@ -1,27 +1,27 @@
-#  Drivique - Repositorio de Base de Datos
+# Drivique - Repositorio de Base de Datos
 
-Repositorio central para la definición, versionamiento, migración y mantenimiento de los esquemas, datos y seguridad de la base de datos del proyecto **Drivique**.
+Repositorio central para la definición, versionamiento, migración y mantenimiento de los esquemas, datos y seguridad de la base de datos PostgreSQL 17 del proyecto **Drivique** (78 tablas distribuidas en 8 esquemas de dominio).
 
 ---
 
-##  Estrategia de Ramas
+## Estrategia de Ramas
 
 El proyecto utiliza un flujo de trabajo estructurado para garantizar la estabilidad y control en cada entorno:
 
-- **`main`**: **Producción.** Contiene los scripts y migraciones estables ya desplegados en el entorno productivo.
+- **`main`**: **Producción.** Contiene los scripts y migraciones estables ya desplegados en el entorno productivo (`https://drivique.tech`).
 - **`qa`**: **Pruebas / Staging.** Ambiente para validación, testing integral y control de calidad.
 - **`dev`**: **Desarrollo.** Rama de integración continua donde convergen las nuevas características antes de pasar a QA.
-- **`HU-BD-XX-dev`**: Rama hija creada desde `dev` para implementar una historia de usuario. Las promociones usan `HU-BD-XX-qa` y `HU-BD-XX-main`.
+- **`HU-BD-XX-dev` / `HU-INT-XX-dev`**: Rama hija creada desde `dev` para implementar una historia de usuario o remediación transversal.
 
 ---
 
-##  Migraciones Liquibase
+## Migraciones Liquibase y CI Automatizado
 
 Liquibase es el único gestor de migraciones del proyecto. El archivo
 `changelog/db.changelog-master.yaml` incluye los changesets SQL versionados y
 los ejecuta en orden. Los archivos se organizan bajo `01_ddl/`: primero por
-tipo técnico y, en `03_tables/`, por dominio. Cada dominio tiene su propio
-`changelog.yaml` e incluye un archivo SQL por tabla. Los datos semilla se
+tipo técnico y, en `03_tables/`, por dominio (`core`, `iam`, `location`, `fleet`, `rental`, `contract`, `billing`, `audit`). Cada dominio tiene su propio
+`changelog.yaml` e incluye un archivo SQL por tabla (78 tablas en total). Los datos semilla se
 organizan de la misma forma en `02_dml/00_inserts/<dominio>/`.
 
 Cada SQL de avance tiene su reversión equivalente en `05_rollbacks/`, con la
@@ -29,14 +29,18 @@ misma ruta funcional y el sufijo `.rollback.sql`. El `changelog.yaml` enlaza
 ambos archivos mediante `sqlFile`, de modo que Liquibase puede ejecutar el
 rollback en orden inverso.
 
+### Integración Continua (`.github/workflows/ci.yml`)
+En cada Pull Request y push a `dev`, `qa` y `main`, el pipeline de GitHub Actions:
+1. Levanta un contenedor `postgres:17-alpine` limpio.
+2. Ejecuta `liquibase validate` y `liquibase update` sobre `changelog/db.changelog-master.yaml`.
+3. Ejecuta automáticamente las **50 pruebas SQL** en `scripts/tests/*.sql` con `ON_ERROR_STOP=1`.
+4. Verifica el rollback y re-aplicación del último changeset (`liquibase rollback-count --count=1` + `liquibase update`).
+
 Para validar localmente, copia `.env.example` a `.env` y ejecuta:
 
 ```powershell
 .\scripts\test-liquibase-migrations.ps1
 ```
-
-La prueba crea un proyecto Docker temporal, valida el changelog, aplica los
-changesets y elimina sus recursos al finalizar.
 
 Las pruebas específicas de una historia siguen el formato
 `scripts/test-hu-bd-XX-<dominio>.ps1`. Por ejemplo, para HU-BD-02:
@@ -47,91 +51,46 @@ Las pruebas específicas de una historia siguen el formato
 
 ---
 
-##  Estructura del Repositorio
+## Decisiones de Diseño de Auditoría e Integridad Referencial
+
+- **Integridad Referencial Estricta:** El esquema define 138 llaves foráneas (`FOREIGN KEY`), 94 índices optimizados y restricciones `CHECK` de dominio.
+- **Bitácora Inmutable de Auditoría (`audit.audit_logs`):**
+  - La columna `actor_user_id` referencia `iam.users(id)` con `ON DELETE RESTRICT` pero admite `NULL` para registrar eventos de seguridad previos a la autenticación (por ejemplo, intentos fallidos de inicio de sesión sobre correos inexistentes o webhooks externos de pasarela de pago).
+  - La columna `entity_id` almacena el `UUID` del registro afectado sin una llave foránea polimórfica directa hacia una única tabla, ya que `audit.audit_logs` audita operaciones `INSERT`, `UPDATE` y `DELETE` transversalmente sobre los 8 esquemas y debe conservar la traza histórica incluso después de que una entidad de negocio sea eliminada físicamente.
+
+---
+
+## Estructura del Repositorio
 
 La arquitectura del proyecto sigue el estándar de separación por sub-lenguajes SQL y orden de dependencia secuencial:
 
 ```text
 database/
+├── .github/workflows/ci.yml    # Pipeline CI (Liquibase + 50 pruebas SQL + rollback)
 ├── 01_ddl/                     # Definición de datos (Data Definition Language)
-│   ├── 00_extensions/          # Extensiones (ej. uuid-ossp, pgcrypto, etc.)
-│   ├── 01_schemas/             # Creación de esquemas lógicos
+│   ├── 00_extensions/          # Extensiones (pgcrypto, btree_gist)
+│   ├── 01_schemas/             # Creación de los 8 esquemas lógicos
 │   ├── 02_types/               # Tipos de datos personalizados, ENUMs, dominios
-│   ├── 03_tables/              # Tablas de la base de datos
+│   ├── 03_tables/              # 78 tablas organizadas por dominio
 │   ├── 04_constraints/         # Llaves primarias, foráneas, checks y uniques
-│   ├── 05_views/               # Vistas estándar
-│   ├── 06_materialized_views/  # Vistas materializadas
-│   ├── 07_functions/           # Funciones
-│   ├── 08_procedures/          # Procedimientos almacenados
+│   ├── 07_functions/           # Funciones PL/pgSQL
 │   ├── 09_triggers/            # Disparadores (Triggers)
-│   ├── 10_indexes/             # Índices para optimización de consultas
-│   └── 11_schema_assignments/  # Asignaciones y configuraciones de esquemas
-│
+│   └── 10_indexes/             # Índices para optimización de consultas
 ├── 02_dml/                     # Manipulación de datos (Data Manipulation Language)
-│   ├── 00_inserts/             # Semillas iniciales (seeds) y catálogos
-│   ├── 01_updates/             # Modificaciones y actualizaciones de datos
-│   ├── 02_deletes/             # Eliminaciones controladas
-│   ├── 03_upserts/             # Inserciones con conflicto (ON CONFLICT / MERGE)
-│   └── 04_patches/             # Parches de corrección de datos
-│
+│   └── 00_inserts/             # Semillas iniciales (seeds) y catálogos sin credenciales en texto plano
 ├── 03_dcl/                     # Control de acceso y seguridad (Data Control Language)
-│   ├── 00_roles/               # Creación de roles y usuarios
-│   └── 01_grants/              # Asignación de permisos y privilegios
-│
 ├── 04_tcl/                     # Control de transacciones (Transaction Control Language)
-│   ├── 00_transaction_blocks/  # Bloques transaccionales (BEGIN, COMMIT, SAVEPOINT)
-│   ├── 01_manual_recoveries/   # Scripts de recuperación manual
-│   └── 02_release_tags/        # Tags y puntos de control de releases
-│
 ├── 05_rollbacks/               # Scripts de reversión (Espejo de 01 a 04)
-│   ├── 01_ddl/                 # Reversión de cambios DDL (DROP TABLE, etc.)
-│   ├── 02_dml/                 # Reversión de datos DML
-│   ├── 03_dcl/                 # Reversión de permisos DCL
-│   └── 04_tcl/                 # Reversión transaccional
-│
 ├── changelog/                  # Orquestación y versionamiento (Liquibase / Changelogs)
 │   └── db.changelog-master.yaml
-│
-├── scripts/                    # Scripts de utilidad, automatización o despliegue
+├── scripts/                    # Scripts de automatización y 50 suites en scripts/tests/
 ├── .gitignore                  # Exclusión de archivos sensibles y temporales
 └── README.md                   # Documentación general del repositorio
 ```
 
 ---
 
-##  Flujo de Desarrollo
-
-1. **Crear rama desde `dev`:**
-   ```bash
-   git checkout dev
-   git pull origin dev
-   git checkout -b HU-BD-XX-dev
-   ```
-
-2. **Agregar un changeset de Liquibase:**
-   - Ubícalo en la sección técnica correspondiente de `01_ddl/`.
-   - Para tablas, usa `01_ddl/03_tables/<dominio>/` y crea un archivo por tabla.
-   - Regístralo en el `changelog.yaml` de esa carpeta.
-   - Agrega rollback solo cuando sea técnicamente seguro y no afecte changesets posteriores.
-
-3. **Subir cambios y abrir Pull Request hacia `dev`:**
-   ```bash
-   git add .
-   git commit -m "feat(database): add user and permission tables"
-   git push -u origin HU-BD-XX-dev
-   ```
-
----
-
-##  Buenas Prácticas
-
-- **Scripts Idempotentes:** Procura usar sentencias seguras como `CREATE TABLE IF NOT EXISTS`, `ADD COLUMN IF NOT EXISTS`, `DROP TABLE IF EXISTS`, etc.
-- **Rollback obligatorio:** Todo script que aplique un cambio debe tener su script de reversión asociado en `05_rollbacks/`.
-- **Seguridad:** Nunca commitear credenciales, archivos `.env` o volcados con datos sensibles o de producción.
-
----
-
-## 👥 Cuentas operativas (Super Admin y 6 encargados)
+## Cuentas operativas (Super Admin y 6 encargados)
 
 > [!IMPORTANT]
 > Ninguna contraseña vive en este repositorio. Las semillas crean estas cuentas **bloqueadas** y la API les asigna la contraseña real al arrancar, a partir de variables de entorno.
@@ -144,4 +103,3 @@ database/
 - Mínimo 12 caracteres. La API solo asigna la contraseña a cuentas que sigan bloqueadas o con una clave que estuvo publicada: nunca pisa una que la persona ya cambió.
 - En desarrollo, si no defines las variables, la API genera una contraseña temporal aleatoria y la muestra una sola vez en el log.
 - En qa/main, sin las variables las cuentas quedan bloqueadas hasta definirlas.
-

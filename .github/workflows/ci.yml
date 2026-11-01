@@ -1,0 +1,44 @@
+name: CI Base de Datos — Liquibase, 50 Pruebas SQL y Rollback
+
+on:
+  pull_request:
+  push:
+    branches: [dev, qa, main, HU-INT-22-dev]
+
+jobs:
+  liquibase-sql-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Preparar archivo .env de pruebas desde .env.example
+        run: cp .env.example .env
+
+      - name: Levantar PostgreSQL 17 y validar changelog Liquibase
+        run: |
+          docker compose --project-name drivique-db-ci --env-file .env up --detach --wait postgres
+          docker compose --project-name drivique-db-ci --env-file .env run --rm liquibase validate
+          docker compose --project-name drivique-db-ci --env-file .env run --rm liquibase update
+
+      - name: Ejecutar las 50 suites de pruebas SQL (scripts/tests/*.sql)
+        run: |
+          set -euo pipefail
+          CONTAINER="drivique-db-ci-postgres-1"
+          COUNT=0
+          for sql_file in $(ls scripts/tests/*.sql | sort); do
+            echo "==> Ejecutando prueba SQL: $sql_file"
+            docker exec -i "$CONTAINER" sh -c 'psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB"' < "$sql_file"
+            COUNT=$((COUNT + 1))
+          done
+          echo "Total de pruebas SQL ejecutadas exitosamente: $COUNT"
+
+      - name: Verificar reversibilidad (rollback y re-aplicación del último changeset)
+        run: |
+          docker compose --project-name drivique-db-ci --env-file .env run --rm liquibase rollback-count --count=1
+          docker compose --project-name drivique-db-ci --env-file .env run --rm liquibase update
+
+      - name: Limpiar contenedores y volúmenes
+        if: always()
+        run: |
+          docker compose --project-name drivique-db-ci --env-file .env down --volumes --remove-orphans
