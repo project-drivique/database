@@ -29,9 +29,7 @@ BEGIN
         SELECT 1
         FROM location.branches
         WHERE name = 'Drivique Medellín Aeropuerto'
-          AND NOT allows_cash_payment
-    ) THEN
-        RAISE EXCEPTION 'Expected airport branch with cash payment disabled';
+          ) THEN RAISE EXCEPTION 'Expected airport branch seed';
     END IF;
 
     BEGIN

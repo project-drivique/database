@@ -10,7 +10,7 @@ DECLARE
     branch_id UUID;
     active_contract_status_id UUID;
     reservation_id UUID;
-    contract_id UUID;
+    v_contract_id UUID;
     checkin_inspection_id UUID;
     checkout_inspection_id UUID;
     item_llantas_id UUID;
@@ -21,8 +21,8 @@ BEGIN
     SELECT id INTO admin_user_id FROM iam.users WHERE email = 'admin@drivique.com';
     SELECT id INTO vehicle_id FROM fleet.vehicles WHERE plate = 'ABC-123';
     SELECT id INTO confirmed_status_id FROM rental.reservation_statuses WHERE code = 'CONFIRMED';
-    SELECT id INTO coverage_id FROM catalog.insurance_coverages WHERE name = 'Basic Protection';
-    SELECT id INTO mileage_plan_id FROM catalog.mileage_plans WHERE name = 'Standard 200 km';
+    SELECT id INTO coverage_id FROM catalog.insurance_coverages WHERE is_active = TRUE ORDER BY daily_rate ASC LIMIT 1;
+    SELECT id INTO mileage_plan_id FROM catalog.mileage_plans WHERE is_active = TRUE ORDER BY daily_rate ASC LIMIT 1;
     SELECT id INTO branch_id FROM location.branches WHERE name = 'Drivique Bogotá Centro';
     SELECT id INTO active_contract_status_id FROM contract.contract_statuses WHERE code = 'ACTIVE';
 
@@ -56,13 +56,12 @@ BEGIN
         'CTR-INSP-001', reservation_id, admin_user_id, vehicle_id, active_contract_status_id,
         branch_id, branch_id, CURRENT_TIMESTAMP + INTERVAL '80 days', CURRENT_TIMESTAMP + INTERVAL '85 days',
         1000000.00, 400000.00
-    ) RETURNING id INTO contract_id;
+    ) RETURNING id INTO v_contract_id;
 
     -- 2. Insert CHECK_IN vehicle inspection
     INSERT INTO contract.vehicle_inspections (
         contract_id, inspection_type, inspector_user_id, mileage, fuel_level_percent, observations
-    ) VALUES (
-        contract_id, 'CHECK_IN', admin_user_id, 45000, 100.00, 'Vehículo entregado en perfecto estado'
+    ) VALUES (v_contract_id, 'CHECK_IN', admin_user_id, 45000, 100.00, 'Vehículo entregado en perfecto estado'
     ) RETURNING id INTO checkin_inspection_id;
 
     -- 3. Insert checklist answers for CHECK_IN
@@ -77,8 +76,7 @@ BEGIN
     -- 4. Insert CHECK_OUT vehicle inspection
     INSERT INTO contract.vehicle_inspections (
         contract_id, inspection_type, inspector_user_id, mileage, fuel_level_percent, observations
-    ) VALUES (
-        contract_id, 'CHECK_OUT', admin_user_id, 45850, 95.50, 'Vehículo recibido de vuelta conforme'
+    ) VALUES (v_contract_id, 'CHECK_OUT', admin_user_id, 45850, 95.50, 'Vehículo recibido de vuelta conforme'
     ) RETURNING id INTO checkout_inspection_id;
 
     -- 5. Insert checklist answers for CHECK_OUT
@@ -94,8 +92,7 @@ BEGIN
     BEGIN
         INSERT INTO contract.vehicle_inspections (
             contract_id, inspection_type, inspector_user_id, mileage, fuel_level_percent
-        ) VALUES (
-            contract_id, 'CHECK_IN', admin_user_id, 45100, 100.00
+        ) VALUES (v_contract_id, 'CHECK_IN', admin_user_id, 45100, 100.00
         );
         RAISE EXCEPTION 'Expected unique violation for duplicate (contract_id, inspection_type)';
     EXCEPTION WHEN unique_violation THEN NULL;
@@ -116,8 +113,7 @@ BEGIN
     BEGIN
         INSERT INTO contract.vehicle_inspections (
             contract_id, inspection_type, inspector_user_id, mileage, fuel_level_percent
-        ) VALUES (
-            contract_id, 'MID_TERM', admin_user_id, 45500, 50.00
+        ) VALUES (v_contract_id, 'MID_TERM', admin_user_id, 45500, 50.00
         );
         RAISE EXCEPTION 'Expected check violation for invalid inspection_type';
     EXCEPTION WHEN check_violation THEN NULL;
@@ -127,8 +123,7 @@ BEGIN
     BEGIN
         INSERT INTO contract.vehicle_inspections (
             contract_id, inspection_type, inspector_user_id, mileage, fuel_level_percent
-        ) VALUES (
-            contract_id, 'CHECK_OUT', admin_user_id, -50, 50.00
+        ) VALUES (v_contract_id, 'CHECK_OUT', admin_user_id, -50, 50.00
         );
         RAISE EXCEPTION 'Expected check violation for negative mileage';
     EXCEPTION WHEN check_violation OR unique_violation THEN NULL;
@@ -138,18 +133,17 @@ BEGIN
     BEGIN
         INSERT INTO contract.vehicle_inspections (
             contract_id, inspection_type, inspector_user_id, mileage, fuel_level_percent
-        ) VALUES (
-            contract_id, 'CHECK_OUT', admin_user_id, 46000, 105.00
+        ) VALUES (v_contract_id, 'CHECK_OUT', admin_user_id, 46000, 105.00
         );
         RAISE EXCEPTION 'Expected check violation for fuel_level_percent > 100';
     EXCEPTION WHEN check_violation OR unique_violation THEN NULL;
     END;
 
     -- 11. Test ON DELETE CASCADE from contract
-    DELETE FROM contract.rental_contracts WHERE id = contract_id;
+    DELETE FROM contract.rental_contracts WHERE id = v_contract_id;
 
     IF EXISTS (
-        SELECT 1 FROM contract.vehicle_inspections WHERE contract_id = contract_id
+        SELECT 1 FROM contract.vehicle_inspections WHERE contract_id = v_contract_id
     ) OR EXISTS (
         SELECT 1 FROM contract.inspection_checklist_answers WHERE inspection_id = checkin_inspection_id
     ) THEN

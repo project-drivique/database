@@ -1,0 +1,67 @@
+name: CI Base de Datos — Liquibase, 50 Pruebas SQL y Rollback
+
+on:
+  pull_request:
+  push:
+    branches: [dev, qa, main]
+
+jobs:
+  liquibase-sql-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Preparar archivo .env de pruebas desde .env.example
+        run: cp .env.example .env
+
+      - name: Levantar PostgreSQL 17 y validar changelog Liquibase
+        run: |
+          docker compose --project-name drivique-db-ci --env-file .env up --detach --wait postgres
+          docker compose --project-name drivique-db-ci --env-file .env run --rm liquibase validate
+          docker compose --project-name drivique-db-ci --env-file .env run --rm liquibase update
+
+      - name: Ejecutar las 50 suites de pruebas SQL (scripts/tests/*.sql)
+        run: |
+          set -euo pipefail
+          CONTAINER=$(docker compose --project-name drivique-db-ci --env-file .env ps -q postgres)
+          echo "Contenedor PostgreSQL detectado: $CONTAINER"
+          COUNT=0
+          FAILED_TESTS=""
+          for sql_file in $(ls scripts/tests/*.sql | sort); do
+            echo "========================================================"
+            echo "==> [$((COUNT+1))/50] Ejecutando prueba SQL: $sql_file"
+            if OUTPUT=$(docker exec -i -e PGPASSWORD=change-me-migrator-password "$CONTAINER" psql -v ON_ERROR_STOP=1 -U drivique_migrator -d drivique_dev < "$sql_file" 2>&1); then
+              echo "✅ PASS: $sql_file"
+            else
+              echo "❌ FAIL: $sql_file"
+              echo "$OUTPUT"
+              ERR_MSG=$(echo "$OUTPUT" | grep -E "ERROR|EXCEPTION|Assertion" | tr '\n' ' ' | head -c 200)
+              if [ -z "$ERR_MSG" ]; then
+                ERR_MSG="Fallo en la suite $sql_file"
+              fi
+              echo "::error file=$sql_file::$ERR_MSG"
+              FAILED_TESTS="$FAILED_TESTS $sql_file"
+            fi
+            COUNT=$((COUNT + 1))
+          done
+
+          if [ -n "$FAILED_TESTS" ]; then
+            echo "========================================================"
+            echo "❌ Las siguientes pruebas SQL fallaron:$FAILED_TESTS"
+            exit 1
+          fi
+          echo "========================================================"
+          echo "Total de pruebas SQL ejecutadas exitosamente: $COUNT"
+
+      - name: Verificar reversibilidad (rollback y re-aplicación del último changeset)
+        run: |
+          docker compose --project-name drivique-db-ci --env-file .env run --rm liquibase rollback-count --count=1
+          docker compose --project-name drivique-db-ci --env-file .env run --rm liquibase update
+
+      - name: Limpiar contenedores y volúmenes
+        if: always()
+        run: |
+          docker compose --project-name drivique-db-ci --env-file .env down --volumes --remove-orphans
+
+

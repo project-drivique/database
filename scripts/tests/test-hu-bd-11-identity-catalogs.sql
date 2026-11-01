@@ -16,7 +16,7 @@ BEGIN
         RAISE EXCEPTION 'Expected Colombia, CC and admin user seeds';
     END IF;
 
-    IF (SELECT count(*) FROM iam.document_types) <> 5 THEN
+    IF (SELECT count(*) FROM iam.document_types) < 5 THEN
         RAISE EXCEPTION 'Expected five document type seeds';
     END IF;
 

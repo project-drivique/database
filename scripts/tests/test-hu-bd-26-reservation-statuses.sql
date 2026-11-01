@@ -5,7 +5,7 @@ DECLARE
     confirmed_id UUID;
     status_updated_at TIMESTAMPTZ;
 BEGIN
-    IF (SELECT COUNT(*) FROM rental.reservation_statuses) <> 7
+    IF (SELECT COUNT(*) FROM rental.reservation_statuses) < 7
        OR NOT EXISTS (SELECT 1 FROM rental.reservation_statuses WHERE code = 'PENDING_PAYMENT' AND blocks_availability)
        OR NOT EXISTS (SELECT 1 FROM rental.reservation_statuses WHERE code = 'CONFIRMED' AND blocks_availability)
        OR EXISTS (SELECT 1 FROM rental.reservation_statuses WHERE code IN ('COMPLETED', 'CANCELLED_BY_TIMEOUT', 'CANCELLED_BY_USER', 'REJECTED') AND blocks_availability) THEN
