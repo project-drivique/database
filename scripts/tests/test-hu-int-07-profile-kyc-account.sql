@@ -40,8 +40,7 @@ BEGIN
     IF v_doc_type_id IS NOT NULL AND v_status_pending_id IS NOT NULL THEN
         SELECT id INTO v_doc_id FROM iam.user_documents WHERE user_id = v_user_id AND document_type_id = v_doc_type_id LIMIT 1;
         IF v_doc_id IS NULL THEN
-            INSERT INTO iam.user_documents (user_id, document_type_id, document_number, front_url, status_id)
-            VALUES (v_user_id, v_doc_type_id, '123456789', 'https://storage.drivique.com/kyc/front.jpg', v_status_pending_id)
+            INSERT INTO iam.user_documents (user_id, document_type_id, document_number, front_url, back_url, status_id) VALUES (v_user_id, v_doc_type_id, '123456789', 'https://storage.drivique.com/kyc/front.jpg', 'https://storage.drivique.com/kyc/back.jpg', v_status_pending_id)
             RETURNING id INTO v_doc_id;
         END IF;
     END IF;
