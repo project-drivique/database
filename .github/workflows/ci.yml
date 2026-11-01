@@ -42,3 +42,4 @@ jobs:
         if: always()
         run: |
           docker compose --project-name drivique-db-ci --env-file .env down --volumes --remove-orphans
+
