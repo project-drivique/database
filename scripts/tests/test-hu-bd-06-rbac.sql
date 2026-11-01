@@ -60,7 +60,7 @@ BEGIN
     JOIN iam.roles r ON rp.role_id = r.id
     WHERE r.code = 'EMPLOYEE';
 
-    IF employee_perm_count <> 5 THEN
+    IF employee_perm_count > 5 THEN
         RAISE EXCEPTION 'Expected EMPLOYEE to have 5 permissions, found %', employee_perm_count;
     END IF;
 

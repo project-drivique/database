@@ -9,7 +9,7 @@ DECLARE
     mileage_plan_id UUID;
     service_id UUID;
     service_id_2 UUID;
-    promotion_id UUID;
+    v_promo_id UUID;
     v_res_id UUID;
     v_res_id_2 UUID;
     fetched_daily_rate NUMERIC(12, 2);
@@ -35,7 +35,7 @@ BEGIN
     ) VALUES (
         'PROMO-HU29-TEST', 'PROMOTION', 'FIXED_AMOUNT', 30000.00,
         CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '30 days', 1, 500
-    ) RETURNING id INTO promotion_id;
+    ) RETURNING id INTO v_promo_id;
 
     -- 2. Create test reservation 1
     INSERT INTO rental.reservations (
@@ -64,12 +64,12 @@ BEGIN
     -- 4. Insert reservation promotion with frozen discount
     INSERT INTO rental.reservation_promotions (
         reservation_id, promotion_id, discount_applied
-    ) VALUES (v_res_id, promotion_id, 30000.00
+    ) VALUES (v_res_id, v_promo_id, 30000.00
     );
 
     SELECT discount_applied INTO fetched_discount
     FROM rental.reservation_promotions
-    WHERE reservation_id = v_res_id AND promotion_id = promotion_id;
+    WHERE reservation_id = v_res_id AND promotion_id = v_promo_id;
 
     IF fetched_discount <> 30000.00 THEN
         RAISE EXCEPTION 'Expected frozen discount to be 30000.00';
@@ -89,7 +89,7 @@ BEGIN
     BEGIN
         INSERT INTO rental.reservation_promotions (
             reservation_id, promotion_id, discount_applied
-        ) VALUES (v_res_id, promotion_id, 15000.00
+        ) VALUES (v_res_id, v_promo_id, 15000.00
         );
         RAISE EXCEPTION 'Expected unique violation for duplicate (reservation_id, promotion_id)';
     EXCEPTION WHEN unique_violation THEN NULL;
@@ -119,7 +119,7 @@ BEGIN
     BEGIN
         INSERT INTO rental.reservation_promotions (
             reservation_id, promotion_id, discount_applied
-        ) VALUES (v_res_id, promotion_id, -1000.00
+        ) VALUES (v_res_id, v_promo_id, -1000.00
         );
         RAISE EXCEPTION 'Expected check violation for negative discount_applied';
     EXCEPTION WHEN check_violation OR unique_violation THEN NULL;
@@ -133,7 +133,7 @@ BEGIN
     END;
 
     BEGIN
-        DELETE FROM catalog.promotions WHERE id = promotion_id;
+        DELETE FROM catalog.promotions WHERE id = v_promo_id;
         RAISE EXCEPTION 'Expected foreign key restriction when deleting referenced promotion';
     EXCEPTION WHEN foreign_key_violation THEN NULL;
     END;
@@ -155,7 +155,7 @@ BEGIN
 
     INSERT INTO rental.reservation_promotions (
         reservation_id, promotion_id, discount_applied
-    ) VALUES (v_res_id_2, promotion_id, 20000.00
+    ) VALUES (v_res_id_2, v_promo_id, 20000.00
     );
 
     DELETE FROM rental.reservations WHERE id = v_res_id_2;

@@ -26,8 +26,8 @@ BEGIN
     -- Mínimo privilegio: reseñas inmutables para la app y sin escritura de reservas en esta HU
     ASSERT NOT has_table_privilege('drivique_app', 'rental.vehicle_ratings', 'UPDATE'), 'drivique_app must not UPDATE vehicle ratings';
     ASSERT NOT has_table_privilege('drivique_app', 'rental.vehicle_ratings', 'DELETE'), 'drivique_app must not DELETE vehicle ratings';
-    ASSERT NOT has_table_privilege('drivique_app', 'rental.branch_reviews', 'UPDATE'), 'drivique_app must not UPDATE branch reviews';
-    ASSERT NOT has_table_privilege('drivique_app', 'rental.branch_reviews', 'DELETE'), 'drivique_app must not DELETE branch reviews';
+    -- UPDATE granted in add-branch-review-reply
+    -- DELETE granted in add-branch-review-reply
 
     -- Recursos eliminados: favoritos se limpian si se elimina usuario o vehículo
     ASSERT (
