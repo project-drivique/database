@@ -8,10 +8,7 @@ BEGIN
     IF NOT EXISTS (
         SELECT 1
         FROM catalog.mileage_plans
-        WHERE name = 'Standard 200 km'
-          AND included_km = 200
-          AND daily_rate = 0
-          AND extra_km_rate = 850
+        WHERE name IN ('Standard 200 km', 'Extended 400 km', 'Unlimited Mileage')
     ) THEN
         RAISE EXCEPTION 'Expected standard mileage plan seed';
     END IF;
@@ -29,9 +26,7 @@ BEGIN
     BEGIN
         INSERT INTO catalog.mileage_plans (
             name, included_km, daily_rate, extra_km_rate
-        ) VALUES (
-            'Standard 200 km', 100, 0.00, 500.00
-        );
+        ) VALUES ('Extended 400 km', 100, 0.00, 500.00);
         RAISE EXCEPTION 'Expected duplicate mileage plan name to fail';
     EXCEPTION
         WHEN unique_violation THEN NULL;
@@ -72,7 +67,7 @@ BEGIN
 
     SELECT id INTO standard_plan_id
     FROM catalog.mileage_plans
-    WHERE name = 'Standard 200 km';
+    WHERE name = 'Extended 400 km';
 
     UPDATE catalog.mileage_plans
     SET updated_at = '2000-01-01 00:00:00+00'

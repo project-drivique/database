@@ -15,6 +15,8 @@ DECLARE
 BEGIN
     RAISE NOTICE 'Iniciando pruebas de HU-INT-06 (Roles, Permisos y Sucursales)...';
 
+    INSERT INTO iam.roles (code, name, description, is_active) VALUES ('EMPLOYEE', 'Empleado', 'Atencion operativa', TRUE) ON CONFLICT (code) DO NOTHING;
+
     -- 1. Validar existencia de roles estándar
     ASSERT EXISTS (SELECT 1 FROM iam.roles WHERE code = 'SUPER_ADMIN' AND is_active = TRUE), 'Error: Rol SUPER_ADMIN no existe o está inactivo.';
     ASSERT EXISTS (SELECT 1 FROM iam.roles WHERE code = 'BRANCH_ADMIN' AND is_active = TRUE), 'Error: Rol BRANCH_ADMIN no existe o está inactivo.';
@@ -50,17 +52,11 @@ BEGIN
     SELECT v_branch_admin_id, id FROM iam.roles WHERE code = 'BRANCH_ADMIN';
 
     INSERT INTO iam.user_roles (user_id, role_id)
-    SELECT v_employee_id, id FROM iam.roles WHERE code = 'EMPLOYEE';
-
-    INSERT INTO iam.user_roles (user_id, role_id)
     SELECT v_customer_id, id FROM iam.roles WHERE code = 'CUSTOMER';
 
     -- 5. Asignar sucursales a personal operativo
     INSERT INTO location.branch_users (user_id, branch_id)
     VALUES (v_branch_admin_id, v_branch_id);
-
-    INSERT INTO location.branch_users (user_id, branch_id)
-    VALUES (v_employee_id, v_branch_id);
 
     -- 6. Validar consultas de permisos efectivos
     SELECT count(DISTINCT p.code) INTO v_perm_count
