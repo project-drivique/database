@@ -31,11 +31,16 @@ jobs:
           for sql_file in $(ls scripts/tests/*.sql | sort); do
             echo "========================================================"
             echo "==> [$((COUNT+1))/50] Ejecutando prueba SQL: $sql_file"
-            if docker exec -i -e PGPASSWORD=change-me-migrator-password "$CONTAINER" psql -v ON_ERROR_STOP=1 -U drivique_migrator -d drivique_dev < "$sql_file"; then
+            if OUTPUT=$(docker exec -i -e PGPASSWORD=change-me-migrator-password "$CONTAINER" psql -v ON_ERROR_STOP=1 -U drivique_migrator -d drivique_dev < "$sql_file" 2>&1); then
               echo "✅ PASS: $sql_file"
             else
               echo "❌ FAIL: $sql_file"
-              echo "::error file=$sql_file::Fallo en la suite de prueba SQL $sql_file"
+              echo "$OUTPUT"
+              ERR_MSG=$(echo "$OUTPUT" | grep -E "ERROR|EXCEPTION|Assertion" | tr '\n' ' ' | head -c 200)
+              if [ -z "$ERR_MSG" ]; then
+                ERR_MSG="Fallo en la suite $sql_file"
+              fi
+              echo "::error file=$sql_file::$ERR_MSG"
               FAILED_TESTS="$FAILED_TESTS $sql_file"
             fi
             COUNT=$((COUNT + 1))
