@@ -16,8 +16,8 @@ BEGIN
     SELECT id INTO admin_user_id FROM iam.users WHERE email = 'admin@drivique.com';
     SELECT id INTO vehicle_id FROM fleet.vehicles WHERE plate = 'ABC-123';
     SELECT id INTO confirmed_status_id FROM rental.reservation_statuses WHERE code = 'CONFIRMED';
-    SELECT id INTO coverage_id FROM catalog.insurance_coverages WHERE name = 'Basic Protection';
-    SELECT id INTO mileage_plan_id FROM catalog.mileage_plans WHERE name = 'Standard 200 km';
+    SELECT id INTO coverage_id FROM catalog.insurance_coverages WHERE is_active = TRUE ORDER BY daily_rate ASC LIMIT 1;
+    SELECT id INTO mileage_plan_id FROM catalog.mileage_plans WHERE is_active = TRUE ORDER BY daily_rate ASC LIMIT 1;
 
     IF admin_user_id IS NULL OR vehicle_id IS NULL OR confirmed_status_id IS NULL
        OR coverage_id IS NULL OR mileage_plan_id IS NULL THEN

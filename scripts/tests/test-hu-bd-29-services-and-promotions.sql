@@ -18,8 +18,8 @@ BEGIN
     SELECT id INTO admin_user_id FROM iam.users WHERE email = 'admin@drivique.com';
     SELECT id INTO vehicle_id FROM fleet.vehicles WHERE plate = 'ABC-123';
     SELECT id INTO confirmed_status_id FROM rental.reservation_statuses WHERE code = 'CONFIRMED';
-    SELECT id INTO coverage_id FROM catalog.insurance_coverages WHERE name = 'Basic Protection';
-    SELECT id INTO mileage_plan_id FROM catalog.mileage_plans WHERE name = 'Standard 200 km';
+    SELECT id INTO coverage_id FROM catalog.insurance_coverages WHERE is_active = TRUE ORDER BY daily_rate ASC LIMIT 1;
+    SELECT id INTO mileage_plan_id FROM catalog.mileage_plans WHERE is_active = TRUE ORDER BY daily_rate ASC LIMIT 1;
     SELECT id INTO service_id FROM catalog.additional_services WHERE name = 'Baby Seat';
     SELECT id INTO service_id_2 FROM catalog.additional_services WHERE name = 'GPS Navigation';
 
