@@ -189,7 +189,7 @@ BEGIN
     END;
 
     BEGIN
-        DELETE FROM rental.branch_reviews WHERE user_id = v_customer_id;
+        DELETE FROM rental.vehicle_ratings WHERE user_id = v_customer_id;
         RAISE EXCEPTION 'Expected app role to be unable to delete reviews';
     EXCEPTION WHEN insufficient_privilege THEN NULL;
     END;
